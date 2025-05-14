@@ -1,12 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = (() => {
-	const isProd = process.env.APP_ENV === 'production';
+const nextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
+  basePath: "/animeverse",
+}
 
-	return {
-		output: isProd ? 'export' : undefined,
-		trailingSlash: isProd ? true : undefined,
-		basePath: isProd ? '/animeverse' : '',
-	};
-})();
-
-export default nextConfig;
+export default nextConfig
