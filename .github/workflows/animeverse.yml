@@ -66,9 +66,10 @@ jobs:
               run: ${{ steps.detect-package-manager.outputs.runner }} next build
               working-directory: animeverse
 
-            - name: Export static site
-              run: ${{ steps.detect-package-manager.outputs.runner }} next export
-              working-directory: animeverse
+            # Note: No longer needed as of Next.js 15 - Build will export an /out
+            # - name: Export static site
+            #   run: ${{ steps.detect-package-manager.outputs.runner }} next export
+            #   working-directory: animeverse
 
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
