@@ -1,60 +1,55 @@
 name: Deploy Animeverse (Next.js) to GitHub Pages
 
 on:
-    push:
-        branches: [main]
-    workflow_dispatch:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-    group: "pages"
-    cancel-in-progress: false
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Setup Node
-              uses: actions/setup-node@v3
-              with:
-                  node-version: '18'
-                  cache: 'npm'
-                  cache-dependency-path: '**/package-lock.json'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: animeverse/package-lock.json
 
-            - name: Build Project
-              env:
-                NEXT_PUBLIC_API_ENDPOINT: "${{ vars.NEXT_PUBLIC_API_ENDPOINT}}"
-                NEXT_PUBLIC_APP_ENV: "${{ vars.NEXT_PUBLIC_APP_ENV}}"
-              run: |
-                npm cache clean --force
-                npm ci --prefix animeverse
-                npm run build
-                ls -la
+      - name: Install and Build
+        working-directory: animeverse
+        env:
+          NEXT_PUBLIC_API_ENDPOINT: "${{ vars.NEXT_PUBLIC_API_ENDPOINT }}"
+          NEXT_PUBLIC_APP_ENV: "${{ vars.NEXT_PUBLIC_APP_ENV }}"
+        run: |
+          npm ci
+          npm run build
 
-            - name: Upload Artifact
-              uses: actions/upload-artifact@v4
-              with:
-                  name: next-build
-                  path: out/
-                  retention-days: 1
+      - name: Upload build output
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: animeverse/out
 
-    deploy:
-        needs: build
-        runs-on: ubuntu-latest
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-        steps:
-            - name: Download artifact
-              uses: actions/download-artifact@v4
-              with:
-                  name: next-build
-                  path: animeverse/out/
-            - name: Check Files
-              run: |
-                  ls -la
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
