@@ -18,9 +18,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: main
-    defaults:
-      run:
-        working-directory: animeverse
+    # defaults:
+    #   run:
+    #     working-directory: animeverse
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: "18"
           cache: "npm"
-          cache-dependency-path: animeverse/package-lock.json
+          # cache-dependency-path: animeverse/package-lock.json
 
       - name: Install and Build
         env:
@@ -48,7 +48,7 @@ jobs:
       - name: Upload build output
         uses: actions/upload-pages-artifact@v3
         with:
-          path: animeverse/out
+          path: out
 
   deploy:
     needs: build
