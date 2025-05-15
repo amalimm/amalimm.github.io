@@ -18,16 +18,17 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-            - name: 🚚 Checkout
+            - name: Checkout
               uses: actions/checkout@v4
 
-            - name: 🧙‍♂️ Setup Node
+            - name: Setup Node
               uses: actions/setup-node@v3
               with:
-                  node-version: 18
+                  node-version: '18'
                   cache: 'npm'
+                  cache-dependency-path: '**/package-lock.json'
 
-            - name: 🔨 Build Project
+            - name: Build Project
               env:
                 NEXT_PUBLIC_API_ENDPOINT: "${{ vars.NEXT_PUBLIC_API_ENDPOINT}}"
                 NEXT_PUBLIC_APP_ENV: "${{ vars.NEXT_PUBLIC_APP_ENV}}"
@@ -37,7 +38,7 @@ jobs:
                 npm run build
                 ls -la
 
-            - name: ☁️ Upload Artifact
+            - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
                   name: next-build
@@ -49,11 +50,11 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: 📥 Download artifact
+            - name: Download artifact
               uses: actions/download-artifact@v4
               with:
                   name: next-build
                   path: out/
-            - name: 🔨 Check Files
+            - name: Check Files
               run: |
                   ls -la
