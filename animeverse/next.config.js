@@ -4,9 +4,9 @@ const nextConfig = {
 
 	output: 'export',
 	trailingSlash: true,
-	
-	// basePath: '/animeverse',
-	// assetPrefix: '/animeverse/',
+
+	basePath: '/animeverse',
+	assetPrefix: '/animeverse/',
 
 }
 
