@@ -26,10 +26,10 @@ jobs:
         with:
           node-version: "18"
           cache: "npm"
-          cache-dependency-path: animeverse/package-lock.json
+          # cache-dependency-path: animeverse/package-lock.json
 
       - name: Install and Build
-        working-directory: animeverse
+        # working-directory: animeverse
         env:
           NEXT_PUBLIC_API_ENDPOINT: "${{ vars.NEXT_PUBLIC_API_ENDPOINT }}"
           NEXT_PUBLIC_APP_ENV: "${{ vars.NEXT_PUBLIC_APP_ENV }}"
@@ -40,7 +40,8 @@ jobs:
       - name: Upload build output
         uses: actions/upload-pages-artifact@v3
         with:
-          path: animeverse/out
+          path: /out
+          # path: animeverse/out
 
   deploy:
     needs: build
