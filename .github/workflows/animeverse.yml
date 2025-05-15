@@ -22,13 +22,13 @@ jobs:
       run:
         working-directory: animeverse
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Debug env
         run: echo "API endpoint is $NEXT_PUBLIC_API_ENDPOINT"
         env:
           NEXT_PUBLIC_API_ENDPOINT: "${{ vars.NEXT_PUBLIC_API_ENDPOINT }}"
-
-      - name: Checkout code
-        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
