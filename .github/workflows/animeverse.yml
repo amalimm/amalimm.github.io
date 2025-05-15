@@ -34,7 +34,7 @@ jobs:
                 NEXT_PUBLIC_APP_ENV: "${{ vars.NEXT_PUBLIC_APP_ENV}}"
               run: |
                 npm cache clean --force
-                npm ci
+                npm ci --prefix animeverse
                 npm run build
                 ls -la
 
@@ -54,7 +54,7 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                   name: next-build
-                  path: out/
+                  path: animeverse/out/
             - name: Check Files
               run: |
                   ls -la
