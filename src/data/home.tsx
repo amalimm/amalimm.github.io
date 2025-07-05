@@ -1,7 +1,16 @@
 export const homeContent = {
-    introTitle: "Welcome 👋",
+    introTitle: "Hello, I'm",
     headline: "Amadeus Lim",
-    subline: "Frontend Developer passionate about UI and performance.",
-    description: `This is my portfolio built with Next.js, TypeScript, and MUI. 
-I enjoy crafting intuitive and responsive web apps with great developer experience.`,
+    subline: "Frontend Developer & UI/UX Enthusiast",
+    description: "I craft beautiful, performant web experiences that delight users and solve real problems. Passionate about clean code, intuitive design, and cutting-edge technologies.",
+    cta: {
+        primary: "View My Work",
+        secondary: "Get In Touch"
+    },
+    stats: [
+        { label: "Years Experience", value: "2+" },
+        { label: "Projects Completed", value: "15+" },
+        { label: "Technologies Mastered", value: "10+" },
+        { label: "Coffee Cups", value: "∞" }
+    ]
 };

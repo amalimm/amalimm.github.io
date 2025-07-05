@@ -1,25 +1,29 @@
-"use client";
+"use client"
 
-import { Box, Typography, Paper } from "@mui/material";
-import { homeContent } from "@/data/home";
+import HeroSection from "@/components/Hero/HeroSection"
+import AboutSection from "@/components/About/AboutSection"
+import ProjectsSection from "@/components/Projects/ProjectsSection"
+import SkillsSection from "@/components/Skills/SkillsSection"
+import ContactSection from "@/components/Contact/ContactSection"
 
 export default function HomePage() {
 	return (
-		<Paper elevation={1} sx={{ p: 4, bgcolor: "background.paper" }}>
-			<Box>
-				<Typography variant="h3" gutterBottom color="primary">
-					{homeContent.introTitle}
-				</Typography>
-				<Typography variant="h4" gutterBottom>
-					{homeContent.headline}
-				</Typography>
-				<Typography variant="subtitle1" sx={{ mb: 3, color: "text.secondary" }}>
-					{homeContent.subline}
-				</Typography>
-				<Typography variant="body1" sx={{ maxWidth: "60ch", lineHeight: 1.7 }}>
-					{homeContent.description}
-				</Typography>
-			</Box>
-		</Paper>
-	);
+		<main className="overflow-hidden">
+			<section id="home">
+				<HeroSection />
+			</section>
+			<section id="about">
+				<AboutSection />
+			</section>
+			<section id="projects">
+				<ProjectsSection />
+			</section>
+			<section id="skills">
+				<SkillsSection />
+			</section>
+			<section id="contact">
+				<ContactSection />
+			</section>
+		</main>
+	)
 }
