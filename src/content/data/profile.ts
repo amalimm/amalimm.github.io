@@ -1,11 +1,19 @@
 import { Profile } from '../schemas/profile'
+import { 
+  calculateYearsOfExperience,
+  calculateCompletedProjects,
+  calculateTechnologiesMastered,
+  getCurrentWorkStatus,
+  getFeaturedTechnologies,
+  getCurrentLocation,
+  generateDynamicHeadline,
+  getDynamicStats,
+  getLatestProject
+} from './utils/profile-calculator'
 
-export const profile: Profile = {
+// Base profile data (static information)
+const baseProfile = {
   name: "Amadeus Lim",
-  title: "Frontend Developer & UI/UX Enthusiast",
-  headline: "I craft beautiful, performant web experiences that delight users and solve real problems.",
-  description: "Passionate about clean code, intuitive design, and cutting-edge technologies. I specialize in building scalable frontend applications with React, TypeScript, and modern web technologies.",
-  location: "San Francisco, CA",
   email: "amadeus@example.com",
   website: "https://amadeuslim.dev",
   
@@ -15,29 +23,6 @@ export const profile: Profile = {
     twitter: "https://twitter.com/amadeuslim",
     instagram: "https://instagram.com/amadeuslim",
   },
-  
-  stats: [
-    {
-      label: "Years Experience",
-      value: "2+",
-      icon: "calendar"
-    },
-    {
-      label: "Projects Completed",
-      value: "15+",
-      icon: "code"
-    },
-    {
-      label: "Technologies Mastered",
-      value: "10+",
-      icon: "layers"
-    },
-    {
-      label: "Coffee Cups",
-      value: "∞",
-      icon: "coffee"
-    }
-  ],
   
   cta: {
     primary: {
@@ -50,5 +35,65 @@ export const profile: Profile = {
       href: "#contact",
       external: false
     }
+  }
+}
+
+// Dynamic profile data that updates based on other data sources
+export const profile: Profile = {
+  // Static base data
+  ...baseProfile,
+  
+  // Dynamic data calculated from other sources
+  title: (() => {
+    const featuredTechs = getFeaturedTechnologies().slice(0, 2)
+    const currentRole = "Frontend Developer"
+    return featuredTechs.length > 0 
+      ? `${currentRole} specializing in ${featuredTechs.join(' & ')}`
+      : `${currentRole} & UI/UX Enthusiast`
+  })(),
+  
+  headline: generateDynamicHeadline(),
+  
+  description: (() => {
+    const years = calculateYearsOfExperience()
+    const topTechs = getFeaturedTechnologies().slice(0, 4).join(', ')
+    const completedProjects = calculateCompletedProjects()
+    
+    return `With ${years}+ years of experience and ${completedProjects}+ completed projects, I specialize in ${topTechs}. Passionate about clean code, intuitive design, and cutting-edge technologies that solve real-world problems.`
+  })(),
+  
+  location: getCurrentLocation(),
+  
+  // Dynamic stats calculated from actual data
+  stats: getDynamicStats(),
+  
+  // Additional dynamic fields
+  availability: getCurrentWorkStatus(),
+  featuredTechnologies: getFeaturedTechnologies(),
+  latestProject: getLatestProject(),
+  lastUpdated: new Date().toISOString().split('T')[0]
+}
+
+// Helper function to get formatted experience summary
+export function getExperienceSummary() {
+  const years = calculateYearsOfExperience()
+  const projects = calculateCompletedProjects()
+  const technologies = calculateTechnologiesMastered()
+  
+  return {
+    years,
+    projects,
+    technologies,
+    summary: `${years}+ years • ${projects}+ projects • ${technologies}+ technologies mastered`
+  }
+}
+
+// Helper function to get quick stats for components
+export function getQuickStats() {
+  return {
+    experience: `${calculateYearsOfExperience()}+ years`,
+    projects: `${calculateCompletedProjects()}+ projects`,
+    technologies: getFeaturedTechnologies(),
+    availability: getCurrentWorkStatus()
   }
 }

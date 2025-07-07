@@ -3,14 +3,22 @@
 import { Button } from '@/components/ui/Button'
 import { Box, Stack, Fade, Slide, Container, Typography } from '@mui/material'
 import { profile } from '@/content/data/profile'
+// import { getQuickStats } from '@/content/data/profile' // Available for dynamic stats
 
 export function Hero() {
+  // Example: Access dynamic stats
+  // const quickStats = getQuickStats()
+  // quickStats.experience => "2+ years"
+  // quickStats.projects => "5+ projects" 
+  // quickStats.technologies => ["React", "TypeScript", "Next.js", ...]
+  // quickStats.availability => "available" | "busy" | "unavailable"
+  
   return (
     <Box 
       component="section"
       sx={{
         py: { xs: 16, md: 20 },
-        background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.secondary.light} 100%)`,
+        background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 30%, ${theme.palette.secondary.main} 100%)`,
         overflow: 'hidden',
       }}
     >
@@ -24,10 +32,8 @@ export function Hero() {
                   fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem', lg: '5.5rem' },
                   fontWeight: 700,
                   mb: 2,
-                  background: (theme) => `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.dark} 90%)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
+                  color: (theme) => theme.palette.primary.contrastText,
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
                 }}
               >
                 {profile.name}
@@ -39,11 +45,12 @@ export function Hero() {
             <Box>
               <Typography
                 variant="h2"
-                color="text.secondary"
+                color="primary.contrastText"
                 sx={{
                   fontSize: { xs: '1.25rem', sm: '1.5rem', md: '2rem', lg: '2.5rem' },
                   fontWeight: 500,
                   mb: 3,
+                  opacity: 0.9,
                 }}
               >
                 {profile.title}
@@ -55,11 +62,12 @@ export function Hero() {
             <Box sx={{ maxWidth: '42rem' }}>
               <Typography
                 variant="body1"
-                color="text.secondary"
+                color="primary.contrastText"
                 sx={{
                   fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' },
                   lineHeight: 1.7,
                   mb: 6,
+                  opacity: 0.85,
                 }}
               >
                 {profile.headline}
@@ -113,18 +121,19 @@ export function Hero() {
                         textAlign: 'center',
                         p: 3,
                         borderRadius: 2,
-                        backgroundColor: (theme) => theme.palette.background.paper,
+                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
                         backdropFilter: 'blur(10px)',
                         transition: 'all 0.3s ease',
                         '&:hover': {
                           transform: 'translateY(-4px)',
-                          boxShadow: (theme) => theme.shadows[8],
+                          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
                         },
                       }}
                     >
                       <Typography
                         variant="h3"
-                        color="primary.main"
+                        color="primary.contrastText"
                         sx={{
                           fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
                           fontWeight: 700,
@@ -135,10 +144,11 @@ export function Hero() {
                       </Typography>
                       <Typography
                         variant="caption"
-                        color="text.secondary"
+                        color="primary.contrastText"
                         sx={{
                           fontSize: { xs: '0.8rem', sm: '0.875rem' },
                           fontWeight: 500,
+                          opacity: 0.8,
                         }}
                       >
                         {stat.label}

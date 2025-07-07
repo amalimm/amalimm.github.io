@@ -45,6 +45,12 @@ export const ProfileSchema = z.object({
       external: z.boolean().default(false),
     }).optional(),
   }).optional(),
+  
+  // Dynamic fields (calculated from other data)
+  availability: z.enum(['available', 'busy', 'unavailable']).optional(),
+  featuredTechnologies: z.array(z.string()).optional(),
+  latestProject: z.any().optional(), // Reference to latest project
+  lastUpdated: z.string().optional(),
 })
 
 export type Profile = z.infer<typeof ProfileSchema>
