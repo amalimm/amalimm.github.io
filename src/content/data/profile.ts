@@ -1,132 +1,137 @@
-import { Profile } from '../schemas/profile'
-import { 
-  calculateYearsOfExperience,
-  calculateCompletedProjects,
-  calculateTechnologiesMastered,
-  getCurrentWorkStatus,
-  getFeaturedTechnologies,
-  getCurrentLocation,
-  getDynamicStats,
-  getLatestProject
-} from './utils/profile-calculator'
-
-const baseProfile = {
-  name: "Amadeus Lim Min Chern",
-  email: "minchern1274@gmail.com",
-  website: "https://amalimm.github.io/",
+export const profile = {
+  fullName: "Amadeus Lim Min Chern",
+  pronouns: "He/Him",
+  headline: "Frontend Engineer @ YoPrint | Full-Stack Developer | React | Laravel | SaaS | Remote | Agile Problem Solver",
   
-  professionalSummary: "Frontend Engineer @ YoPrint | Full-Stack Developer | React | Laravel | SaaS | Remote | Agile Problem Solver",
-  
-  industry: "Information Technology & Services",
-  specialization: "Frontend Development & UI/UX Design",
-  
-  // Professional interests
-  interests: [
-    "Web Development",
-    "User Experience Design",
-    "Open Source Contributing",
-    "Tech Innovation",
-    "Continuous Learning"
-  ],
-  
-  // Languages spoken
-  languages: [
-    { name: "English", proficiency: "Native" },
-    { name: "Mandarin", proficiency: "Conversational" },
-    { name: "Spanish", proficiency: "Basic" }
-  ],
-  
-  social: {
-    github: "https://github.com/amalimm",
-    linkedin: "https://linkedin.com/in/amadeuslim",
-    twitter: "https://twitter.com/amadeuslim",
-    instagram: "https://instagram.com/amadeuslim",
-    medium: "https://medium.com/@amadeuslim",
-    dev: "https://dev.to/amadeuslim"
+  location: {
+    city: "Kuching",
+    state: "Sarawak",
+    country: "Malaysia"
   },
   
-  cta: {
-    primary: {
-      text: "View My Work",
-      href: "#projects",
-      external: false
-    },
-    secondary: {
-      text: "Connect on LinkedIn",
-      href: "https://linkedin.com/in/amadeuslim",
-      external: true
+  currentPosition: {
+    title: "Frontend Developer",
+    company: "YoPrint - Cloud Print Shop Management Solution",
+    type: "Full-time",
+    industry: "Software Development",
+    startDate: "2025-07",
+    endDate: "Present"
+  },
+  
+  education: [
+    {
+      institution: "Universiti Sains Malaysia",
+      degree: "Bachelor of Pure Mathematics",
+      fieldOfStudy: "Pure Mathematics with Computer Science Minor",
+      location: "Malaysia"
     }
-  }
-}
+  ],
+  
+  connections: 133,
+  
+  contactInfo: {
+    linkedIn: "https://www.linkedin.com/in/amadeuslim/",
+    email: "minchern1274@gmail.com",
+    website: "https://amalimm.github.io/",
+    github: "https://github.com/amalimm"
+  },
+  
+  about: `🚀 Passionate and adaptable Software Developer with hands-on experience in full-stack development, system integration, and cloud deployment. I specialize in transforming ideas into scalable, secure, and reliable solutions — while continuously sharpening both technical and analytical skills.
 
-// Dynamic profile data that updates based on other data sources
-export const profile: Profile = {
-  // Static base data
-  ...baseProfile,
-  
-  // Dynamic data calculated from other sources
-  title: (() => {
-    const featuredTechs = getFeaturedTechnologies().slice(0, 2)
-    const currentRole = "Senior Frontend Developer"
-    return featuredTechs.length > 0 
-      ? `${currentRole} specializing in ${featuredTechs.join(' & ')}`
-      : `${currentRole} & UI/UX Enthusiast`
-  })(),
-  
-  headline: "Building exceptional web experiences with React, TypeScript, and modern development practices. Open to new opportunities and collaborations.",
-  
-  description: (() => {
-    const years = calculateYearsOfExperience()
-    const topTechs = getFeaturedTechnologies().slice(0, 4).join(', ')
-    const completedProjects = calculateCompletedProjects()
-    
-    return `Experienced Frontend Developer with ${years}+ years in the industry and ${completedProjects}+ successful projects delivered. Specialized in ${topTechs} with a strong focus on performance optimization, accessibility, and scalable architecture. Currently seeking new challenges in innovative tech companies.`
-  })(),
-  
-  location: getCurrentLocation(),
-  
-  // Dynamic stats calculated from actual data
-  stats: getDynamicStats(),
-  
-  // Additional dynamic fields
-  availability: getCurrentWorkStatus(),
-  featuredTechnologies: getFeaturedTechnologies(),
-  latestProject: getLatestProject(),
-  lastUpdated: new Date().toISOString().split('T')[0],
-  
-  // LinkedIn-style additional fields
-  professionalSummary: baseProfile.professionalSummary,
-  industry: baseProfile.industry,
-  specialization: baseProfile.specialization,
-  interests: baseProfile.interests,
-  languages: baseProfile.languages,
-  
-  // Professional metrics
-  connectionCount: 500,
-  profileViews: 1250,
-  searchAppearances: 89
-}
+💡 Core Competencies:
+• Full-stack development: from crafting user-friendly interfaces to designing robust backend systems.
+• Proficient in RESTful API design and secure authentication mechanisms.
+• Skilled in version control systems: GitHub, Git, Sourcetree.
+• Experience with MySQL Workbench for database modeling and management.
+• Comfortable with cloud deployment and basic server configuration.
+• Collaborative team player in Agile environments (Sprint Planning, Product Reviews).
 
-// Helper function to get formatted experience summary
-export function getExperienceSummary() {
-  const years = calculateYearsOfExperience()
-  const projects = calculateCompletedProjects()
-  const technologies = calculateTechnologiesMastered()
-  
-  return {
-    years,
-    projects,
-    technologies,
-    summary: `${years}+ years • ${projects}+ projects • ${technologies}+ technologies mastered`
-  }
-}
+🧠 Professional Highlights:
+• Strong problem-solving mindset backed by a Pure Mathematics degree and a Computer Science minor — giving me a structured, analytical approach to complex challenges.
 
-// Helper function to get quick stats for components
-export function getQuickStats() {
-  return {
-    experience: `${calculateYearsOfExperience()}+ years`,
-    projects: `${calculateCompletedProjects()}+ projects`,
-    technologies: getFeaturedTechnologies(),
-    availability: getCurrentWorkStatus()
-  }
+💪 Soft Skills & Work Ethic:
+• Proven ability to learn fast — acquired both backend & frontend skills from ground zero to project delivery in just 6 months.
+• A strong believer in continuous improvement, self-motivation, and adaptability.
+• Thrive under pressure and apply effective task prioritization to meet tight deadlines.
+• Known for being resourceful, persistent, and having a "never give up" attitude when facing technical obstacles.
+• Proactive in team collaboration, open to feedback, and always eager to grow.
+
+🌱 Currently expanding knowledge in:
+• Cloud-native development & DevOps best practices
+• Scalable software architecture
+• Modern software engineering workflows and leadership practices.
+• AI & Computer Vision - Learning and Integration
+
+💬 I'm always excited to connect, collaborate, and contribute to innovative projects that challenge me to grow as a developer and as a teammate.`,
+  
+  topSkills: [
+    {
+      name: "Laravel",
+      endorsements: 15,
+      featured: true
+    },
+    {
+      name: "React.js",
+      endorsements: 23,
+      featured: true
+    },
+    {
+      name: "REST APIs",
+      endorsements: 18,
+      featured: true
+    },
+    {
+      name: "MySQL",
+      endorsements: 12,
+      featured: true
+    },
+    {
+      name: "Asana",
+      endorsements: 8,
+      featured: true
+    }
+  ],
+  
+  coreCompetencies: [
+    "Full-stack development",
+    "RESTful API design",
+    "Secure authentication mechanisms",
+    "Version control systems (GitHub, Git, Sourcetree)",
+    "MySQL Workbench for database modeling",
+    "Cloud deployment",
+    "Server configuration",
+    "Agile environments",
+    "Sprint Planning",
+    "Product Reviews"
+  ],
+  
+  softSkills: [
+    "Fast learning ability",
+    "Continuous improvement",
+    "Self-motivation",
+    "Adaptability",
+    "Task prioritization",
+    "Problem-solving mindset",
+    "Analytical approach",
+    "Resourcefulness",
+    "Persistence",
+    "Team collaboration",
+    "Open to feedback",
+    "Growth mindset"
+  ],
+  
+  currentlyLearning: [
+    "Cloud-native development",
+    "DevOps best practices",
+    "Scalable software architecture",
+    "Modern software engineering workflows",
+    "Leadership practices",
+    "AI & Computer Vision",
+    "Learning and Integration"
+  ],
+  
+  professionalSummary: "Passionate and adaptable Software Developer with hands-on experience in full-stack development, system integration, and cloud deployment. Strong problem-solving mindset backed by a Pure Mathematics degree and Computer Science minor.",
+  
+  availability: "available",
+  lastUpdated: "2025-01-09"
 }
