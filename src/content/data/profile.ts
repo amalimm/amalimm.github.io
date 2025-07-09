@@ -6,22 +6,43 @@ import {
   getCurrentWorkStatus,
   getFeaturedTechnologies,
   getCurrentLocation,
-  generateDynamicHeadline,
   getDynamicStats,
   getLatestProject
 } from './utils/profile-calculator'
 
-// Base profile data (static information)
 const baseProfile = {
-  name: "Amadeus Lim",
-  email: "amadeus@example.com",
-  website: "https://amadeuslim.dev",
+  name: "Amadeus Lim Min Chern",
+  email: "minchern1274@gmail.com",
+  website: "https://amalimm.github.io/",
+  
+  professionalSummary: "Frontend Engineer @ YoPrint | Full-Stack Developer | React | Laravel | SaaS | Remote | Agile Problem Solver",
+  
+  industry: "Information Technology & Services",
+  specialization: "Frontend Development & UI/UX Design",
+  
+  // Professional interests
+  interests: [
+    "Web Development",
+    "User Experience Design",
+    "Open Source Contributing",
+    "Tech Innovation",
+    "Continuous Learning"
+  ],
+  
+  // Languages spoken
+  languages: [
+    { name: "English", proficiency: "Native" },
+    { name: "Mandarin", proficiency: "Conversational" },
+    { name: "Spanish", proficiency: "Basic" }
+  ],
   
   social: {
     github: "https://github.com/amalimm",
     linkedin: "https://linkedin.com/in/amadeuslim",
     twitter: "https://twitter.com/amadeuslim",
     instagram: "https://instagram.com/amadeuslim",
+    medium: "https://medium.com/@amadeuslim",
+    dev: "https://dev.to/amadeuslim"
   },
   
   cta: {
@@ -31,9 +52,9 @@ const baseProfile = {
       external: false
     },
     secondary: {
-      text: "Get In Touch",
-      href: "#contact",
-      external: false
+      text: "Connect on LinkedIn",
+      href: "https://linkedin.com/in/amadeuslim",
+      external: true
     }
   }
 }
@@ -46,20 +67,20 @@ export const profile: Profile = {
   // Dynamic data calculated from other sources
   title: (() => {
     const featuredTechs = getFeaturedTechnologies().slice(0, 2)
-    const currentRole = "Frontend Developer"
+    const currentRole = "Senior Frontend Developer"
     return featuredTechs.length > 0 
       ? `${currentRole} specializing in ${featuredTechs.join(' & ')}`
       : `${currentRole} & UI/UX Enthusiast`
   })(),
   
-  headline: generateDynamicHeadline(),
+  headline: "Building exceptional web experiences with React, TypeScript, and modern development practices. Open to new opportunities and collaborations.",
   
   description: (() => {
     const years = calculateYearsOfExperience()
     const topTechs = getFeaturedTechnologies().slice(0, 4).join(', ')
     const completedProjects = calculateCompletedProjects()
     
-    return `With ${years}+ years of experience and ${completedProjects}+ completed projects, I specialize in ${topTechs}. Passionate about clean code, intuitive design, and cutting-edge technologies that solve real-world problems.`
+    return `Experienced Frontend Developer with ${years}+ years in the industry and ${completedProjects}+ successful projects delivered. Specialized in ${topTechs} with a strong focus on performance optimization, accessibility, and scalable architecture. Currently seeking new challenges in innovative tech companies.`
   })(),
   
   location: getCurrentLocation(),
@@ -71,7 +92,19 @@ export const profile: Profile = {
   availability: getCurrentWorkStatus(),
   featuredTechnologies: getFeaturedTechnologies(),
   latestProject: getLatestProject(),
-  lastUpdated: new Date().toISOString().split('T')[0]
+  lastUpdated: new Date().toISOString().split('T')[0],
+  
+  // LinkedIn-style additional fields
+  professionalSummary: baseProfile.professionalSummary,
+  industry: baseProfile.industry,
+  specialization: baseProfile.specialization,
+  interests: baseProfile.interests,
+  languages: baseProfile.languages,
+  
+  // Professional metrics
+  connectionCount: 500,
+  profileViews: 1250,
+  searchAppearances: 89
 }
 
 // Helper function to get formatted experience summary

@@ -101,6 +101,7 @@ When invoked via `/pipeline`, Claude must:
 - **Use existing utilities** and patterns before creating new ones
 - **Validate data integrity** with Zod schemas when adding new content
 - **Test build compatibility** by running `npm run build` and `npm run lint`
+- **Maintain 98% confidence threshold** for all data updates and feature implementations
 
 ### Memory Patterns
 - **Component Organization**: UI components extend MUI, section components use MUI layouts

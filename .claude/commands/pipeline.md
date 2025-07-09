@@ -70,7 +70,7 @@ This document defines the structured SDLC pipeline framework for AI-automated de
 - Recommend better naming, folder structure, or shared hook/utils
 
 #### 5.5: Documentation Sync
-- Automatically update `ui.md` or code comments if the structure/design changed
+- Automatically update `pipeline.md`, `CLAUDE.md` or code comments if the structure/design changed
 - Maintain clarity and format in markdown
 
 **Validation Report Format**:

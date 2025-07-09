@@ -15,6 +15,8 @@ export const SkillSchema = z.object({
     'tools',
     'languages',
     'frameworks',
+    'testing',
+    'methodology',
     'other'
   ]),
   proficiency: z.enum(['beginner', 'intermediate', 'advanced', 'expert']).default('intermediate'),
@@ -27,6 +29,7 @@ export const SkillSchema = z.object({
   // Details
   description: z.string().optional(),
   yearsOfExperience: z.number().min(0).max(50).optional(),
+  endorsements: z.number().min(0).optional(),
   
   // Evidence
   projects: z.array(z.string()).optional(), // Project IDs

@@ -10,7 +10,8 @@ export const skills: Skill[] = [
     icon: "⚛️",
     color: "#61DAFB",
     description: "Building complex user interfaces with hooks, context, and modern patterns",
-    yearsOfExperience: 2,
+    yearsOfExperience: 3,
+    endorsements: 47,
     featured: true,
     order: 1
   },
@@ -22,7 +23,8 @@ export const skills: Skill[] = [
     icon: "🔷",
     color: "#3178C6",
     description: "Type-safe JavaScript development with advanced type patterns",
-    yearsOfExperience: 2,
+    yearsOfExperience: 3,
+    endorsements: 52,
     featured: true,
     order: 2
   },
@@ -34,7 +36,8 @@ export const skills: Skill[] = [
     icon: "▲",
     color: "#000000",
     description: "Full-stack React framework with SSR, SSG, and API routes",
-    yearsOfExperience: 1,
+    yearsOfExperience: 2,
+    endorsements: 34,
     featured: true,
     order: 3
   },
@@ -46,7 +49,8 @@ export const skills: Skill[] = [
     icon: "🎨",
     color: "#06B6D4",
     description: "Utility-first CSS framework for rapid UI development",
-    yearsOfExperience: 2,
+    yearsOfExperience: 3,
+    endorsements: 28,
     featured: true,
     order: 4
   },
@@ -58,7 +62,8 @@ export const skills: Skill[] = [
     icon: "🟨",
     color: "#F7DF1E",
     description: "ES6+ features, async/await, and modern JavaScript patterns",
-    yearsOfExperience: 3,
+    yearsOfExperience: 4,
+    endorsements: 38,
     featured: true,
     order: 5
   },
@@ -70,7 +75,8 @@ export const skills: Skill[] = [
     icon: "📄",
     color: "#E34F26",
     description: "Semantic HTML, accessibility, and modern web standards",
-    yearsOfExperience: 3,
+    yearsOfExperience: 4,
+    endorsements: 25,
     featured: false,
     order: 6
   },
@@ -82,7 +88,8 @@ export const skills: Skill[] = [
     icon: "🎨",
     color: "#1572B6",
     description: "Modern CSS features, Grid, Flexbox, and animations",
-    yearsOfExperience: 3,
+    yearsOfExperience: 4,
+    endorsements: 31,
     featured: false,
     order: 7
   },
@@ -96,7 +103,8 @@ export const skills: Skill[] = [
     icon: "🟢",
     color: "#339933",
     description: "Server-side JavaScript runtime for building scalable applications",
-    yearsOfExperience: 1,
+    yearsOfExperience: 2,
+    endorsements: 23,
     featured: true,
     order: 8
   },
@@ -184,7 +192,8 @@ export const skills: Skill[] = [
     icon: "📝",
     color: "#F05032",
     description: "Version control system for tracking changes",
-    yearsOfExperience: 2,
+    yearsOfExperience: 3,
+    endorsements: 42,
     featured: true,
     order: 15
   },
@@ -222,7 +231,8 @@ export const skills: Skill[] = [
     icon: "🎨",
     color: "#F24E1E",
     description: "UI/UX design tool for creating prototypes and designs",
-    yearsOfExperience: 1,
+    yearsOfExperience: 2,
+    endorsements: 26,
     featured: true,
     order: 18
   },
@@ -298,9 +308,88 @@ export const skills: Skill[] = [
     icon: "🤝",
     color: "#FF9800",
     description: "Working effectively in team environments",
-    yearsOfExperience: 2,
+    yearsOfExperience: 3,
+    endorsements: 29,
     featured: true,
     order: 24
+  },
+  {
+    id: "graphql",
+    name: "GraphQL",
+    category: "backend",
+    proficiency: "intermediate",
+    icon: "🔗",
+    color: "#E10098",
+    description: "Query language for APIs with flexible data fetching",
+    yearsOfExperience: 1,
+    endorsements: 18,
+    featured: true,
+    order: 25
+  },
+  {
+    id: "material-ui",
+    name: "Material-UI",
+    category: "frontend",
+    proficiency: "advanced",
+    icon: "🎨",
+    color: "#0081CB",
+    description: "React component library with Material Design",
+    yearsOfExperience: 2,
+    endorsements: 22,
+    featured: true,
+    order: 26
+  },
+  {
+    id: "jest",
+    name: "Jest",
+    category: "testing",
+    proficiency: "intermediate",
+    icon: "🧪",
+    color: "#C21325",
+    description: "JavaScript testing framework with snapshot testing",
+    yearsOfExperience: 2,
+    endorsements: 19,
+    featured: true,
+    order: 27
+  },
+  {
+    id: "cypress",
+    name: "Cypress",
+    category: "testing",
+    proficiency: "intermediate",
+    icon: "🌲",
+    color: "#17202C",
+    description: "End-to-end testing framework for web applications",
+    yearsOfExperience: 1,
+    endorsements: 14,
+    featured: true,
+    order: 28
+  },
+  {
+    id: "agile",
+    name: "Agile Development",
+    category: "methodology",
+    proficiency: "advanced",
+    icon: "🔄",
+    color: "#FF6B35",
+    description: "Scrum and Kanban methodologies for project management",
+    yearsOfExperience: 3,
+    endorsements: 33,
+    featured: true,
+    order: 29
+  },
+  {
+    id: "leadership",
+    name: "Technical Leadership",
+    category: "soft-skills",
+    proficiency: "intermediate",
+    icon: "👑",
+    color: "#8B5CF6",
+    description: "Leading technical teams and mentoring developers",
+    yearsOfExperience: 2,
+    endorsements: 21,
+    featured: true,
+    order: 30
   }
 ]
 
@@ -367,12 +456,36 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     category: {
+      id: "testing",
+      name: "Testing & Quality",
+      description: "Testing frameworks and quality assurance",
+      icon: "🧪",
+      color: "#C21325",
+      order: 6,
+      featured: true
+    },
+    skills: skills.filter(skill => skill.category === "testing")
+  },
+  {
+    category: {
+      id: "methodology",
+      name: "Methodologies",
+      description: "Development methodologies and practices",
+      icon: "🔄",
+      color: "#FF6B35",
+      order: 7,
+      featured: true
+    },
+    skills: skills.filter(skill => skill.category === "methodology")
+  },
+  {
+    category: {
       id: "soft-skills",
       name: "Soft Skills",
       description: "Communication and collaboration abilities",
       icon: "🤝",
       color: "#4CAF50",
-      order: 6,
+      order: 8,
       featured: true
     },
     skills: skills.filter(skill => skill.category === "soft-skills")

@@ -49,8 +49,23 @@ export const ProfileSchema = z.object({
   // Dynamic fields (calculated from other data)
   availability: z.enum(['available', 'busy', 'unavailable']).optional(),
   featuredTechnologies: z.array(z.string()).optional(),
-  latestProject: z.any().optional(), // Reference to latest project
+  latestProject: z.any().optional(),
   lastUpdated: z.string().optional(),
+  
+  // LinkedIn-style fields
+  professionalSummary: z.string().optional(),
+  industry: z.string().optional(),
+  specialization: z.string().optional(),
+  interests: z.array(z.string()).optional(),
+  languages: z.array(z.object({
+    name: z.string(),
+    proficiency: z.string()
+  })).optional(),
+  
+  // Professional metrics
+  connectionCount: z.number().optional(),
+  profileViews: z.number().optional(),
+  searchAppearances: z.number().optional(),
 })
 
 export type Profile = z.infer<typeof ProfileSchema>
