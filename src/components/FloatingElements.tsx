@@ -91,7 +91,7 @@ export function FloatingElements() {
           transition={{
             duration: element.duration,
             repeat: Infinity,
-            ease: "easeInOut",
+            ease: [0.25, 0.46, 0.45, 0.94],
           }}
         />
       ))}
@@ -115,7 +115,7 @@ export function FloatingElements() {
         transition={{
           duration: 40,
           repeat: Infinity,
-          ease: "easeInOut",
+          ease: [0.25, 0.46, 0.45, 0.94],
         }}
       />
       
@@ -137,7 +137,7 @@ export function FloatingElements() {
         transition={{
           duration: 35,
           repeat: Infinity,
-          ease: "easeInOut",
+          ease: [0.25, 0.46, 0.45, 0.94],
         }}
       />
     </Box>
