@@ -1,13 +1,4 @@
-export interface Highlight {
-  id: string
-  title: string
-  url: string
-  description: string
-  type: 'project' | 'publication' | 'portfolio' | 'research' | 'other'
-  platform?: string
-  order: number
-  featured: boolean
-}
+import { Highlight } from '../schemas/highlight'
 
 export const highlights: Highlight[] = [
   {

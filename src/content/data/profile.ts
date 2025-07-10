@@ -36,7 +36,9 @@ export const profile = {
     github: "https://github.com/amalimm"
   },
   
-  about: `🚀 Passionate and adaptable Software Developer with hands-on experience in full-stack development, system integration, and cloud deployment. I specialize in transforming ideas into scalable, secure, and reliable solutions — while continuously sharpening both technical and analytical skills.
+  about: `
+
+🚀 Passionate and adaptable Software Developer with hands-on experience in full-stack development, system integration, and cloud deployment. I specialize in transforming ideas into scalable, secure, and reliable solutions — while continuously sharpening both technical and analytical skills.
 
 💡 Core Competencies:
 • Full-stack development: from crafting user-friendly interfaces to designing robust backend systems.
@@ -62,7 +64,9 @@ export const profile = {
 • Modern software engineering workflows and leadership practices.
 • AI & Computer Vision - Learning and Integration
 
-💬 I'm always excited to connect, collaborate, and contribute to innovative projects that challenge me to grow as a developer and as a teammate.`,
+💬 I'm always excited to connect, collaborate, and contribute to innovative projects that challenge me to grow as a developer and as a teammate.
+
+`,
   
   topSkills: [
     {
@@ -131,6 +135,40 @@ export const profile = {
   ],
   
   professionalSummary: "Passionate and adaptable Software Developer with hands-on experience in full-stack development, system integration, and cloud deployment. Strong problem-solving mindset backed by a Pure Mathematics degree and Computer Science minor.",
+  
+  cta: {
+    primary: {
+      text: "View My Work",
+      action: "scroll-to-projects"
+    },
+    secondary: {
+      text: "Get In Touch",
+      action: "scroll-to-contact"
+    }
+  },
+  
+  stats: [
+    {
+      label: "Years Experience",
+      value: "2+",
+      icon: "💼"
+    },
+    {
+      label: "Projects Completed",
+      value: "10+",
+      icon: "🚀"
+    },
+    {
+      label: "Technologies",
+      value: "15+",
+      icon: "⚡"
+    },
+    {
+      label: "Satisfied Clients",
+      value: "5+",
+      icon: "😊"
+    }
+  ],
   
   availability: "available",
   lastUpdated: "2025-01-09"

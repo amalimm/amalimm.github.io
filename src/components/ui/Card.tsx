@@ -1,7 +1,7 @@
 "use client"
 
 import { forwardRef, HTMLAttributes } from 'react'
-import { Card as MUICard, CardContent as MUICardContent, CardHeader as MUICardHeader, CardActions, Typography } from '@mui/material'
+import { Card as MUICard, CardContent as MUICardContent, CardHeader as MUICardHeader, CardActions, Typography, SxProps, Theme } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 const StyledCard = styled(MUICard)(({ theme }) => ({
@@ -19,17 +19,18 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   interactive?: boolean
   elevated?: boolean
   children: React.ReactNode
+  sx?: SxProps<Theme>
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ variant = 'default', interactive = false, elevated = false, children, className, ...props }, ref) => {
+  ({ variant = 'default', interactive = false, elevated = false, children, className, sx: sxProp, ...props }, ref) => {
     const getElevation = () => {
       if (elevated) return 4
       if (variant === 'ghost') return 0
       return 1
     }
 
-    const sx = {
+    const sx: SxProps<Theme> = {
       ...(variant === 'outline' && {
         border: 1,
         borderColor: 'divider',
@@ -55,6 +56,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
           transform: 'scale(0.98)',
         },
       }),
+      ...sxProp,
     }
 
     return (

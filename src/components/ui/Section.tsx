@@ -1,7 +1,7 @@
 "use client"
 
 import React, { HTMLAttributes } from 'react'
-import { Box, Theme } from '@mui/material'
+import { Box, Theme, SxProps } from '@mui/material'
 // import { styled } from '@mui/material/styles'
 import { Container } from './Container'
 
@@ -18,6 +18,7 @@ export interface SectionProps extends HTMLAttributes<HTMLElement> {
   as?: 'section' | 'div' | 'main' | 'article' | 'aside' | 'header' | 'footer'
   container?: boolean
   containerProps?: React.ComponentProps<typeof Container>
+  sx?: SxProps<Theme>
 }
 
 const Section = ({ 
@@ -30,6 +31,7 @@ const Section = ({
     as = 'section', 
     container = true,
     containerProps,
+    sx: sxProp,
     ...props 
 }: SectionProps) => {
     const getSpacing = (spacing: string) => {
@@ -90,7 +92,7 @@ const Section = ({
       }
     }
 
-    const sx = {
+    const sx: SxProps<Theme> = {
       position: getPosition(position),
       overflow: getOverflow(overflow),
       backgroundColor: getBackground(background),
@@ -103,6 +105,7 @@ const Section = ({
       ...getSpacing(spacing),
       ...(position === 'sticky' && { top: 0, zIndex: 10 }),
       ...(position === 'fixed' && { top: 0, left: 0, right: 0, zIndex: 1300 }),
+      ...sxProp,
     }
 
     const content = container ? (

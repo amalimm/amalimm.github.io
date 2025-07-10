@@ -62,7 +62,7 @@ export function About() {
                       textAlign: 'justify'
                     }}
                   >
-                    {profile.description}
+                    {profile.about}
                   </Typography>
                   
                   <Box>
@@ -72,7 +72,7 @@ export function About() {
                           <CircleIcon sx={{ fontSize: 8, color: 'primary.main' }} />
                         </ListItemIcon>
                         <ListItemText 
-                          primary={`Based in ${profile.location}`}
+                          primary={`Based in ${profile.location.city}, ${profile.location.state}, ${profile.location.country}`}
                           primaryTypographyProps={{
                             variant: 'body2',
                             color: 'text.secondary',
@@ -86,7 +86,7 @@ export function About() {
                           <CircleIcon sx={{ fontSize: 8, color: 'primary.main' }} />
                         </ListItemIcon>
                         <ListItemText 
-                          primary="Available for freelance projects"
+                          primary={`Currently: ${profile.availability}`}
                           primaryTypographyProps={{
                             variant: 'body2',
                             color: 'text.secondary',
@@ -100,7 +100,7 @@ export function About() {
                           <CircleIcon sx={{ fontSize: 8, color: 'primary.main' }} />
                         </ListItemIcon>
                         <ListItemText 
-                          primary="Passionate about clean code and user experience"
+                          primary={profile.currentPosition.title + ' @ ' + profile.currentPosition.company}
                           primaryTypographyProps={{
                             variant: 'body2',
                             color: 'text.secondary',
@@ -146,7 +146,7 @@ export function About() {
                           gap: 3 
                         }}
                       >
-                        {profile.stats?.map((stat, index) => (
+                        {profile.topSkills?.slice(0, 4).map((skill, index) => (
                           <Fade in timeout={1400 + index * 200} key={index}>
                             <Card 
                               sx={{ 
@@ -169,7 +169,7 @@ export function About() {
                                   mb: 1,
                                 }}
                               >
-                                {stat.value}
+                                {skill.endorsements}
                               </Typography>
                               <Typography
                                 variant="caption"
@@ -180,7 +180,7 @@ export function About() {
                                   lineHeight: 1.4,
                                 }}
                               >
-                                {stat.label}
+                                {skill.name}
                               </Typography>
                             </Card>
                           </Fade>

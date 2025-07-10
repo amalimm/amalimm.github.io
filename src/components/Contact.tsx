@@ -120,7 +120,7 @@ export function Contact() {
                             </ListItemIcon>
                             <ListItemText 
                               primary="Email"
-                              secondary={profile.email}
+                              secondary={profile.contactInfo.email}
                               primaryTypographyProps={{
                                 variant: 'caption',
                                 color: 'text.secondary',
@@ -143,7 +143,7 @@ export function Contact() {
                             </ListItemIcon>
                             <ListItemText 
                               primary="Location"
-                              secondary={profile.location}
+                              secondary={`${profile.location.city}, ${profile.location.state}, ${profile.location.country}`}
                               primaryTypographyProps={{
                                 variant: 'caption',
                                 color: 'text.secondary',
@@ -166,7 +166,7 @@ export function Contact() {
                             </ListItemIcon>
                             <ListItemText 
                               primary="Website"
-                              secondary={profile.website}
+                              secondary={profile.contactInfo.website}
                               primaryTypographyProps={{
                                 variant: 'caption',
                                 color: 'text.secondary',
@@ -196,7 +196,7 @@ export function Contact() {
                           </Typography>
                           
                           <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                            {profile.social && Object.entries(profile.social).map(([platform, url]) => (
+                            {Object.entries(profile.contactInfo).filter(([key]) => key !== 'email' && key !== 'website').map(([platform, url]) => (
                               <Button
                                 key={platform}
                                 variant="outline"

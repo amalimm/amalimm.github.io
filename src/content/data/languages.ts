@@ -1,12 +1,4 @@
-export interface Language {
-  id: string
-  name: string
-  proficiency: 'native' | 'bilingual' | 'professional' | 'conversational' | 'elementary'
-  proficiencyDescription: string
-  icon: string
-  order: number
-  featured: boolean
-}
+import { Language } from '../schemas/language'
 
 export const languages: Language[] = [
   {

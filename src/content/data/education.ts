@@ -1,20 +1,4 @@
-export interface Education {
-  id: string
-  institution: string
-  degree: string
-  field: string
-  location: string
-  startDate: string
-  endDate: string
-  current: boolean
-  gpa?: number
-  grade?: string
-  honors?: string[]
-  activities?: string[]
-  description?: string
-  order: number
-  featured: boolean
-}
+import { Education } from '../schemas/education'
 
 export const education: Education[] = [
   {

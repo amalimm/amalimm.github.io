@@ -36,7 +36,7 @@ export function Hero() {
                   textShadow: '0 2px 4px rgba(0,0,0,0.3)',
                 }}
               >
-                {profile.name}
+                {profile.fullName}
               </Typography>
             </Box>
           </Fade>
@@ -53,7 +53,7 @@ export function Hero() {
                   opacity: 0.9,
                 }}
               >
-                {profile.title}
+                {profile.currentPosition.title}
               </Typography>
             </Box>
           </Slide>

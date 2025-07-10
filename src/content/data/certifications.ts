@@ -1,17 +1,4 @@
-export interface Certification {
-  id: string
-  name: string
-  issuer: string
-  credentialId: string
-  issueDate: string
-  expirationDate?: string | null
-  credentialUrl?: string
-  verificationUrl?: string
-  description: string
-  skills: string[]
-  order: number
-  featured: boolean
-}
+import { Certification } from '../schemas/certification'
 
 export const certifications: Certification[] = [
   {
