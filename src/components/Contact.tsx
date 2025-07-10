@@ -4,297 +4,825 @@ import { Button } from '@/components/ui/Button'
 import { 
   Box, 
   Stack, 
-  Fade, 
-  Slide, 
   TextField, 
-  List, 
-  ListItem, 
-  ListItemIcon, 
-  ListItemText,
-  Avatar,
   Container,
   Typography,
-  Card,
-  CardContent
+  IconButton,
+  Chip,
 } from '@mui/material'
-import { 
-  Email as EmailIcon, 
-  LocationOn as LocationOnIcon, 
-  Public as PublicIcon, 
-  // GitHub as GitHubIcon, 
-  // LinkedIn as LinkedInIcon,
-  // Twitter as TwitterIcon
-} from '@mui/icons-material'
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
 import { profile } from '@/content/data/profile'
+import { useState, useRef } from 'react'
+import { useInView } from 'react-intersection-observer'
+import { 
+  FaEnvelope, 
+  FaMapMarkerAlt, 
+  FaGlobe, 
+  FaGithub, 
+  FaLinkedin, 
+  FaTwitter,
+  FaRocket,
+  FaHeart
+} from 'react-icons/fa'
+import { HiSparkles, HiMail } from 'react-icons/hi'
+import { BiSend } from 'react-icons/bi'
 
 export function Contact() {
-  // const getSocialIcon = (platform: string) => {
-  //   switch (platform.toLowerCase()) {
-  //     case 'github':
-  //       return <GitHubIcon />
-  //     case 'linkedin':
-  //       return <LinkedInIcon />
-  //     case 'twitter':
-  //       return <TwitterIcon />
-  //     default:
-  //       return <PublicIcon />
-  //   }
-  // }
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [, setMousePosition] = useState({ x: 0, y: 0 })
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true })
+  
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  
+  const backgroundX = useTransform(mouseX, [0, 1], [-40, 40])
+  const backgroundY = useTransform(mouseY, [0, 1], [-40, 40])
+  
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width
+    const y = (e.clientY - rect.top) / rect.height
+    mouseX.set(x)
+    mouseY.set(y)
+    setMousePosition({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    
+    setIsSubmitting(false)
+    setSubmitted(true)
+    setFormData({ name: '', email: '', message: '' })
+    
+    // Reset success state after 3 seconds
+    setTimeout(() => setSubmitted(false), 3000)
+  }
+
+  const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, [field]: e.target.value }))
+  }
+
+  const getSocialIcon = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case 'github':
+        return FaGithub
+      case 'linkedin':
+        return FaLinkedin
+      case 'twitter':
+        return FaTwitter
+      default:
+        return FaGlobe
+    }
+  }
+
+  const getSocialColor = (platform: string) => {
+    switch (platform.toLowerCase()) {
+      case 'github':
+        return 'var(--neon-purple)'
+      case 'linkedin':
+        return 'var(--neon-blue)'
+      case 'twitter':
+        return 'var(--neon-cyan)'
+      default:
+        return 'var(--neon-green)'
+    }
+  }
 
   return (
     <Box 
-      component="section"
+      component={motion.section}
+      ref={containerRef}
       id="contact"
+      onMouseMove={handleMouseMove}
       sx={{
         py: { xs: 16, md: 20 },
-        backgroundColor: 'background.default',
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'transparent',
+        minHeight: '100vh',
       }}
     >
-      <Container maxWidth="lg">
-        <Stack spacing={8} alignItems="center">
-          {/* Header */}
-          <Fade in timeout={800}>
-            <Box textAlign="center">
-              <Typography
-                variant="h2"
+      {/* Dynamic Background Elements */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          width: '200%',
+          height: '200%',
+          x: backgroundX,
+          y: backgroundY,
+          background: `
+            radial-gradient(700px circle at 20% 40%, var(--glass-light), transparent 50%),
+            radial-gradient(500px circle at 80% 20%, var(--glass-medium), transparent 60%),
+            radial-gradient(600px circle at 60% 90%, var(--glass-dark), transparent 40%)
+          `,
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
+      
+      {/* Floating Contact Elements */}
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.1, 0.5, 0.1],
+            rotate: [0, 360],
+            scale: [0.7, 1.4, 0.7],
+            x: [0, Math.random() * 120 - 60, 0],
+            y: [0, Math.random() * 120 - 60, 0],
+          }}
+          transition={{
+            duration: 15 + Math.random() * 20,
+            repeat: Infinity,
+            delay: i * 0.8,
+            ease: "easeInOut"
+          }}
+          style={{
+            position: 'absolute',
+            left: `${10 + Math.random() * 80}%`,
+            top: `${5 + Math.random() * 90}%`,
+            width: 30 + Math.random() * 25,
+            height: 30 + Math.random() * 25,
+            background: i % 6 === 0 ? 'var(--neon-cyan)' : 
+                       i % 6 === 1 ? 'var(--neon-purple)' : 
+                       i % 6 === 2 ? 'var(--neon-green)' : 
+                       i % 6 === 3 ? 'var(--neon-orange)' :
+                       i % 6 === 4 ? 'var(--neon-pink)' : 'var(--neon-yellow)',
+            opacity: 0.1,
+            borderRadius: i % 4 === 0 ? '50%' : '30%',
+            filter: 'blur(1px)',
+            zIndex: 1,
+          }}
+        />
+      ))}
+      
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 1 }}
+        >
+          {/* Revolutionary Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            style={{ textAlign: 'center', marginBottom: '4rem' }}
+          >
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={inView ? { scale: 1, rotate: 0 } : {}}
+              transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.3 }}
+            >
+              <Box
                 sx={{
-                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
-                  fontWeight: 700,
-                  mb: 2,
-                  color: 'text.primary'
+                  width: 110,
+                  height: 110,
+                  background: 'var(--gradient-warm)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  mx: 'auto',
+                  mb: 3,
+                  fontSize: '2.8rem',
+                  boxShadow: 'var(--shadow-glow-orange)',
+                  animation: 'pulse 2.8s ease-in-out infinite',
                 }}
               >
-                Get In Touch
-              </Typography>
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                sx={{ fontSize: '1.125rem', maxWidth: '500px' }}
+                💬
+              </Box>
+            </motion.div>
+            
+            <Typography
+              variant="h2"
+              className="gradient-text-accent"
+              sx={{
+                fontSize: { xs: '2.5rem', sm: '3rem', md: '4rem', lg: '5rem' },
+                fontWeight: 800,
+                mb: 2,
+                position: 'relative',
+              }}
+            >
+              Let&apos;s Connect
+              <motion.div
+                animate={{
+                  rotate: [0, 360],
+                  scale: [1, 1.3, 1],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  position: 'absolute',
+                  top: -30,
+                  right: -50,
+                  fontSize: '2.2rem',
+                  color: 'var(--neon-pink)',
+                }}
               >
-                Let&apos;s work together on your next project
-              </Typography>
-            </Box>
-          </Fade>
+                <HiSparkles />
+              </motion.div>
+            </Typography>
+            
+            <Typography
+              variant="body1"
+              sx={{ 
+                fontSize: '1.25rem', 
+                maxWidth: '700px',
+                lineHeight: 1.7,
+                mx: 'auto',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              Ready to bring your next project to life? Let&apos;s create something amazing together.
+            </Typography>
+          </motion.div>
 
-          {/* Contact Content */}
+          {/* Main Contact Layout */}
           <Box 
             sx={{ 
-              display: 'flex', 
-              flexDirection: { xs: 'column', md: 'row' }, 
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', lg: '1fr 1.2fr' },
               gap: 6,
-              width: '100%' 
+              mb: 6
             }}
           >
             {/* Contact Information */}
-            <Box sx={{ flex: 1 }}>
-              <Slide direction="right" in timeout={1000}>
-                <Box>
-                  <Card 
-                    sx={{ 
-                      height: '100%',
-                      background: (theme) => `linear-gradient(135deg, ${theme.palette.background.paper}e6 0%, ${theme.palette.background.paper}cc 100%)`,
-                      backdropFilter: 'blur(10px)',
-                      border: (theme) => `1px solid ${theme.palette.divider}`,
-                    }}
+            <motion.div
+              initial={{ opacity: 0, x: -100 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <Box
+                className="card-glass"
+                sx={{
+                  p: 4,
+                  borderRadius: 4,
+                  background: 'var(--glass-glow)',
+                  border: '1px solid var(--glass-border)',
+                  backdropFilter: 'blur(25px)',
+                  boxShadow: 'var(--shadow-soft)',
+                  height: '100%',
+                  transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: 'var(--shadow-glow-cyan)',
+                  },
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontSize: { xs: '1.5rem', sm: '2rem' },
+                    fontWeight: 700,
+                    mb: 4,
+                    color: 'var(--text-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                  }}
+                >
+                  <HiMail style={{ color: 'var(--neon-cyan)' }} />
+                  Get In Touch
+                </Typography>
+                
+                <Stack spacing={4}>
+                  {/* Contact Details */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.6 }}
                   >
-                    <CardContent sx={{ p: 4 }}>
-                      <Typography
-                        variant="h3"
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 3 }}>
+                      <Box
                         sx={{
-                          fontSize: { xs: '1.25rem', sm: '1.5rem' },
-                          fontWeight: 600,
-                          mb: 4,
-                          color: 'text.primary'
+                          width: 60,
+                          height: 60,
+                          background: 'linear-gradient(135deg, var(--neon-cyan)20, var(--neon-cyan)10)',
+                          border: '2px solid var(--neon-cyan)',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backdropFilter: 'blur(10px)',
                         }}
                       >
-                        Contact Information
+                        <FaEnvelope style={{ fontSize: '1.5rem', color: 'var(--neon-cyan)' }} />
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: 'var(--text-secondary)',
+                            fontSize: '0.8rem',
+                            textTransform: 'uppercase',
+                            letterSpacing: 1,
+                            display: 'block',
+                            mb: 0.5,
+                          }}
+                        >
+                          Email
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            color: 'var(--text-primary)',
+                            fontSize: '1.1rem',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {profile.contactInfo.email}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </motion.div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 3 }}>
+                      <Box
+                        sx={{
+                          width: 60,
+                          height: 60,
+                          background: 'linear-gradient(135deg, var(--neon-green)20, var(--neon-green)10)',
+                          border: '2px solid var(--neon-green)',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backdropFilter: 'blur(10px)',
+                        }}
+                      >
+                        <FaMapMarkerAlt style={{ fontSize: '1.5rem', color: 'var(--neon-green)' }} />
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: 'var(--text-secondary)',
+                            fontSize: '0.8rem',
+                            textTransform: 'uppercase',
+                            letterSpacing: 1,
+                            display: 'block',
+                            mb: 0.5,
+                          }}
+                        >
+                          Location
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            color: 'var(--text-primary)',
+                            fontSize: '1.1rem',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {`${profile.location.city}, ${profile.location.state}`}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </motion.div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.8 }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 4 }}>
+                      <Box
+                        sx={{
+                          width: 60,
+                          height: 60,
+                          background: 'linear-gradient(135deg, var(--neon-purple)20, var(--neon-purple)10)',
+                          border: '2px solid var(--neon-purple)',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backdropFilter: 'blur(10px)',
+                        }}
+                      >
+                        <FaGlobe style={{ fontSize: '1.5rem', color: 'var(--neon-purple)' }} />
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: 'var(--text-secondary)',
+                            fontSize: '0.8rem',
+                            textTransform: 'uppercase',
+                            letterSpacing: 1,
+                            display: 'block',
+                            mb: 0.5,
+                          }}
+                        >
+                          Website
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            color: 'var(--text-primary)',
+                            fontSize: '1.1rem',
+                            fontWeight: 600,
+                          }}
+                        >
+                          {profile.contactInfo.website}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </motion.div>
+
+                  {/* Social Links */}
+                  <Box sx={{ mt: 4 }}>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        color: 'var(--text-primary)',
+                        fontWeight: 600,
+                        mb: 3,
+                        fontSize: '1.1rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                      }}
+                    >
+                      <FaHeart style={{ color: 'var(--neon-pink)' }} />
+                      Follow Me
+                    </Typography>
+                    
+                    <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+                      {Object.entries(profile.contactInfo)
+                        .filter(([key]) => key !== 'email' && key !== 'website')
+                        .map(([platform, url], index) => {
+                          const IconComponent = getSocialIcon(platform)
+                          const socialColor = getSocialColor(platform)
+                          
+                          return (
+                            <motion.div
+                              key={platform}
+                              initial={{ scale: 0 }}
+                              animate={inView ? { scale: 1 } : {}}
+                              transition={{ delay: 0.9 + index * 0.1, type: 'spring' }}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <IconButton
+                                onClick={() => window.open(url, '_blank')}
+                                sx={{
+                                  width: 50,
+                                  height: 50,
+                                  background: `linear-gradient(135deg, ${socialColor}15, ${socialColor}05)`,
+                                  border: `2px solid ${socialColor}30`,
+                                  color: socialColor,
+                                  backdropFilter: 'blur(10px)',
+                                  transition: 'all 0.3s ease',
+                                  '&:hover': {
+                                    background: `linear-gradient(135deg, ${socialColor}25, ${socialColor}15)`,
+                                    borderColor: socialColor,
+                                    boxShadow: `0 8px 25px ${socialColor}30`,
+                                    transform: 'translateY(-4px)',
+                                  },
+                                }}
+                              >
+                                <IconComponent style={{ fontSize: '1.5rem' }} />
+                              </IconButton>
+                            </motion.div>
+                          )
+                        })}
+                    </Stack>
+                  </Box>
+                </Stack>
+              </Box>
+            </motion.div>
+            
+            {/* Floating Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 100 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                className="card-glass"
+                sx={{
+                  p: 4,
+                  borderRadius: 4,
+                  background: 'var(--glass-glow)',
+                  border: '1px solid var(--glass-border)',
+                  backdropFilter: 'blur(25px)',
+                  boxShadow: 'var(--shadow-soft)',
+                  height: '100%',
+                  transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: 'var(--shadow-glow-purple)',
+                  },
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 3,
+                    background: 'var(--gradient-warm)',
+                  }
+                }}
+              >
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontSize: { xs: '1.5rem', sm: '2rem' },
+                    fontWeight: 700,
+                    mb: 4,
+                    color: 'var(--text-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                  }}
+                >
+                  <FaRocket style={{ color: 'var(--neon-orange)' }} />
+                  Send Message
+                </Typography>
+                
+                <AnimatePresence mode="wait">
+                  {submitted ? (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      style={{ textAlign: 'center', padding: '3rem 0' }}
+                    >
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        style={{ fontSize: '4rem', marginBottom: '1rem' }}
+                      >
+                        🎉
+                      </motion.div>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          color: 'var(--neon-green)',
+                          fontWeight: 700,
+                          mb: 2,
+                        }}
+                      >
+                        Message Sent!
                       </Typography>
-                      
+                      <Typography
+                        variant="body1"
+                        sx={{ color: 'var(--text-secondary)' }}
+                      >
+                        Thank you for reaching out. I&apos;ll get back to you soon!
+                      </Typography>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
                       <Stack spacing={3}>
-                        <List sx={{ p: 0 }}>
-                          <ListItem sx={{ px: 0, py: 2 }}>
-                            <ListItemIcon>
-                              <Avatar sx={{ bgcolor: 'primary.100', color: 'primary.600', width: 48, height: 48 }}>
-                                <EmailIcon />
-                              </Avatar>
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary="Email"
-                              secondary={profile.contactInfo.email}
-                              primaryTypographyProps={{
-                                variant: 'caption',
-                                color: 'text.secondary',
-                                sx: { fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: 1 }
-                              }}
-                              secondaryTypographyProps={{
-                                variant: 'body1',
-                                color: 'text.primary',
-                                sx: { fontSize: '1rem', fontWeight: 500 }
-                              }}
-                              sx={{ ml: 2 }}
-                            />
-                          </ListItem>
-                          
-                          <ListItem sx={{ px: 0, py: 2 }}>
-                            <ListItemIcon>
-                              <Avatar sx={{ bgcolor: 'primary.100', color: 'primary.600', width: 48, height: 48 }}>
-                                <LocationOnIcon />
-                              </Avatar>
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary="Location"
-                              secondary={`${profile.location.city}, ${profile.location.state}, ${profile.location.country}`}
-                              primaryTypographyProps={{
-                                variant: 'caption',
-                                color: 'text.secondary',
-                                sx: { fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: 1 }
-                              }}
-                              secondaryTypographyProps={{
-                                variant: 'body1',
-                                color: 'text.primary',
-                                sx: { fontSize: '1rem', fontWeight: 500 }
-                              }}
-                              sx={{ ml: 2 }}
-                            />
-                          </ListItem>
-                          
-                          <ListItem sx={{ px: 0, py: 2 }}>
-                            <ListItemIcon>
-                              <Avatar sx={{ bgcolor: 'primary.100', color: 'primary.600', width: 48, height: 48 }}>
-                                <PublicIcon />
-                              </Avatar>
-                            </ListItemIcon>
-                            <ListItemText 
-                              primary="Website"
-                              secondary={profile.contactInfo.website}
-                              primaryTypographyProps={{
-                                variant: 'caption',
-                                color: 'text.secondary',
-                                sx: { fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: 1 }
-                              }}
-                              secondaryTypographyProps={{
-                                variant: 'body1',
-                                color: 'text.primary',
-                                sx: { fontSize: '1rem', fontWeight: 500 }
-                              }}
-                              sx={{ ml: 2 }}
-                            />
-                          </ListItem>
-                        </List>
-                        
-                        <Box sx={{ mt: 4 }}>
-                          <Typography
-                            variant="h4"
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={inView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ delay: 0.8 }}
+                        >
+                          <TextField
+                            fullWidth
+                            label="Name"
+                            placeholder="Your full name"
+                            value={formData.name}
+                            onChange={handleInputChange('name')}
+                            variant="outlined"
+                            required
                             sx={{
-                              fontSize: '1.125rem',
+                              '& .MuiOutlinedInput-root': {
+                                borderRadius: 3,
+                                background: 'var(--glass-medium)',
+                                backdropFilter: 'blur(10px)',
+                                '&:hover': {
+                                  borderColor: 'var(--neon-cyan)',
+                                },
+                                '&.Mui-focused': {
+                                  borderColor: 'var(--neon-cyan)',
+                                  boxShadow: '0 0 20px var(--neon-cyan)30',
+                                },
+                              },
+                              '& .MuiInputLabel-root': {
+                                color: 'var(--text-secondary)',
+                              },
+                              '& .MuiOutlinedInput-input': {
+                                color: 'var(--text-primary)',
+                              },
+                            }}
+                          />
+                        </motion.div>
+                        
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={inView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ delay: 0.9 }}
+                        >
+                          <TextField
+                            fullWidth
+                            label="Email"
+                            placeholder="your@email.com"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleInputChange('email')}
+                            variant="outlined"
+                            required
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                borderRadius: 3,
+                                background: 'var(--glass-medium)',
+                                backdropFilter: 'blur(10px)',
+                                '&:hover': {
+                                  borderColor: 'var(--neon-cyan)',
+                                },
+                                '&.Mui-focused': {
+                                  borderColor: 'var(--neon-cyan)',
+                                  boxShadow: '0 0 20px var(--neon-cyan)30',
+                                },
+                              },
+                              '& .MuiInputLabel-root': {
+                                color: 'var(--text-secondary)',
+                              },
+                              '& .MuiOutlinedInput-input': {
+                                color: 'var(--text-primary)',
+                              },
+                            }}
+                          />
+                        </motion.div>
+                        
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={inView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ delay: 1.0 }}
+                        >
+                          <TextField
+                            fullWidth
+                            label="Message"
+                            placeholder="Tell me about your project..."
+                            multiline
+                            rows={4}
+                            value={formData.message}
+                            onChange={handleInputChange('message')}
+                            variant="outlined"
+                            required
+                            sx={{
+                              '& .MuiOutlinedInput-root': {
+                                borderRadius: 3,
+                                background: 'var(--glass-medium)',
+                                backdropFilter: 'blur(10px)',
+                                '&:hover': {
+                                  borderColor: 'var(--neon-cyan)',
+                                },
+                                '&.Mui-focused': {
+                                  borderColor: 'var(--neon-cyan)',
+                                  boxShadow: '0 0 20px var(--neon-cyan)30',
+                                },
+                              },
+                              '& .MuiInputLabel-root': {
+                                color: 'var(--text-secondary)',
+                              },
+                              '& .MuiOutlinedInput-input': {
+                                color: 'var(--text-primary)',
+                              },
+                            }}
+                          />
+                        </motion.div>
+                        
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={inView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ delay: 1.1 }}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <Button 
+                            type="submit"
+                            disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
+                            fullWidth 
+                            size="lg"
+                            style={{
+                              background: isSubmitting 
+                                ? 'var(--glass-medium)' 
+                                : 'var(--gradient-primary)',
+                              color: 'white',
+                              border: 'none',
+                              padding: '16px 32px',
+                              fontSize: '1.1rem',
                               fontWeight: 600,
-                              mb: 3,
-                              color: 'text.primary'
+                              borderRadius: '12px',
+                              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                              boxShadow: isSubmitting 
+                                ? 'none' 
+                                : '0 8px 25px var(--neon-cyan)30',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: '12px',
                             }}
                           >
-                            Follow Me
-                          </Typography>
-                          
-                          <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                            {Object.entries(profile.contactInfo).filter(([key]) => key !== 'email' && key !== 'website').map(([platform, url]) => (
-                              <Button
-                                key={platform}
-                                variant="outline"
-                                size="sm"
-                                onClick={() => window.open(url, '_blank')}
-                              >
-                                {platform}
-                              </Button>
-                            ))}
-                          </Stack>
-                        </Box>
+                            {isSubmitting ? (
+                              <>
+                                <motion.div
+                                  animate={{ rotate: 360 }}
+                                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                                >
+                                  ⏳
+                                </motion.div>
+                                Sending...
+                              </>
+                            ) : (
+                              <>
+                                <BiSend />
+                                Send Message
+                                <motion.div
+                                  animate={{ x: [0, 4, 0] }}
+                                  transition={{ duration: 1.5, repeat: Infinity }}
+                                >
+                                  →
+                                </motion.div>
+                              </>
+                            )}
+                          </Button>
+                        </motion.div>
                       </Stack>
-                    </CardContent>
-                  </Card>
-                </Box>
-              </Slide>
-            </Box>
-            
-            {/* Contact Form */}
-            <Box sx={{ flex: 1 }}>
-              <Slide direction="left" in timeout={1200}>
-                <Box>
-                  <Card 
-                    sx={{ 
-                      height: '100%',
-                      background: (theme) => `linear-gradient(135deg, ${theme.palette.background.paper}e6 0%, ${theme.palette.background.paper}cc 100%)`,
-                      backdropFilter: 'blur(10px)',
-                      border: (theme) => `1px solid ${theme.palette.divider}`,
-                    }}
-                  >
-                    <CardContent sx={{ p: 4 }}>
-                      <Typography
-                        variant="h3"
-                        sx={{
-                          fontSize: { xs: '1.25rem', sm: '1.5rem' },
-                          fontWeight: 600,
-                          mb: 4,
-                          color: 'text.primary'
-                        }}
-                      >
-                        Send Message
-                      </Typography>
-                      
-                      <Stack spacing={3}>
-                        <TextField
-                          fullWidth
-                          label="Name"
-                          placeholder="Your name"
-                          variant="outlined"
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: 2,
-                            },
-                          }}
-                        />
-                        
-                        <TextField
-                          fullWidth
-                          label="Email"
-                          placeholder="your@email.com"
-                          type="email"
-                          variant="outlined"
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: 2,
-                            },
-                          }}
-                        />
-                        
-                        <TextField
-                          fullWidth
-                          label="Message"
-                          placeholder="Your message..."
-                          multiline
-                          rows={4}
-                          variant="outlined"
-                          sx={{
-                            '& .MuiOutlinedInput-root': {
-                              borderRadius: 2,
-                            },
-                          }}
-                        />
-                        
-                        <Button 
-                          variant="primary" 
-                          fullWidth 
-                          size="lg"
-                        >
-                          Send Message
-                        </Button>
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Box>
-              </Slide>
-            </Box>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Box>
+            </motion.div>
           </Box>
-        </Stack>
+
+          {/* Footer Message */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 1.3 }}
+            style={{ textAlign: 'center' }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: '1.1rem',
+                maxWidth: '600px',
+                mx: 'auto',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.8,
+                mb: 2,
+              }}
+            >
+              Whether you have a project in mind, want to collaborate, or just want to say hello, I&apos;d love to hear from you.
+            </Typography>
+            
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
+              <Chip
+                label="Available for hire"
+                sx={{
+                  background: 'var(--gradient-accent)',
+                  color: 'white',
+                  fontWeight: 600,
+                  animation: 'pulse 2s ease-in-out infinite',
+                }}
+              />
+              <Chip
+                label="Remote work"
+                sx={{
+                  background: 'var(--glass-medium)',
+                  color: 'var(--text-secondary)',
+                  border: '1px solid var(--glass-border)',
+                }}
+              />
+            </Box>
+          </motion.div>
+        </motion.div>
       </Container>
     </Box>
   )

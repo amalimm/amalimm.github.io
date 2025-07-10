@@ -20,7 +20,7 @@ export function ScrollProgress() {
         right: 0,
         height: 4,
         zIndex: 1000,
-        background: "linear-gradient(90deg, #0ea5e9, #8b5cf6, #f59e0b)",
+        background: "var(--gradient-primary)",
         transformOrigin: "0%",
       }}
       component={motion.div}

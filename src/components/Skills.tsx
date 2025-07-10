@@ -1,180 +1,187 @@
 "use client"
 
-import { Box, Chip, Typography, Container } from '@mui/material'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Card } from '@/components/ui/Card'
-import { useState, useEffect } from 'react'
+import { Box, Container, Typography } from '@mui/material'
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
+import { useState, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { FaCode, FaDatabase, FaServer, FaTools, FaCloud, FaReact, FaNodeJs, FaPython } from 'react-icons/fa'
-import { SiTypescript, SiJavascript, SiMongodb, SiPostgresql, SiDocker, SiKubernetes } from 'react-icons/si'
+import { FaReact, FaNodeJs, FaPython, FaDatabase, FaServer, FaTools, FaCloud, FaCode } from 'react-icons/fa'
+import { SiTypescript, SiJavascript, SiMongodb, SiPostgresql, SiDocker, SiKubernetes, SiNextdotjs, SiTailwindcss } from 'react-icons/si'
+import { HiSparkles } from 'react-icons/hi'
 
-// Enhanced skill data with icons and proficiency levels
-const enhancedSkills = [
-  { name: 'React', icon: FaReact, proficiency: 95, color: '#61DAFB', category: 'Frontend' },
-  { name: 'TypeScript', icon: SiTypescript, proficiency: 90, color: '#3178C6', category: 'Language' },
-  { name: 'JavaScript', icon: SiJavascript, proficiency: 95, color: '#F7DF1E', category: 'Language' },
-  { name: 'Node.js', icon: FaNodeJs, proficiency: 85, color: '#339933', category: 'Backend' },
-  { name: 'Python', icon: FaPython, proficiency: 80, color: '#3776AB', category: 'Language' },
-  { name: 'MongoDB', icon: SiMongodb, proficiency: 75, color: '#47A248', category: 'Database' },
-  { name: 'PostgreSQL', icon: SiPostgresql, proficiency: 80, color: '#336791', category: 'Database' },
-  { name: 'Docker', icon: SiDocker, proficiency: 70, color: '#2496ED', category: 'DevOps' },
-  { name: 'Kubernetes', icon: SiKubernetes, proficiency: 65, color: '#326CE5', category: 'DevOps' },
-  { name: 'AWS', icon: FaCloud, proficiency: 75, color: '#FF9900', category: 'Cloud' },
+// Revolutionary skill constellation data
+const skillNodes = [
+  { id: 'react', name: 'React', icon: FaReact, level: 95, x: 0.3, y: 0.2, category: 'frontend', color: 'var(--neon-cyan)' },
+  { id: 'typescript', name: 'TypeScript', icon: SiTypescript, level: 90, x: 0.6, y: 0.15, category: 'language', color: 'var(--neon-blue)' },
+  { id: 'nextjs', name: 'Next.js', icon: SiNextdotjs, level: 88, x: 0.2, y: 0.4, category: 'frontend', color: 'var(--neon-purple)' },
+  { id: 'javascript', name: 'JavaScript', icon: SiJavascript, level: 95, x: 0.7, y: 0.3, category: 'language', color: 'var(--neon-yellow)' },
+  { id: 'nodejs', name: 'Node.js', icon: FaNodeJs, level: 85, x: 0.1, y: 0.6, category: 'backend', color: 'var(--neon-green)' },
+  { id: 'python', name: 'Python', icon: FaPython, level: 80, x: 0.8, y: 0.5, category: 'language', color: 'var(--neon-orange)' },
+  { id: 'mongodb', name: 'MongoDB', icon: SiMongodb, level: 75, x: 0.4, y: 0.7, category: 'database', color: 'var(--neon-green)' },
+  { id: 'postgresql', name: 'PostgreSQL', icon: SiPostgresql, level: 80, x: 0.6, y: 0.8, category: 'database', color: 'var(--neon-blue)' },
+  { id: 'docker', name: 'Docker', icon: SiDocker, level: 70, x: 0.9, y: 0.7, category: 'devops', color: 'var(--neon-cyan)' },
+  { id: 'kubernetes', name: 'Kubernetes', icon: SiKubernetes, level: 65, x: 0.15, y: 0.85, category: 'devops', color: 'var(--neon-purple)' },
+  { id: 'tailwind', name: 'Tailwind CSS', icon: SiTailwindcss, level: 92, x: 0.5, y: 0.45, category: 'frontend', color: 'var(--neon-cyan)' },
+  { id: 'aws', name: 'AWS', icon: FaCloud, level: 75, x: 0.35, y: 0.9, category: 'cloud', color: 'var(--neon-orange)' },
 ]
 
-const skillCategories = [
-  { name: 'Frontend', icon: FaCode, color: '#61DAFB', description: 'Modern web interfaces' },
-  { name: 'Backend', icon: FaServer, color: '#339933', description: 'Server-side development' },
-  { name: 'Database', icon: FaDatabase, color: '#47A248', description: 'Data storage & management' },
-  { name: 'DevOps', icon: FaTools, color: '#2496ED', description: 'Deployment & infrastructure' },
-  { name: 'Cloud', icon: FaCloud, color: '#FF9900', description: 'Cloud platforms & services' },
-  { name: 'Language', icon: FaCode, color: '#3178C6', description: 'Programming languages' },
+// Constellation connections based on technology relationships
+const connections = [
+  { from: 'react', to: 'typescript', strength: 0.9 },
+  { from: 'react', to: 'nextjs', strength: 0.95 },
+  { from: 'nextjs', to: 'typescript', strength: 0.8 },
+  { from: 'javascript', to: 'typescript', strength: 0.7 },
+  { from: 'react', to: 'tailwind', strength: 0.8 },
+  { from: 'nodejs', to: 'javascript', strength: 0.9 },
+  { from: 'nodejs', to: 'typescript', strength: 0.8 },
+  { from: 'mongodb', to: 'nodejs', strength: 0.7 },
+  { from: 'postgresql', to: 'nodejs', strength: 0.7 },
+  { from: 'docker', to: 'kubernetes', strength: 0.8 },
+  { from: 'nodejs', to: 'docker', strength: 0.6 },
+  { from: 'python', to: 'aws', strength: 0.6 },
+]
+
+const categories = [
+  { id: 'frontend', name: 'Frontend', color: 'var(--neon-cyan)', icon: FaCode },
+  { id: 'backend', name: 'Backend', color: 'var(--neon-green)', icon: FaServer },
+  { id: 'language', name: 'Languages', color: 'var(--neon-yellow)', icon: FaCode },
+  { id: 'database', name: 'Database', color: 'var(--neon-blue)', icon: FaDatabase },
+  { id: 'devops', name: 'DevOps', color: 'var(--neon-purple)', icon: FaTools },
+  { id: 'cloud', name: 'Cloud', color: 'var(--neon-orange)', icon: FaCloud },
 ]
 
 export function Skills() {
+  const [selectedNode, setSelectedNode] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [animatedProficiency, setAnimatedProficiency] = useState<Record<string, number>>({})
-  const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true })
+  const [, setMousePosition] = useState({ x: 0, y: 0 })
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true })
   
-  useEffect(() => {
-    if (inView) {
-      enhancedSkills.forEach((skill, index) => {
-        setTimeout(() => {
-          setAnimatedProficiency(prev => ({
-            ...prev,
-            [skill.name]: skill.proficiency
-          }))
-        }, index * 100)
-      })
-    }
-  }, [inView])
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
   
-  const filteredSkills = selectedCategory 
-    ? enhancedSkills.filter(skill => skill.category === selectedCategory)
-    : enhancedSkills
+  const backgroundX = useTransform(mouseX, [0, 1], [-30, 30])
+  const backgroundY = useTransform(mouseY, [0, 1], [-30, 30])
   
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width
+    const y = (e.clientY - rect.top) / rect.height
+    mouseX.set(x)
+    mouseY.set(y)
+    setMousePosition({ x: e.clientX - rect.left, y: e.clientY - rect.top })
   }
   
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut" as const
-      }
-    }
-  }
+  const filteredNodes = selectedCategory 
+    ? skillNodes.filter(node => node.category === selectedCategory)
+    : skillNodes
   
-  const categoryVariants = {
-    hidden: { opacity: 0, rotateY: -90 },
-    visible: {
-      opacity: 1,
-      rotateY: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut" as const
-      }
-    }
-  }
+  const filteredConnections = connections.filter(conn => 
+    filteredNodes.some(node => node.id === conn.from) && 
+    filteredNodes.some(node => node.id === conn.to)
+  )
   
   return (
     <Box 
-      component="section"
+      component={motion.section}
+      ref={containerRef}
       id="skills"
-      ref={ref}
+      onMouseMove={handleMouseMove}
       sx={{
         py: { xs: 16, md: 20 },
-        background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.02) 0%, rgba(139, 92, 246, 0.02) 100%)',
         position: 'relative',
         overflow: 'hidden',
+        background: 'transparent',
+        minHeight: '100vh',
       }}
     >
-      {/* Animated Background Elements */}
+      {/* Dynamic Background Constellation */}
       <motion.div
-        animate={{
-          rotate: 360,
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
         style={{
           position: 'absolute',
-          top: '15%',
-          left: '10%',
-          width: 100,
-          height: 100,
-          background: 'linear-gradient(45deg, rgba(14, 165, 233, 0.1), rgba(139, 92, 246, 0.1))',
-          borderRadius: '50%',
-          filter: 'blur(20px)',
+          width: '200%',
+          height: '200%',
+          x: backgroundX,
+          y: backgroundY,
+          background: `
+            radial-gradient(800px circle at 30% 40%, var(--glass-light), transparent 50%),
+            radial-gradient(600px circle at 70% 80%, var(--glass-medium), transparent 60%),
+            radial-gradient(400px circle at 20% 90%, var(--glass-dark), transparent 40%)
+          `,
+          pointerEvents: 'none',
           zIndex: 1,
         }}
       />
       
-      <motion.div
-        animate={{
-          rotate: -360,
-          scale: [1, 1.3, 1],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-        style={{
-          position: 'absolute',
-          bottom: '20%',
-          right: '15%',
-          width: 80,
-          height: 80,
-          background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(100, 116, 139, 0.1))',
-          clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
-          zIndex: 1,
-        }}
-      />
+      {/* Floating Cosmic Dust */}
+      {[...Array(50)].map((_, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.1, 0.6, 0.1],
+            scale: [0.5, 1.2, 0.5],
+            x: [0, Math.random() * 100 - 50, 0],
+            y: [0, Math.random() * 100 - 50, 0],
+          }}
+          transition={{
+            duration: 8 + Math.random() * 12,
+            repeat: Infinity,
+            delay: i * 0.1,
+            ease: "easeInOut"
+          }}
+          style={{
+            position: 'absolute',
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            width: 2,
+            height: 2,
+            borderRadius: '50%',
+            background: i % 6 === 0 ? 'var(--neon-cyan)' : 
+                       i % 6 === 1 ? 'var(--neon-purple)' : 
+                       i % 6 === 2 ? 'var(--neon-green)' : 
+                       i % 6 === 3 ? 'var(--neon-orange)' :
+                       i % 6 === 4 ? 'var(--neon-yellow)' : 'var(--neon-pink)',
+            filter: 'blur(0.5px)',
+            boxShadow: `0 0 20px currentColor`,
+            zIndex: 1,
+          }}
+        />
+      ))}
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
+          ref={ref}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 1 }}
         >
-          {/* Header */}
+          {/* Revolutionary Header */}
           <motion.div
-            variants={itemVariants}
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
             style={{ textAlign: 'center', marginBottom: '4rem' }}
           >
             <motion.div
-              initial={{ scale: 0 }}
-              animate={inView ? { scale: 1 } : { scale: 0 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.1 }}
+              initial={{ scale: 0, rotate: -180 }}
+              animate={inView ? { scale: 1, rotate: 0 } : {}}
+              transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.3 }}
             >
               <Box
                 sx={{
-                  width: 80,
-                  height: 80,
-                  background: 'linear-gradient(135deg, #0ea5e9, #8b5cf6)',
+                  width: 120,
+                  height: 120,
+                  background: 'var(--gradient-primary)',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   mx: 'auto',
                   mb: 3,
-                  fontSize: '2rem',
-                  boxShadow: '0 10px 30px rgba(14, 165, 233, 0.3)',
+                  fontSize: '3rem',
+                  boxShadow: 'var(--shadow-glow-cyan)',
+                  animation: 'pulse 3s ease-in-out infinite',
                 }}
               >
                 ⚡
@@ -183,425 +190,364 @@ export function Skills() {
             
             <Typography
               variant="h2"
+              className="gradient-text"
               sx={{
-                fontSize: { xs: '2.5rem', sm: '3rem', md: '4rem' },
+                fontSize: { xs: '2.5rem', sm: '3rem', md: '4rem', lg: '5rem' },
                 fontWeight: 800,
                 mb: 2,
-                background: 'linear-gradient(135deg, #0ea5e9, #8b5cf6, #f59e0b)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
                 position: 'relative',
               }}
             >
-              Skills & Expertise
+              Skills Constellation
+              <motion.div
+                animate={{
+                  rotate: [0, 360],
+                  scale: [1, 1.3, 1],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  position: 'absolute',
+                  top: -30,
+                  right: -50,
+                  fontSize: '2.5rem',
+                  color: 'var(--neon-yellow)',
+                }}
+              >
+                <HiSparkles />
+              </motion.div>
             </Typography>
             
             <Typography
               variant="body1"
-              color="text.secondary"
               sx={{ 
                 fontSize: '1.25rem', 
-                maxWidth: '600px',
-                lineHeight: 1.6,
+                maxWidth: '800px',
+                lineHeight: 1.7,
                 mx: 'auto',
+                color: 'var(--text-secondary)',
               }}
             >
-              Mastering the technologies that power modern applications
+              An interactive map of technologies that power modern digital experiences
             </Typography>
           </motion.div>
-          
+
           {/* Category Filter */}
           <motion.div
-            variants={itemVariants}
-            style={{ marginBottom: '3rem' }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            style={{ marginBottom: '4rem' }}
           >
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+            <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 2 }}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Box
+                  onClick={() => setSelectedCategory(null)}
+                  className={selectedCategory === null ? 'card-neon' : 'card-glass'}
+                  sx={{
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: '25px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    background: selectedCategory === null ? 'var(--gradient-primary)' : 'var(--glass-medium)',
+                    color: selectedCategory === null ? 'white' : 'var(--text-secondary)',
+                    border: `1px solid ${selectedCategory === null ? 'var(--neon-cyan)' : 'var(--glass-border)'}`,
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                  }}
                 >
-                  <Chip
-                    label="All"
-                    onClick={() => setSelectedCategory(null)}
-                    variant={selectedCategory === null ? "filled" : "outlined"}
-                    sx={{
-                      background: selectedCategory === null 
-                        ? 'linear-gradient(45deg, #0ea5e9, #8b5cf6)' 
-                        : 'transparent',
-                      color: selectedCategory === null ? 'white' : 'text.primary',
-                      fontWeight: 600,
-                      fontSize: '0.9rem',
-                      '&:hover': {
-                        background: selectedCategory === null 
-                          ? 'linear-gradient(45deg, #0284c7, #7c3aed)' 
-                          : 'rgba(14, 165, 233, 0.1)',
-                      },
-                    }}
-                  />
-                </motion.div>
-                {skillCategories.map((category) => {
-                  const IconComponent = category.icon
-                  return (
-                    <motion.div
-                      key={category.name}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                  All Skills
+                </Box>
+              </motion.div>
+              
+              {categories.map((category, index) => {
+                const IconComponent = category.icon
+                const isSelected = selectedCategory === category.id
+                
+                return (
+                  <motion.div
+                    key={category.id}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={inView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ delay: 0.5 + index * 0.1, type: 'spring' }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Box
+                      onClick={() => setSelectedCategory(isSelected ? null : category.id)}
+                      className={isSelected ? 'card-neon' : 'card-glass'}
+                      sx={{
+                        px: 3,
+                        py: 1.5,
+                        borderRadius: '25px',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        background: isSelected ? 'var(--gradient-secondary)' : 'var(--glass-medium)',
+                        color: isSelected ? 'white' : 'var(--text-secondary)',
+                        border: `1px solid ${isSelected ? category.color : 'var(--glass-border)'}`,
+                        fontWeight: 600,
+                        fontSize: '0.9rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                      }}
                     >
-                      <Chip
-                        icon={<IconComponent />}
-                        label={category.name}
-                        onClick={() => setSelectedCategory(category.name)}
-                        variant={selectedCategory === category.name ? "filled" : "outlined"}
-                        sx={{
-                          background: selectedCategory === category.name 
-                            ? `linear-gradient(45deg, ${category.color}, #8b5cf6)` 
-                            : 'transparent',
-                          color: selectedCategory === category.name ? 'white' : 'text.primary',
-                          fontWeight: 600,
-                          fontSize: '0.9rem',
-                          '&:hover': {
-                            background: selectedCategory === category.name 
-                              ? `linear-gradient(45deg, ${category.color}, #7c3aed)` 
-                              : 'rgba(14, 165, 233, 0.1)',
-                          },
-                        }}
-                      />
-                    </motion.div>
-                  )
-                })}
-              </Box>
+                      <IconComponent style={{ color: isSelected ? 'white' : category.color }} />
+                      {category.name}
+                    </Box>
+                  </motion.div>
+                )
+              })}
             </Box>
           </motion.div>
-          
-          {/* Skills Grid */}
+
+          {/* Interactive Constellation */}
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 1, delay: 0.6 }}
           >
             <Box
               sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                  xs: '1fr',
-                  sm: 'repeat(2, 1fr)',
-                  md: 'repeat(3, 1fr)',
-                  lg: 'repeat(4, 1fr)',
-                  xl: 'repeat(5, 1fr)'
-                },
-                gap: 3,
-                mb: 6
+                position: 'relative',
+                height: '70vh',
+                minHeight: '600px',
+                borderRadius: 4,
+                overflow: 'hidden',
+                background: 'var(--glass-dark)',
+                border: '1px solid var(--glass-border)',
+                backdropFilter: 'blur(20px)',
               }}
             >
-              <AnimatePresence mode="wait">
-                {filteredSkills.map((skill, index) => {
+              {/* Constellation Connections */}
+              <svg
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  zIndex: 1,
+                }}
+              >
+                <AnimatePresence>
+                  {filteredConnections.map((connection, index) => {
+                    const fromNode = skillNodes.find(n => n.id === connection.from)
+                    const toNode = skillNodes.find(n => n.id === connection.to)
+                    
+                    if (!fromNode || !toNode) return null
+                    
+                    return (
+                      <motion.line
+                        key={`${connection.from}-${connection.to}`}
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        animate={{ pathLength: 1, opacity: connection.strength * 0.6 }}
+                        exit={{ pathLength: 0, opacity: 0 }}
+                        transition={{ duration: 1, delay: index * 0.1 }}
+                        x1={`${fromNode.x * 100}%`}
+                        y1={`${fromNode.y * 100}%`}
+                        x2={`${toNode.x * 100}%`}
+                        y2={`${toNode.y * 100}%`}
+                        stroke="var(--neon-cyan)"
+                        strokeWidth="1"
+                        strokeOpacity={connection.strength * 0.5}
+                        filter="url(#glow)"
+                      />
+                    )
+                  })}
+                </AnimatePresence>
+                
+                {/* SVG Filters */}
+                <defs>
+                  <filter id="glow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+              </svg>
+              
+              {/* Skill Nodes */}
+              <AnimatePresence>
+                {filteredNodes.map((skill, index) => {
                   const IconComponent = skill.icon
-                  const proficiency = animatedProficiency[skill.name] || 0
+                  const isSelected = selectedNode === skill.id
+                  const isRelated = selectedNode && connections.some(c => 
+                    (c.from === selectedNode && c.to === skill.id) || 
+                    (c.to === selectedNode && c.from === skill.id)
+                  )
                   
                   return (
                     <motion.div
-                      key={skill.name}
-                      variants={itemVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                      transition={{ delay: index * 0.05 }}
-                      whileHover={{ 
-                        scale: 1.05,
-                        rotateY: 5,
-                        z: 50
+                      key={skill.id}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0 }}
+                      transition={{ 
+                        duration: 0.5, 
+                        delay: index * 0.1,
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20
                       }}
+                      whileHover={{ scale: 1.2, z: 50 }}
+                      onHoverStart={() => setSelectedNode(skill.id)}
+                      onHoverEnd={() => setSelectedNode(null)}
                       style={{
-                        transformStyle: 'preserve-3d',
+                        position: 'absolute',
+                        left: `${skill.x * 100}%`,
+                        top: `${skill.y * 100}%`,
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: isSelected ? 10 : 5,
+                        cursor: 'pointer',
                       }}
                     >
-                      <Card
-                        sx={{
-                          p: 3,
-                          textAlign: 'center',
-                          height: '100%',
+                      <motion.div
+                        animate={{
+                          boxShadow: isSelected || isRelated 
+                            ? [`0 0 20px ${skill.color}`, `0 0 40px ${skill.color}`, `0 0 20px ${skill.color}`]
+                            : [`0 0 10px ${skill.color}`, `0 0 15px ${skill.color}`, `0 0 10px ${skill.color}`],
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        style={{
+                          width: 80,
+                          height: 80,
+                          borderRadius: '50%',
+                          background: `linear-gradient(135deg, ${skill.color}20, ${skill.color}10)`,
+                          border: `2px solid ${skill.color}`,
                           display: 'flex',
-                          flexDirection: 'column',
                           alignItems: 'center',
-                          cursor: 'pointer',
-                          background: 'rgba(255, 255, 255, 0.8)',
+                          justifyContent: 'center',
                           backdropFilter: 'blur(10px)',
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
-                          transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                          '&:hover': {
-                            background: `linear-gradient(135deg, ${skill.color}15, rgba(139, 92, 246, 0.1))`,
-                            border: `1px solid ${skill.color}40`,
-                            boxShadow: `0 20px 40px ${skill.color}30`,
-                          },
                         }}
                       >
-                        <motion.div
-                          animate={{
-                            rotate: [0, 5, -5, 0],
-                            scale: [1, 1.1, 1]
-                          }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                            delay: index * 0.2
-                          }}
-                        >
-                          <Box
-                            sx={{
-                              fontSize: '3rem',
-                              mb: 2,
-                              color: skill.color,
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))',
+                        <IconComponent 
+                          style={{ 
+                            fontSize: '2rem', 
+                            color: skill.color,
+                            filter: 'drop-shadow(0 0 10px currentColor)'
+                          }} 
+                        />
+                      </motion.div>
+                      
+                      {/* Skill Info Tooltip */}
+                      <AnimatePresence>
+                        {isSelected && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                            animate={{ opacity: 1, y: -120, scale: 1 }}
+                            exit={{ opacity: 0, y: 20, scale: 0.8 }}
+                            transition={{ duration: 0.3 }}
+                            style={{
+                              position: 'absolute',
+                              left: '50%',
+                              transform: 'translateX(-50%)',
+                              background: 'var(--bg-surface)',
+                              border: `2px solid ${skill.color}`,
+                              borderRadius: '12px',
+                              padding: '12px 16px',
+                              minWidth: '150px',
+                              textAlign: 'center',
+                              boxShadow: `0 10px 30px ${skill.color}30`,
+                              backdropFilter: 'blur(20px)',
                             }}
                           >
-                            <IconComponent />
-                          </Box>
-                        </motion.div>
-                        
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            fontWeight: 700,
-                            mb: 2,
-                            color: 'text.primary',
-                          }}
-                        >
-                          {skill.name}
-                        </Typography>
-                        
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{
-                            mb: 2,
-                            fontSize: '0.85rem',
-                            opacity: 0.8,
-                          }}
-                        >
-                          {skill.category}
-                        </Typography>
-                        
-                        {/* Proficiency Bar */}
-                        <Box sx={{ width: '100%', mb: 2 }}>
-                          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                            <Typography variant="caption" color="text.secondary">
-                              Proficiency
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                color: skill.color,
+                                fontWeight: 700,
+                                fontSize: '1rem',
+                                mb: 0.5,
+                              }}
+                            >
+                              {skill.name}
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                              {skill.proficiency}%
+                            <Typography
+                              variant="caption"
+                              sx={{
+                                color: 'var(--text-secondary)',
+                                fontSize: '0.75rem',
+                                textTransform: 'uppercase',
+                                letterSpacing: 1,
+                                mb: 1,
+                                display: 'block',
+                              }}
+                            >
+                              {skill.category}
                             </Typography>
-                          </Box>
-                          <Box
-                            sx={{
-                              height: 8,
-                              borderRadius: 4,
-                              background: 'rgba(0, 0, 0, 0.1)',
-                              overflow: 'hidden',
-                              position: 'relative',
-                            }}
-                          >
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: `${proficiency}%` }}
-                              transition={{ duration: 1, delay: 0.2 + index * 0.1 }}
-                              style={{
-                                height: '100%',
-                                background: `linear-gradient(90deg, ${skill.color}, ${skill.color}CC)`,
-                                borderRadius: 4,
-                                position: 'relative',
+                            <Box
+                              sx={{
+                                width: '100%',
+                                height: 4,
+                                background: 'var(--glass-dark)',
+                                borderRadius: 2,
+                                overflow: 'hidden',
                               }}
                             >
                               <motion.div
-                                animate={{
-                                  opacity: [0.7, 1, 0.7],
-                                }}
-                                transition={{
-                                  duration: 2,
-                                  repeat: Infinity,
-                                  ease: 'easeInOut',
-                                }}
+                                initial={{ width: 0 }}
+                                animate={{ width: `${skill.level}%` }}
+                                transition={{ duration: 0.8, delay: 0.2 }}
                                 style={{
-                                  position: 'absolute',
-                                  top: 0,
-                                  right: 0,
-                                  width: '30%',
                                   height: '100%',
-                                  background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4))',
-                                  borderRadius: 4,
+                                  background: skill.color,
+                                  borderRadius: 2,
                                 }}
                               />
-                            </motion.div>
-                          </Box>
-                        </Box>
-                        
-                        <Chip
-                          label={`${skill.proficiency}%`}
-                          size="small"
-                          sx={{
-                            background: `linear-gradient(45deg, ${skill.color}, ${skill.color}CC)`,
-                            color: 'white',
-                            fontWeight: 600,
-                            fontSize: '0.75rem',
-                          }}
-                        />
-                      </Card>
+                            </Box>
+                            <Typography
+                              variant="caption"
+                              sx={{
+                                color: 'var(--text-secondary)',
+                                fontSize: '0.7rem',
+                                mt: 0.5,
+                                display: 'block',
+                              }}
+                            >
+                              {skill.level}% Proficiency
+                            </Typography>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </motion.div>
                   )
                 })}
               </AnimatePresence>
             </Box>
           </motion.div>
-          
-          {/* Skills by Category Overview */}
+
+          {/* Skills Summary */}
           <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 1.2 }}
+            style={{ marginTop: '4rem', textAlign: 'center' }}
           >
             <Typography
-              variant="h3"
+              variant="body1"
               sx={{
-                textAlign: 'center',
-                mb: 4,
-                fontSize: { xs: '1.5rem', sm: '2rem' },
-                fontWeight: 700,
-                color: 'text.primary',
+                fontSize: '1.1rem',
+                maxWidth: '600px',
+                mx: 'auto',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.8,
               }}
             >
-              Technology Categories
+              Each node represents a mastered technology. Connections show how these skills work together to create powerful, scalable solutions.
             </Typography>
-            
-            <Box
-              sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                  xs: '1fr',
-                  sm: 'repeat(2, 1fr)',
-                  md: 'repeat(3, 1fr)',
-                },
-                gap: 3,
-              }}
-            >
-              {skillCategories.map((category, index) => {
-                const IconComponent = category.icon
-                const categorySkills = enhancedSkills.filter(skill => skill.category === category.name)
-                
-                return (
-                  <motion.div
-                    key={category.name}
-                    variants={categoryVariants}
-                    initial="hidden"
-                    animate={inView ? "visible" : "hidden"}
-                    transition={{ delay: 0.3 + index * 0.1 }}
-                    whileHover={{ 
-                      scale: 1.02,
-                      rotateY: 2,
-                    }}
-                    style={{
-                      transformStyle: 'preserve-3d',
-                    }}
-                  >
-                    <Card
-                      sx={{
-                        p: 3,
-                        height: '100%',
-                        cursor: 'pointer',
-                        background: 'rgba(255, 255, 255, 0.8)',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(255, 255, 255, 0.2)',
-                        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                        '&:hover': {
-                          background: `linear-gradient(135deg, ${category.color}15, rgba(139, 92, 246, 0.1))`,
-                          border: `1px solid ${category.color}40`,
-                          boxShadow: `0 20px 40px ${category.color}30`,
-                        },
-                      }}
-                      onClick={() => setSelectedCategory(category.name)}
-                    >
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <Box
-                          sx={{
-                            fontSize: '2rem',
-                            mr: 2,
-                            color: category.color,
-                            display: 'flex',
-                            alignItems: 'center',
-                            filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))',
-                          }}
-                        >
-                          <IconComponent />
-                        </Box>
-                        <Box>
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              fontWeight: 700,
-                              color: 'text.primary',
-                            }}
-                          >
-                            {category.name}
-                          </Typography>
-                          <Typography
-                            variant="caption"
-                            color="text.secondary"
-                            sx={{ fontSize: '0.75rem' }}
-                          >
-                            {categorySkills.length} skills
-                          </Typography>
-                        </Box>
-                      </Box>
-                      
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                          mb: 2,
-                          lineHeight: 1.6,
-                        }}
-                      >
-                        {category.description}
-                      </Typography>
-                      
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {categorySkills.slice(0, 3).map((skill) => (
-                          <Chip
-                            key={skill.name}
-                            label={skill.name}
-                            size="small"
-                            sx={{
-                              background: `${category.color}20`,
-                              color: category.color,
-                              fontWeight: 600,
-                              fontSize: '0.7rem',
-                              '&:hover': {
-                                background: `${category.color}30`,
-                              },
-                            }}
-                          />
-                        ))}
-                        {categorySkills.length > 3 && (
-                          <Chip
-                            label={`+${categorySkills.length - 3}`}
-                            size="small"
-                            sx={{
-                              background: 'rgba(0, 0, 0, 0.1)',
-                              color: 'text.secondary',
-                              fontSize: '0.7rem',
-                            }}
-                          />
-                        )}
-                      </Box>
-                    </Card>
-                  </motion.div>
-                )
-              })}
-            </Box>
           </motion.div>
         </motion.div>
       </Container>

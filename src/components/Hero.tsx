@@ -67,7 +67,7 @@ export function Hero() {
         alignItems: 'center',
         overflow: 'hidden',
         position: 'relative',
-        background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
+        background: 'var(--gradient-background)',
       }}
     >
       <SpotlightEffect>
@@ -104,9 +104,9 @@ export function Hero() {
                 width: 3,
                 height: 3,
                 borderRadius: '50%',
-                background: i % 3 === 0 ? '#0ea5e9' : i % 3 === 1 ? '#8b5cf6' : '#f59e0b',
+                background: i % 4 === 0 ? 'var(--neon-cyan)' : i % 4 === 1 ? 'var(--neon-purple)' : i % 4 === 2 ? 'var(--neon-green)' : 'var(--neon-orange)',
                 filter: 'blur(0.5px)',
-                boxShadow: `0 0 20px ${i % 3 === 0 ? '#0ea5e9' : i % 3 === 1 ? '#8b5cf6' : '#f59e0b'}`,
+                boxShadow: `0 0 30px ${i % 4 === 0 ? 'var(--neon-cyan)' : i % 4 === 1 ? 'var(--neon-purple)' : i % 4 === 2 ? 'var(--neon-green)' : 'var(--neon-orange)'}`,
               }}
             />
           ))}
@@ -128,8 +128,8 @@ export function Hero() {
                 gap: 1,
                 px: 3,
                 py: 1,
-                background: 'rgba(14, 165, 233, 0.1)',
-                border: '1px solid rgba(14, 165, 233, 0.3)',
+                background: 'var(--glass-light)',
+                border: '1px solid var(--neon-cyan)',
                 borderRadius: '50px',
                 mb: 4,
               }}
@@ -143,7 +143,7 @@ export function Hero() {
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#0ea5e9',
+                  color: 'var(--neon-cyan)',
                   fontWeight: 600,
                   letterSpacing: 1,
                   textTransform: 'uppercase',
@@ -418,7 +418,7 @@ export function Hero() {
                             fontSize: { xs: '1.5rem', sm: '2rem' },
                             fontWeight: 700,
                             mb: 1,
-                            color: '#0ea5e9',
+                            color: 'var(--neon-cyan)',
                           }}
                         >
                           {stat.value}

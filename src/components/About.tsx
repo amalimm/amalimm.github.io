@@ -69,37 +69,37 @@ export function About() {
       icon: FaMapMarkerAlt,
       label: 'Location',
       value: `${profile.location.city}, ${profile.location.state}`,
-      color: '#ef4444',
+      color: 'var(--neon-pink)',
       description: 'Based in beautiful Malaysia'
     },
     {
       icon: FaBriefcase,
       label: 'Current Role',
       value: profile.currentPosition.title,
-      color: '#3b82f6',
+      color: 'var(--neon-blue)',
       description: 'Building amazing experiences'
     },
     {
       icon: FaCalendarAlt,
       label: 'Experience',
       value: '2+ Years',
-      color: '#10b981',
+      color: 'var(--neon-green)',
       description: 'Continuous learning journey'
     },
     {
       icon: FaRocket,
       label: 'Status',
       value: profile.availability === 'available' ? 'Available' : 'Busy',
-      color: '#f59e0b',
+      color: 'var(--neon-orange)',
       description: 'Ready for new challenges'
     }
   ]
   
   const coreValues = [
-    { icon: FaLightbulb, label: 'Innovation', color: '#8b5cf6' },
-    { icon: FaHeart, label: 'Passion', color: '#ef4444' },
-    { icon: BiCodeAlt, label: 'Quality', color: '#06b6d4' },
-    { icon: MdWorkspacePremium, label: 'Excellence', color: '#f59e0b' }
+    { icon: FaLightbulb, label: 'Innovation', color: 'var(--neon-purple)' },
+    { icon: FaHeart, label: 'Passion', color: 'var(--neon-pink)' },
+    { icon: BiCodeAlt, label: 'Quality', color: 'var(--neon-cyan)' },
+    { icon: MdWorkspacePremium, label: 'Excellence', color: 'var(--neon-orange)' }
   ]
   
   return (
@@ -111,7 +111,7 @@ export function About() {
       onMouseMove={handleMouseMove}
       sx={{
         py: { xs: 16, md: 20 },
-        background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.02) 0%, rgba(139, 92, 246, 0.02) 50%, rgba(245, 158, 11, 0.02) 100%)',
+        background: 'transparent',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -123,7 +123,7 @@ export function About() {
           position: 'absolute',
           width: 200,
           height: 200,
-          background: 'radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, var(--glass-light) 0%, transparent 70%)',
           borderRadius: '50%',
           pointerEvents: 'none',
           zIndex: 1,
@@ -148,7 +148,7 @@ export function About() {
           right: '10%',
           width: 120,
           height: 120,
-          background: 'linear-gradient(45deg, rgba(139, 92, 246, 0.1), rgba(245, 158, 11, 0.1))',
+          background: 'var(--gradient-warm)',
           borderRadius: '30%',
           zIndex: 1,
         }}
@@ -170,7 +170,7 @@ export function About() {
           left: '5%',
           width: 80,
           height: 80,
-          background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(100, 116, 139, 0.1))',
+          background: 'var(--gradient-accent)',
           clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
           zIndex: 1,
         }}
@@ -198,10 +198,10 @@ export function About() {
                   height: 120,
                   mx: 'auto',
                   mb: 3,
-                  background: 'linear-gradient(135deg, #0ea5e9, #8b5cf6)',
+                  background: 'var(--gradient-primary)',
                   fontSize: '3rem',
-                  boxShadow: '0 15px 35px rgba(14, 165, 233, 0.3)',
-                  border: '4px solid rgba(255, 255, 255, 0.2)',
+                  boxShadow: 'var(--shadow-glow-cyan)',
+                  border: '4px solid var(--glass-border)',
                 }}
               >
                 🚀
@@ -214,7 +214,7 @@ export function About() {
                 fontSize: { xs: '2.5rem', sm: '3rem', md: '4rem' },
                 fontWeight: 800,
                 mb: 2,
-                background: 'linear-gradient(135deg, #0ea5e9, #8b5cf6, #f59e0b)',
+                background: 'var(--gradient-primary)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -239,18 +239,18 @@ export function About() {
                   fontSize: '1.5rem',
                 }}
               >
-                <HiOutlineSparkles style={{ color: '#f59e0b' }} />
+                <HiOutlineSparkles style={{ color: 'var(--neon-yellow)' }} />
               </motion.div>
             </Typography>
             
             <Typography
               variant="body1"
-              color="text.secondary"
               sx={{ 
                 fontSize: '1.25rem', 
                 maxWidth: '600px',
                 lineHeight: 1.6,
                 mx: 'auto',
+                color: 'var(--text-secondary)',
               }}
             >
               Passionate developer crafting digital experiences with code and creativity
@@ -272,12 +272,16 @@ export function About() {
                 sx={{
                   p: 4,
                   height: '100%',
-                  background: 'rgba(255, 255, 255, 0.8)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: 3,
+                  className: 'card-glass hover-lift',
+                  background: 'var(--glass-glow)',
+                  borderRadius: 4,
                   position: 'relative',
                   overflow: 'hidden',
+                  transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                  '&:hover': {
+                    transform: 'translateY(-12px) scale(1.02)',
+                    boxShadow: 'var(--shadow-glow-cyan)',
+                  },
                   '&::before': {
                     content: '""',
                     position: 'absolute',
@@ -285,7 +289,7 @@ export function About() {
                     left: 0,
                     right: 0,
                     height: 4,
-                    background: 'linear-gradient(90deg, #0ea5e9, #8b5cf6, #f59e0b)',
+                    background: 'var(--gradient-primary)',
                   }
                 }}
               >
@@ -295,13 +299,13 @@ export function About() {
                     fontSize: { xs: '1.5rem', sm: '2rem' },
                     fontWeight: 700,
                     mb: 3,
-                    color: 'text.primary',
+                    color: 'var(--text-primary)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 2,
                   }}
                 >
-                  <FaLightbulb style={{ color: '#f59e0b' }} />
+                  <FaLightbulb style={{ color: 'var(--neon-orange)' }} />
                   My Story
                 </Typography>
                 
@@ -315,7 +319,7 @@ export function About() {
                     sx={{
                       fontSize: { xs: '1rem', sm: '1.125rem' },
                       lineHeight: 1.8,
-                      color: 'text.primary',
+                      color: 'var(--text-primary)',
                       mb: 4,
                       position: 'relative',
                     }}
@@ -331,7 +335,7 @@ export function About() {
                     sx={{
                       fontWeight: 600,
                       mb: 2,
-                      color: 'text.primary',
+                      color: 'var(--text-primary)',
                     }}
                   >
                     Core Values
@@ -376,9 +380,9 @@ export function About() {
                 sx={{
                   p: 4,
                   height: '100%',
-                  background: 'rgba(255, 255, 255, 0.8)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  background: 'var(--glass-glow)',
+                  backdropFilter: 'blur(25px)',
+                  border: '1px solid var(--glass-border)',
                   borderRadius: 3,
                   position: 'relative',
                   overflow: 'hidden',
@@ -390,13 +394,13 @@ export function About() {
                     fontSize: { xs: '1.5rem', sm: '2rem' },
                     fontWeight: 700,
                     mb: 3,
-                    color: 'text.primary',
+                    color: 'var(--text-primary)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 2,
                   }}
                 >
-                  <FaStar style={{ color: '#0ea5e9' }} />
+                  <FaStar style={{ color: 'var(--neon-cyan)' }} />
                   Quick Facts
                 </Typography>
                 
@@ -468,7 +472,7 @@ export function About() {
                                 variant="h6"
                                 sx={{
                                   fontWeight: 700,
-                                  color: 'text.primary',
+                                  color: 'var(--text-primary)',
                                   fontSize: '1.1rem',
                                 }}
                               >
@@ -512,7 +516,7 @@ export function About() {
                     sx={{
                       fontWeight: 600,
                       mb: 2,
-                      color: 'text.primary',
+                      color: 'var(--text-primary)',
                     }}
                   >
                     Top Skills
