@@ -240,7 +240,7 @@ export function Experience() {
             <motion.div
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : {}}
-              transition={{ duration: 3, delay: 2 }}
+              transition={{ duration: 4, delay: 1.5 }}
               style={{
                 position: 'absolute',
                 left: '50%',
