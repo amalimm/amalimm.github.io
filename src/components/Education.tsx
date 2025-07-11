@@ -32,6 +32,19 @@ export function Education() {
   
   const sortedEducation = education.sort((a, b) => a.order - b.order)
 
+  const getGridLayout = (length: number, maxColumns: { xs?: number, sm?: number, md?: number, lg?: number } = { xs: 1, sm: 2, md: 2, lg: 3 }) => {
+    return {
+      gridTemplateColumns: {
+        xs: length > (maxColumns.xs || 1) ? `repeat(${maxColumns.xs || 1}, 1fr)` : `repeat(${length}, 1fr)`,
+        sm: length > (maxColumns.sm || 2) ? `repeat(${maxColumns.sm || 2}, 1fr)` : `repeat(${length}, 1fr)`,
+        md: length > (maxColumns.md || 2) ? `repeat(${maxColumns.md || 2}, 1fr)` : `repeat(${length}, 1fr)`,
+        lg: length > (maxColumns.lg || 3) ? `repeat(${maxColumns.lg || 3}, 1fr)` : `repeat(${length}, 1fr)`,
+      },
+      justifyContent: 'center',
+      justifyItems: 'center',
+    }
+  }
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', { 
@@ -62,9 +75,9 @@ export function Education() {
           x: backgroundX,
           y: backgroundY,
           background: `
-            radial-gradient(600px circle at 30% 20%, rgba(139, 92, 246, 0.05), transparent 50%),
-            radial-gradient(800px circle at 70% 80%, rgba(14, 165, 233, 0.05), transparent 60%),
-            radial-gradient(400px circle at 20% 70%, rgba(245, 158, 11, 0.05), transparent 40%)
+            radial-gradient(400px circle at 40% 15%, var(--glass-light), transparent 90%),
+            radial-gradient(800px circle at 70% 80%, var(--glass-medium), transparent 60%),
+            radial-gradient(400px circle at 20% 70%, var(--glass-dark), transparent 40%)
           `,
           pointerEvents: 'none',
           zIndex: 1,
@@ -199,11 +212,7 @@ export function Education() {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: {
-              xs: '1fr',
-              md: 'repeat(2, 1fr)',
-              lg: 'repeat(3, 1fr)'
-            },
+            ...getGridLayout(sortedEducation.length, { xs: 1, sm: 2, md: 2, lg: 3 }),
             gap: 4
           }}
         >

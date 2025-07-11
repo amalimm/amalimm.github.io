@@ -94,7 +94,7 @@ export function Experience() {
           x: backgroundX,
           y: backgroundY,
           background: `
-            radial-gradient(600px circle at 25% 30%, var(--glass-light), transparent 45%),
+            radial-gradient(600px circle at 40% 33%, var(--glass-light), transparent 45%),
             radial-gradient(800px circle at 75% 70%, var(--glass-medium), transparent 55%),
             radial-gradient(400px circle at 50% 90%, var(--glass-dark), transparent 35%)
           `,

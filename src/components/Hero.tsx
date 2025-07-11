@@ -317,7 +317,7 @@ export function Hero() {
                     variant="primary"
                     size="lg"
                     onClick={() => {
-                      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+                      document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
                       handleCelebration()
                     }}
                     style={{
@@ -380,12 +380,12 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
-                style={{ width: '100%' }}
+                style={{ width: '70%' }}
               >
                 <Box 
                   sx={{ 
                     display: 'grid', 
-                    gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, 
+                    gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(3, 1fr)' }, 
                     gap: 3,
                     mb: 8
                   }}

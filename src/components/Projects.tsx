@@ -68,6 +68,19 @@ export function Projects() {
       }
     }
   }
+
+  const getGridLayout = (length: number, maxColumns: { xs?: number, sm?: number, md?: number, lg?: number } = { xs: 1, sm: 2, md: 2, lg: 3 }) => {
+    return {
+      gridTemplateColumns: {
+        xs: length > (maxColumns.xs || 1) ? `repeat(${maxColumns.xs || 1}, 1fr)` : `repeat(${length}, 1fr)`,
+        sm: length > (maxColumns.sm || 2) ? `repeat(${maxColumns.sm || 2}, 1fr)` : `repeat(${length}, 1fr)`,
+        md: length > (maxColumns.md || 2) ? `repeat(${maxColumns.md || 2}, 1fr)` : `repeat(${length}, 1fr)`,
+        lg: length > (maxColumns.lg || 3) ? `repeat(${maxColumns.lg || 3}, 1fr)` : `repeat(${length}, 1fr)`,
+      },
+      justifyContent: 'center',
+      justifyItems: 'center',
+    }
+  }
   
   const getProjectIcon = (index: number) => {
     const icons = [RocketLaunch, Code, Star, Visibility, GitHub, Bolt]
@@ -237,18 +250,17 @@ export function Projects() {
           {/* Revolutionary Projects Grid */}
           <Box 
             sx={{ 
-              display: 'grid', 
-              gridTemplateColumns: { 
-                xs: '1fr', 
-                sm: 'repeat(2, 1fr)', 
-                lg: 'repeat(3, 1fr)' 
-              }, 
+              display: 'grid',
+              ...getGridLayout(projects.length, { xs: 1, sm: 2, md: 2, lg: 3 }),
               gap: 4,
               perspective: '1000px',
             }}
           >
             <AnimatePresence>
-              {projects.map((project, index) => {
+              {projects
+                .slice()
+                .sort((a, b) => a.order - b.order)
+                .map((project, index) => {
                 const IconComponent = getProjectIcon(index)
                 const isHovered = hoveredProject === project.id
                 const isSelected = selectedProject === project.id
@@ -446,48 +458,6 @@ export function Projects() {
               })}
             </AnimatePresence>
           </Box>
-
-          {/* Enhanced Call-to-Action */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 1.0, duration: 0.8 }}
-            style={{ textAlign: 'center', marginTop: '4rem' }}
-          >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button
-                variant="outline"
-                size="lg"
-                style={{
-                  background: 'var(--glass-glow)',
-                  border: '2px solid var(--neon-cyan)',
-                  color: 'var(--neon-cyan)',
-                  padding: '16px 32px',
-                  fontSize: '1.1rem',
-                  fontWeight: 700,
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                }}
-                onClick={() => window.open('https://github.com/amalimm', '_blank')}
-              >
-                <RocketLaunch />
-                <span>Explore More Projects</span>
-                <motion.div
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.div>
-              </Button>
-            </motion.div>
-          </motion.div>
         </motion.div>
       </Container>
     </Box>

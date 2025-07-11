@@ -32,6 +32,19 @@ export function Certifications() {
   
   const sortedCertifications = certifications.sort((a, b) => a.order - b.order)
 
+  const getGridLayout = (length: number, maxColumns: { xs?: number, sm?: number, md?: number, lg?: number } = { xs: 1, sm: 2, md: 2, lg: 3 }) => {
+    return {
+      gridTemplateColumns: {
+        xs: length > (maxColumns.xs || 1) ? `repeat(${maxColumns.xs || 1}, 1fr)` : `repeat(${length}, 1fr)`,
+        sm: length > (maxColumns.sm || 2) ? `repeat(${maxColumns.sm || 2}, 1fr)` : `repeat(${length}, 1fr)`,
+        md: length > (maxColumns.md || 2) ? `repeat(${maxColumns.md || 2}, 1fr)` : `repeat(${length}, 1fr)`,
+        lg: length > (maxColumns.lg || 3) ? `repeat(${maxColumns.lg || 3}, 1fr)` : `repeat(${length}, 1fr)`,
+      },
+      justifyContent: 'center',
+      justifyItems: 'center',
+    }
+  }
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', { 
@@ -204,11 +217,7 @@ export function Certifications() {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: {
-              xs: '1fr',
-              md: 'repeat(2, 1fr)',
-              lg: 'repeat(3, 1fr)'
-            },
+            ...getGridLayout(sortedCertifications.length, { xs: 1, sm: 2, md: 2, lg: 3 }),
             gap: 4
           }}
         >

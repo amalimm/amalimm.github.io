@@ -138,7 +138,7 @@ export const profile = {
   
   cta: {
     primary: {
-      text: "View My Work",
+      text: "Learn More",
       action: "scroll-to-projects"
     },
     secondary: {
@@ -150,12 +150,12 @@ export const profile = {
   stats: [
     {
       label: "Years Experience",
-      value: "2+",
+      value: "~1",
       icon: "💼"
     },
     {
-      label: "Projects Completed",
-      value: "10+",
+      label: "Projects Involved",
+      value: "5+",
       icon: "🚀"
     },
     {
@@ -163,11 +163,6 @@ export const profile = {
       value: "15+",
       icon: "⚡"
     },
-    {
-      label: "Satisfied Clients",
-      value: "5+",
-      icon: "😊"
-    }
   ],
   
   availability: "available",

@@ -32,6 +32,19 @@ export function Languages() {
   
   const sortedLanguages = languages.sort((a, b) => a.order - b.order)
 
+  const getGridLayout = (length: number, maxColumns: { xs?: number, sm?: number, md?: number, lg?: number } = { xs: 1, sm: 2, md: 2, lg: 3 }) => {
+    return {
+      gridTemplateColumns: {
+        xs: length > (maxColumns.xs || 1) ? `repeat(${maxColumns.xs || 1}, 1fr)` : `repeat(${length}, 1fr)`,
+        sm: length > (maxColumns.sm || 2) ? `repeat(${maxColumns.sm || 2}, 1fr)` : `repeat(${length}, 1fr)`,
+        md: length > (maxColumns.md || 2) ? `repeat(${maxColumns.md || 2}, 1fr)` : `repeat(${length}, 1fr)`,
+        lg: length > (maxColumns.lg || 3) ? `repeat(${maxColumns.lg || 3}, 1fr)` : `repeat(${length}, 1fr)`,
+      },
+      justifyContent: 'center',
+      justifyItems: 'center',
+    }
+  }
+
   const getProficiencyValue = (proficiency: string) => {
     switch (proficiency) {
       case 'native':
@@ -225,12 +238,7 @@ export function Languages() {
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: {
-              xs: '1fr',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)',
-              lg: 'repeat(4, 1fr)'
-            },
+            ...getGridLayout(sortedLanguages.length, { xs: 1, sm: 2, md: 3, lg: 4 }),
             gap: 4
           }}
         >
@@ -246,6 +254,7 @@ export function Languages() {
                   sx={{ 
                     p: 4, 
                     height: '100%',
+                    minWidth: '300px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',

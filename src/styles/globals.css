@@ -30,8 +30,8 @@
   --text-dark: #1a1a2e;
   
   /* Glass Effect Colors */
-  --glass-light: rgba(255, 255, 255, 0.1);
-  --glass-medium: rgba(255, 255, 255, 0.05);
+  --glass-light: rgba(136, 190, 255, 0.124);
+  --glass-medium: rgba(0, 72, 165, 0.05);
   --glass-dark: rgba(0, 0, 0, 0.2);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-glow: rgba(255, 255, 255, 0.15);

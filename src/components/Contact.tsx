@@ -25,8 +25,7 @@ import {
   FaHeart
 } from 'react-icons/fa'
 import { HiSparkles, HiMail } from 'react-icons/hi'
-import { BiSend } from 'react-icons/bi'
-import { ChatBubbleOutline } from '@mui/icons-material'
+import { ChatBubbleOutline, Send } from '@mui/icons-material'
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -775,14 +774,13 @@ export function Contact() {
                               </>
                             ) : (
                               <>
-                                <BiSend />
-                                Send Message
                                 <motion.div
                                   animate={{ x: [0, 4, 0] }}
                                   transition={{ duration: 1.5, repeat: Infinity }}
-                                >
-                                  →
+                                  >
+                                  <Send sx={{ fontSize: '1.5rem', color: 'white' }} />
                                 </motion.div>
+                                Send Message
                               </>
                             )}
                           </Button>

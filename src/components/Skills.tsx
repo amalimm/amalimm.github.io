@@ -217,7 +217,7 @@ export function Skills() {
           x: backgroundX,
           y: backgroundY,
           background: `
-            radial-gradient(800px circle at 30% 40%, var(--glass-light), transparent 50%),
+            radial-gradient(800px circle at 45% 10%, var(--glass-light), transparent 50%),
             radial-gradient(600px circle at 70% 80%, var(--glass-medium), transparent 60%),
             radial-gradient(400px circle at 20% 90%, var(--glass-dark), transparent 40%)
           `,
