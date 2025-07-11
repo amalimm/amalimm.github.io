@@ -26,6 +26,7 @@ import {
 } from 'react-icons/fa'
 import { HiSparkles, HiMail } from 'react-icons/hi'
 import { BiSend } from 'react-icons/bi'
+import { ChatBubbleOutline } from '@mui/icons-material'
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -212,10 +213,9 @@ export function Contact() {
                   mb: 3,
                   fontSize: '2.8rem',
                   boxShadow: 'var(--shadow-glow-orange)',
-                  animation: 'pulse 2.8s ease-in-out infinite',
                 }}
               >
-                💬
+                <ChatBubbleOutline sx={{ fontSize: '3rem', color: 'white' }} />
               </Box>
             </motion.div>
             
@@ -823,7 +823,6 @@ export function Contact() {
                   background: 'var(--gradient-accent)',
                   color: 'white',
                   fontWeight: 600,
-                  animation: 'pulse 2s ease-in-out infinite',
                 }}
               />
               <Chip

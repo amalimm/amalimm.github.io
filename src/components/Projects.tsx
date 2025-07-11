@@ -259,11 +259,6 @@ export function Projects() {
                     variants={projectVariants}
                     initial="hidden"
                     animate={inView ? "visible" : "hidden"}
-                    whileHover={{ 
-                      scale: 1.02,
-                      rotateY: 2,
-                      z: 50,
-                    }}
                     onHoverStart={() => setHoveredProject(project.id)}
                     onHoverEnd={() => setHoveredProject(null)}
                     onClick={() => setSelectedProject(isSelected ? null : project.id)}
@@ -281,26 +276,24 @@ export function Projects() {
                         borderRadius: 4,
                         overflow: 'hidden',
                         position: 'relative',
-                        transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                        transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
-                        background: 'rgba(255, 255, 255, 0.02)',
+                        background: 'var(--glass-medium)',
                         backdropFilter: 'blur(20px)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        boxShadow: isHovered 
-                          ? `0 20px 60px rgba(14, 165, 233, 0.3)` 
-                          : '0 8px 32px rgba(0, 0, 0, 0.1)',
+                        border: '1px solid var(--glass-border)',
+                        transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                        '&:hover': {
+                          transform: 'translateY(-8px)',
+                          boxShadow: 'var(--shadow-glow-cyan)',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                        },
                         '&::before': {
                           content: '""',
                           position: 'absolute',
                           top: 0,
                           left: 0,
                           right: 0,
-                          height: 4,
-                          background: isHovered 
-                            ? 'linear-gradient(90deg, #0ea5e9, #8b5cf6)' 
-                            : 'linear-gradient(90deg, #f59e0b, #ef4444)',
-                          opacity: isHovered ? 1 : 0.6,
-                          transition: 'all 0.3s ease',
+                          height: 3,
+                          background: 'var(--gradient-primary)',
+                          opacity: 0.8,
                         }
                       }}
                     >
@@ -324,8 +317,10 @@ export function Projects() {
                                 color: 'white',
                                 fontSize: '1.8rem',
                                 boxShadow: 'var(--shadow-soft)',
-                                transform: isHovered ? 'scale(1.1) rotate(10deg)' : 'scale(1)',
                                 transition: 'all 0.3s ease',
+                                '&:hover': {
+                                  transform: 'scale(1.1) rotate(10deg)',
+                                },
                                 mb: 2,
                               }}
                             >
@@ -333,25 +328,18 @@ export function Projects() {
                             </Box>
                           </motion.div>
                           
-                          <motion.div
-                            animate={{
-                              y: isHovered ? -4 : 0,
+                          <Typography
+                            variant="h3"
+                            sx={{
+                              fontSize: { xs: '1.5rem', sm: '1.75rem' },
+                              fontWeight: 700,
+                              color: 'rgba(255, 255, 255, 0.95)',
+                              lineHeight: 1.3,
+                              mb: 2,
                             }}
-                            transition={{ duration: 0.3 }}
                           >
-                            <Typography
-                              variant="h3"
-                              sx={{
-                                fontSize: { xs: '1.5rem', sm: '1.75rem' },
-                                fontWeight: 700,
-                                color: 'rgba(255, 255, 255, 0.95)',
-                                lineHeight: 1.3,
-                                mb: 2,
-                              }}
-                            >
-                              {project.title}
-                            </Typography>
-                          </motion.div>
+                            {project.title}
+                          </Typography>
                           
                           <Typography
                             variant="body2"

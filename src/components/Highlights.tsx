@@ -270,7 +270,7 @@ export function Highlights() {
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                     <Box sx={{ mr: 2 }}>
-                      <Star sx={{ fontSize: '2rem', color: 'white' }}/>
+                      {getTypeIcon(highlight.type)}
                     </Box>
                     <Box sx={{ flexGrow: 1 }}>
                       <Typography variant="h5" component="h3" sx={{ fontWeight: 600, color: 'var(--text-primary)' }}>
