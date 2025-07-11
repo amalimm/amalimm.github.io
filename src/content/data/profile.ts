@@ -149,7 +149,7 @@ export const profile = {
   
   stats: [
     {
-      label: "Years Experience",
+      label: "Year Experience",
       value: "~1",
       icon: "💼"
     },

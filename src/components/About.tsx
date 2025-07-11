@@ -6,13 +6,13 @@ import { useSpring, animated } from '@react-spring/web'
 import { profile } from '@/content/data/profile'
 import { useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { 
-  LocationOn, 
-  Work, 
-  CalendarMonth, 
-  Favorite, 
-  RocketLaunch, 
-  EmojiObjects, 
+import {
+  LocationOn,
+  Work,
+  CalendarMonth,
+  Favorite,
+  RocketLaunch,
+  EmojiObjects,
   Star,
   AutoAwesome,
   Code,
@@ -27,14 +27,14 @@ export function About() {
   const [selectedFact, setSelectedFact] = useState<number | null>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true })
-  
+
   // Interactive background animation
   const backgroundSpring = useSpring({
     transform: inView ? 'translateY(0px)' : 'translateY(50px)',
     opacity: inView ? 1 : 0,
     config: { tension: 280, friction: 60 }
   })
-  
+
   // Mouse follower animation
   const mouseSpring = useSpring({
     to: {
@@ -43,7 +43,7 @@ export function About() {
     },
     config: { tension: 300, friction: 30 }
   })
-  
+
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
     setMousePosition({
@@ -51,7 +51,7 @@ export function About() {
       y: (e.clientY - rect.top) * 0.1
     })
   }
-  
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -62,7 +62,7 @@ export function About() {
       }
     }
   }
-  
+
   const itemVariants = {
     hidden: { opacity: 0, y: 30, scale: 0.95 },
     visible: {
@@ -75,7 +75,7 @@ export function About() {
       }
     }
   }
-  
+
   const personalFacts = [
     {
       icon: LocationOn,
@@ -94,7 +94,7 @@ export function About() {
     {
       icon: CalendarMonth,
       label: 'Experience',
-      value: '2+ Years',
+      value: '~ 1 Year',
       color: 'var(--neon-green)',
       description: 'Continuous learning journey'
     },
@@ -106,16 +106,16 @@ export function About() {
       description: 'Ready for new challenges'
     }
   ]
-  
+
   const coreValues = [
     { icon: EmojiObjects, label: 'Innovation', color: 'var(--neon-purple)' },
     { icon: Favorite, label: 'Passion', color: 'var(--neon-pink)' },
     { icon: Code, label: 'Quality', color: 'var(--neon-cyan)' },
     { icon: WorkspacePremium, label: 'Excellence', color: 'var(--neon-orange)' }
   ]
-  
+
   return (
-    <Box 
+    <Box
       component={animated.section}
       ref={ref}
       id="about"
@@ -142,7 +142,7 @@ export function About() {
           filter: 'blur(20px)',
         }}
       />
-      
+
       {/* Animated background shapes */}
       <motion.div
         animate={{
@@ -165,7 +165,7 @@ export function About() {
           zIndex: 1,
         }}
       />
-      
+
       <motion.div
         animate={{
           rotate: -360,
@@ -187,7 +187,7 @@ export function About() {
           zIndex: 1,
         }}
       />
-      
+
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
         <motion.div
           variants={containerVariants}
@@ -218,7 +218,7 @@ export function About() {
                 <PersonOutline sx={{ fontSize: '3rem', color: 'white' }} />
               </Avatar>
             </motion.div>
-            
+
             <Typography
               variant="h2"
               sx={{
@@ -253,11 +253,11 @@ export function About() {
                 <AutoAwesome sx={{ color: 'var(--neon-yellow)' }} />
               </motion.div>
             </Typography>
-            
+
             <Typography
               variant="body1"
-              sx={{ 
-                fontSize: '1.25rem', 
+              sx={{
+                fontSize: '1.25rem',
                 maxWidth: '600px',
                 lineHeight: 1.6,
                 mx: 'auto',
@@ -267,10 +267,10 @@ export function About() {
               Passionate developer crafting digital experiences with code and creativity
             </Typography>
           </motion.div>
-          
+
           {/* Main Content Layout */}
-          <Box 
-            sx={{ 
+          <Box
+            sx={{
               display: 'grid',
               gridTemplateColumns: { xs: '1fr', lg: '1.2fr 0.8fr' },
               gap: 6,
@@ -319,7 +319,7 @@ export function About() {
                   <EmojiObjects sx={{ color: 'var(--neon-orange)' }} />
                   My Story
                 </Typography>
-                
+
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={inView ? { opacity: 1 } : { opacity: 0 }}
@@ -342,34 +342,10 @@ export function About() {
                         mb: 2,
                       }}
                     >
-                      Passionate and adaptable Software Developer with hands-on experience in full-stack development, 
-                      system integration, and cloud deployment. I specialize in transforming ideas into scalable, 
+                      Passionate and adaptable Software Developer with hands-on experience in full-stack development,
+                      system integration, and cloud deployment. I specialize in transforming ideas into scalable,
                       secure, and reliable solutions — while continuously sharpening both technical and analytical skills.
                     </Typography>
-                  </Box>
-
-                  {/* Core Competencies Section */}
-                  <Box sx={{ mb: 4 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                      <TrendingUp sx={{ color: 'var(--neon-green)', fontSize: '1.2rem' }} />
-                      <Typography variant="h6" sx={{ color: 'var(--neon-green)', fontWeight: 600 }}>
-                        Core Competencies
-                      </Typography>
-                    </Box>
-                    <Box component="ul" sx={{ m: 0, pl: 3, mb: 2 }}>
-                      <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
-                        Full-stack development: from crafting user-friendly interfaces to designing robust backend systems
-                      </Typography>
-                      <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
-                        Proficient in RESTful API design and secure authentication mechanisms
-                      </Typography>
-                      <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
-                        Experience with cloud deployment and basic server configuration
-                      </Typography>
-                      <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
-                        Collaborative team player in Agile environments (Sprint Planning, Product Reviews)
-                      </Typography>
-                    </Box>
                   </Box>
 
                   {/* Professional Highlights */}
@@ -389,7 +365,7 @@ export function About() {
                         mb: 2,
                       }}
                     >
-                      Strong problem-solving mindset backed by a Pure Mathematics degree and a Computer Science minor — 
+                      Strong problem-solving mindset backed by a Pure Mathematics degree and a Computer Science minor —
                       giving me a structured, analytical approach to complex challenges.
                     </Typography>
                   </Box>
@@ -411,13 +387,37 @@ export function About() {
                         mb: 2,
                       }}
                     >
-                      I&apos;m always excited to connect, collaborate, and contribute to innovative projects that 
-                      challenge me to grow as a developer and as a teammate. Currently expanding my knowledge 
+                      I&apos;m always excited to connect, collaborate, and contribute to innovative projects that
+                      challenge me to grow as a developer and as a teammate. Currently expanding my knowledge
                       in cloud-native development, AI & Computer Vision, and modern software engineering practices.
                     </Typography>
                   </Box>
                 </motion.div>
-                
+
+                {/* Core Competencies Section */}
+                <Box sx={{ mb: 4 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                    <TrendingUp sx={{ color: 'var(--neon-green)', fontSize: '1.2rem' }} />
+                    <Typography variant="h6" sx={{ color: 'var(--neon-green)', fontWeight: 600 }}>
+                      Core Competencies
+                    </Typography>
+                  </Box>
+                  <Box component="div" sx={{ m: 0, pl: 3, mb: 2 }}>
+                    <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
+                      Full-stack development: from crafting user-friendly interfaces to designing robust backend systems
+                    </Typography>
+                    <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
+                      Proficient in RESTful API design and secure authentication mechanisms
+                    </Typography>
+                    <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
+                      Experience with cloud deployment and basic server configuration
+                    </Typography>
+                    <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
+                      Collaborative team player in Agile environments (Sprint Planning, Product Reviews)
+                    </Typography>
+                  </Box>
+                </Box>
+
                 {/* Core Values */}
                 <Box sx={{ mt: 4 }}>
                   <Typography
@@ -463,7 +463,7 @@ export function About() {
                 </Box>
               </Card>
             </motion.div>
-            
+
             {/* Right Column - Personal Facts */}
             <motion.div variants={itemVariants}>
               <Card
@@ -493,12 +493,12 @@ export function About() {
                   <Star sx={{ color: 'var(--neon-cyan)' }} />
                   Quick Facts
                 </Typography>
-                
+
                 <Stack spacing={3}>
                   {personalFacts.map((fact, index) => {
                     const IconComponent = fact.icon
                     const isSelected = selectedFact === index
-                    
+
                     return (
                       <motion.div
                         key={fact.label}
@@ -512,17 +512,17 @@ export function About() {
                         <Card
                           sx={{
                             p: 3,
-                            background: isSelected 
-                              ? `linear-gradient(135deg, ${fact.color}15, ${fact.color}05)` 
+                            background: isSelected
+                              ? `linear-gradient(135deg, ${fact.color}15, ${fact.color}05)`
                               : 'rgba(255, 255, 255, 0.5)',
-                            border: isSelected 
-                              ? `2px solid ${fact.color}40` 
+                            border: isSelected
+                              ? `2px solid ${fact.color}40`
                               : '1px solid rgba(255, 255, 255, 0.3)',
                             cursor: 'pointer',
                             transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                             transform: isSelected ? 'translateY(-2px)' : 'translateY(0)',
-                            boxShadow: isSelected 
-                              ? `0 10px 25px ${fact.color}30` 
+                            boxShadow: isSelected
+                              ? `0 10px 25px ${fact.color}30`
                               : '0 2px 8px rgba(0, 0, 0, 0.1)',
                           }}
                         >
@@ -598,7 +598,7 @@ export function About() {
                     )
                   })}
                 </Stack>
-                
+
                 {/* Top Skills */}
                 <Box sx={{ mt: 4 }}>
                   <Typography
@@ -611,8 +611,8 @@ export function About() {
                   >
                     Top Skills
                   </Typography>
-                  <Box 
-                    sx={{ 
+                  <Box
+                    sx={{
                       display: 'grid',
                       gridTemplateColumns: 'repeat(2, 1fr)',
                       gap: 2

@@ -15,7 +15,7 @@ export const languages: Language[] = [
     name: "English",
     proficiency: "professional",
     proficiencyDescription: "Professional working proficiency",
-    icon: "🇬🇧",
+    icon: "EN",
     order: 2,
     featured: true
   },

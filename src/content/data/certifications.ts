@@ -9,7 +9,7 @@ export const certifications: Certification[] = [
     issueDate: "2024-08-01",
     expirationDate: null,
     
-    credentialUrl: "https://opencv.org/university/",
+    credentialUrl: "https://courses.opencv.org/certificates/e9348bf5ce6a45688900023f803c1736",
     verificationUrl: null,
     
     description: "Self-paced learning Python programming fundamentals and basic programming concepts",

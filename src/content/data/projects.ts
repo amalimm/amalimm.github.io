@@ -42,7 +42,7 @@ export const projects: Project[] = [
       },
       {
         type: "github",
-        url: "https://github.com/amalimm/anime-search",
+        url: "https://github.com/amalimm/animeverse-frontend/",
         label: "Code"
       }
     ],
@@ -89,12 +89,12 @@ export const projects: Project[] = [
     links: [
       {
         type: "website",
-        url: "https://amadeuslim.dev",
+        url: "https://amalimm.github.io/",
         label: "Website"
       },
       {
         type: "github",
-        url: "https://github.com/amalimm/portfolio",
+        url: "https://github.com/amalimm/amalimm.github.io/",
         label: "Code"
       }
     ],

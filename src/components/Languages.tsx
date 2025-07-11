@@ -56,7 +56,7 @@ export function Languages() {
       case 'conversational':
         return 70
       case 'elementary':
-        return 50
+        return 30
       default:
         return 0
     }
