@@ -5,8 +5,17 @@ import { Box, Stack, Chip, Container, Typography, Card, CardContent, CardActions
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
 import { projects } from '@/content/data/projects'
 import { useRef, useState } from 'react'
-import { FaExternalLinkAlt, FaGithub, FaRocket, FaStar, FaCode, FaEye } from 'react-icons/fa'
-import { HiSparkles, HiLightningBolt } from 'react-icons/hi'
+import { 
+  OpenInNew, 
+  GitHub, 
+  RocketLaunch, 
+  Star, 
+  Code, 
+  Visibility,
+  AutoAwesome,
+  Bolt,
+  AssignmentOutlined
+} from '@mui/icons-material'
 import { useInView } from 'react-intersection-observer'
 
 export function Projects() {
@@ -61,7 +70,7 @@ export function Projects() {
   }
   
   const getProjectIcon = (index: number) => {
-    const icons = [FaRocket, FaCode, FaStar, FaEye, FaGithub, HiLightningBolt]
+    const icons = [RocketLaunch, Code, Star, Visibility, GitHub, Bolt]
     return icons[index % icons.length]
   }
   
@@ -172,10 +181,9 @@ export function Projects() {
                   mb: 3,
                   fontSize: '2.5rem',
                   boxShadow: 'var(--shadow-glow-cyan)',
-                  animation: 'pulse 2s ease-in-out infinite',
                 }}
               >
-                💼
+                <AssignmentOutlined sx={{ fontSize: '3rem', color: 'white' }} />
               </Box>
             </motion.div>
             
@@ -208,7 +216,7 @@ export function Projects() {
                   color: 'var(--neon-yellow)',
                 }}
               >
-                <HiSparkles />
+                <AutoAwesome />
               </motion.div>
             </Typography>
             
@@ -251,11 +259,10 @@ export function Projects() {
                     variants={projectVariants}
                     initial="hidden"
                     animate={inView ? "visible" : "hidden"}
-                    transition={{ delay: index * 0.1 }}
                     whileHover={{ 
-                      scale: 1.05,
-                      rotateY: 5,
-                      z: 100,
+                      scale: 1.02,
+                      rotateY: 2,
+                      z: 50,
                     }}
                     onHoverStart={() => setHoveredProject(project.id)}
                     onHoverEnd={() => setHoveredProject(null)}
@@ -275,7 +282,7 @@ export function Projects() {
                         overflow: 'hidden',
                         position: 'relative',
                         transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                        transform: isHovered ? 'translateY(-12px)' : 'translateY(0)',
+                        transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
                         background: 'rgba(255, 255, 255, 0.02)',
                         backdropFilter: 'blur(20px)',
                         border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -297,40 +304,35 @@ export function Projects() {
                         }
                       }}
                     >
-                      {/* Floating Project Icon */}
-                      <motion.div
-                        initial={{ scale: 0, rotate: -180 }}
-                        animate={{ scale: 1, rotate: 0 }}
-                        transition={{ delay: 0.3 + index * 0.1, type: 'spring' }}
-                        style={{
-                          position: 'absolute',
-                          top: 20,
-                          right: 20,
-                          zIndex: 10,
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            width: 60,
-                            height: 60,
-                            background: `var(--gradient-${index % 2 === 0 ? 'primary' : 'secondary'})`,
-                            borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: 'white',
-                            fontSize: '1.5rem',
-                            boxShadow: 'var(--shadow-soft)',
-                            transform: isHovered ? 'scale(1.1) rotate(10deg)' : 'scale(1)',
-                            transition: 'all 0.3s ease',
-                          }}
-                        >
-                          <IconComponent />
-                        </Box>
-                      </motion.div>
-                      
-                      <CardContent sx={{ flexGrow: 1, p: 4, pt: 6 }}>
-                        <Stack spacing={3}>
+                      <CardContent sx={{ flexGrow: 1, p: 4, textAlign: 'center' }}>
+                        <Stack spacing={3} alignItems="center">
+                          {/* Centered Project Icon Above Title */}
+                          <motion.div
+                            initial={{ scale: 0, rotate: -180 }}
+                            animate={{ scale: 1, rotate: 0 }}
+                            transition={{ delay: 0.3 + index * 0.1, type: 'spring' }}
+                          >
+                            <Box
+                              sx={{
+                                width: 70,
+                                height: 70,
+                                background: `var(--gradient-${index % 2 === 0 ? 'primary' : 'secondary'})`,
+                                borderRadius: '50%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontSize: '1.8rem',
+                                boxShadow: 'var(--shadow-soft)',
+                                transform: isHovered ? 'scale(1.1) rotate(10deg)' : 'scale(1)',
+                                transition: 'all 0.3s ease',
+                                mb: 2,
+                              }}
+                            >
+                              <IconComponent />
+                            </Box>
+                          </motion.div>
+                          
                           <motion.div
                             animate={{
                               y: isHovered ? -4 : 0,
@@ -443,7 +445,7 @@ export function Projects() {
                                   gap: '8px',
                                 }}
                               >
-                                {link.type === 'website' ? <FaExternalLinkAlt /> : <FaGithub />}
+                                {link.type === 'website' ? <OpenInNew /> : <GitHub />}
                                 {link.label}
                               </Button>
                             </motion.div>
@@ -487,7 +489,7 @@ export function Projects() {
                 }}
                 onClick={() => window.open('https://github.com/amalimm', '_blank')}
               >
-                <FaRocket />
+                <RocketLaunch />
                 <span>Explore More Projects</span>
                 <motion.div
                   animate={{ x: [0, 4, 0] }}

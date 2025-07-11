@@ -221,12 +221,15 @@ export function Contact() {
             
             <Typography
               variant="h2"
-              className="gradient-text-accent"
               sx={{
                 fontSize: { xs: '2.5rem', sm: '3rem', md: '4rem', lg: '5rem' },
                 fontWeight: 800,
                 mb: 2,
                 position: 'relative',
+                background: 'var(--gradient-warm)',
+                WebkitTextFillColor: 'transparent',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
               }}
             >
               Let&apos;s Connect

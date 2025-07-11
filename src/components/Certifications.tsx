@@ -2,7 +2,7 @@
 
 import { Box, Chip, Typography, Link, Container } from '@mui/material'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
-import { OpenInNew, Verified } from '@mui/icons-material'
+import { OpenInNew, Verified, WorkspacePremium } from '@mui/icons-material'
 import { certifications } from '@/content/data'
 import { Card } from '@/components/ui/Card'
 import { useState, useRef } from 'react'
@@ -43,18 +43,6 @@ export function Certifications() {
   const isExpired = (expirationDate: string | null) => {
     if (!expirationDate) return false
     return new Date(expirationDate) < new Date()
-  }
-
-  const getCertificationIcon = (issuer: string) => {
-    const issuerLower = issuer.toLowerCase()
-    if (issuerLower.includes('google')) return '🏆'
-    if (issuerLower.includes('microsoft')) return '🥇'
-    if (issuerLower.includes('amazon') || issuerLower.includes('aws')) return '☁️'
-    if (issuerLower.includes('meta')) return '📘'
-    if (issuerLower.includes('oracle')) return '🔴'
-    if (issuerLower.includes('cisco')) return '🔷'
-    if (issuerLower.includes('opencv')) return '👁️'
-    return '📜'
   }
 
   return (
@@ -157,10 +145,9 @@ export function Certifications() {
                   mb: 3,
                   fontSize: '2.5rem',
                   boxShadow: 'var(--shadow-glow-purple)',
-                  animation: 'pulse 2s ease-in-out infinite',
                 }}
               >
-                📜
+                <WorkspacePremium sx={{ fontSize: '3rem', color: 'white' }} />
               </Box>
             </motion.div>
             
@@ -271,7 +258,7 @@ export function Certifications() {
                         color: 'primary.main'
                       }}
                     >
-                      {getCertificationIcon(cert.issuer)}
+                      <WorkspacePremium sx={{ fontSize: '2rem', color: 'white' }}/>
                     </Box>
                     <Box sx={{ flexGrow: 1 }}>
                       <Typography variant="h6" component="h3" sx={{ fontWeight: 600, color: 'var(--text-primary)' }}>

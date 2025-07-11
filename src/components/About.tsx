@@ -6,10 +6,22 @@ import { useSpring, animated } from '@react-spring/web'
 import { profile } from '@/content/data/profile'
 import { useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { FaMapMarkerAlt, FaBriefcase, FaCalendarAlt, FaHeart, FaRocket, FaLightbulb, FaStar } from 'react-icons/fa'
-import { HiOutlineSparkles } from 'react-icons/hi'
-import { BiCodeAlt } from 'react-icons/bi'
-import { MdWorkspacePremium } from 'react-icons/md'
+import { 
+  LocationOn, 
+  Work, 
+  CalendarMonth, 
+  Favorite, 
+  RocketLaunch, 
+  EmojiObjects, 
+  Star,
+  AutoAwesome,
+  Code,
+  WorkspacePremium,
+  TrendingUp,
+  School,
+  SelfImprovement,
+  PersonOutline
+} from '@mui/icons-material'
 
 export function About() {
   const [selectedFact, setSelectedFact] = useState<number | null>(null)
@@ -66,28 +78,28 @@ export function About() {
   
   const personalFacts = [
     {
-      icon: FaMapMarkerAlt,
+      icon: LocationOn,
       label: 'Location',
       value: `${profile.location.city}, ${profile.location.state}`,
       color: 'var(--neon-pink)',
       description: 'Based in beautiful Malaysia'
     },
     {
-      icon: FaBriefcase,
+      icon: Work,
       label: 'Current Role',
       value: profile.currentPosition.title,
       color: 'var(--neon-blue)',
       description: 'Building amazing experiences'
     },
     {
-      icon: FaCalendarAlt,
+      icon: CalendarMonth,
       label: 'Experience',
       value: '2+ Years',
       color: 'var(--neon-green)',
       description: 'Continuous learning journey'
     },
     {
-      icon: FaRocket,
+      icon: RocketLaunch,
       label: 'Status',
       value: profile.availability === 'available' ? 'Available' : 'Busy',
       color: 'var(--neon-orange)',
@@ -96,10 +108,10 @@ export function About() {
   ]
   
   const coreValues = [
-    { icon: FaLightbulb, label: 'Innovation', color: 'var(--neon-purple)' },
-    { icon: FaHeart, label: 'Passion', color: 'var(--neon-pink)' },
-    { icon: BiCodeAlt, label: 'Quality', color: 'var(--neon-cyan)' },
-    { icon: MdWorkspacePremium, label: 'Excellence', color: 'var(--neon-orange)' }
+    { icon: EmojiObjects, label: 'Innovation', color: 'var(--neon-purple)' },
+    { icon: Favorite, label: 'Passion', color: 'var(--neon-pink)' },
+    { icon: Code, label: 'Quality', color: 'var(--neon-cyan)' },
+    { icon: WorkspacePremium, label: 'Excellence', color: 'var(--neon-orange)' }
   ]
   
   return (
@@ -201,10 +213,9 @@ export function About() {
                   background: 'var(--gradient-primary)',
                   fontSize: '3rem',
                   boxShadow: 'var(--shadow-glow-cyan)',
-                  border: '4px solid var(--glass-border)',
                 }}
               >
-                🚀
+                <PersonOutline sx={{ fontSize: '3rem', color: 'white' }} />
               </Avatar>
             </motion.div>
             
@@ -239,7 +250,7 @@ export function About() {
                   fontSize: '1.5rem',
                 }}
               >
-                <HiOutlineSparkles style={{ color: 'var(--neon-yellow)' }} />
+                <AutoAwesome sx={{ color: 'var(--neon-yellow)' }} />
               </motion.div>
             </Typography>
             
@@ -305,7 +316,7 @@ export function About() {
                     gap: 2,
                   }}
                 >
-                  <FaLightbulb style={{ color: 'var(--neon-orange)' }} />
+                  <EmojiObjects sx={{ color: 'var(--neon-orange)' }} />
                   My Story
                 </Typography>
                 
@@ -314,18 +325,97 @@ export function About() {
                   animate={inView ? { opacity: 1 } : { opacity: 0 }}
                   transition={{ delay: 0.5, duration: 0.8 }}
                 >
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      fontSize: { xs: '1rem', sm: '1.125rem' },
-                      lineHeight: 1.8,
-                      color: 'var(--text-primary)',
-                      mb: 4,
-                      position: 'relative',
-                    }}
-                  >
-                    {profile.about}
-                  </Typography>
+                  {/* Introduction Section */}
+                  <Box sx={{ mb: 4 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                      <RocketLaunch sx={{ color: 'var(--neon-cyan)', fontSize: '1.2rem' }} />
+                      <Typography variant="h6" sx={{ color: 'var(--neon-cyan)', fontWeight: 600 }}>
+                        Who I Am
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: '1rem', sm: '1.125rem' },
+                        lineHeight: 1.8,
+                        color: 'var(--text-primary)',
+                        mb: 2,
+                      }}
+                    >
+                      Passionate and adaptable Software Developer with hands-on experience in full-stack development, 
+                      system integration, and cloud deployment. I specialize in transforming ideas into scalable, 
+                      secure, and reliable solutions — while continuously sharpening both technical and analytical skills.
+                    </Typography>
+                  </Box>
+
+                  {/* Core Competencies Section */}
+                  <Box sx={{ mb: 4 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                      <TrendingUp sx={{ color: 'var(--neon-green)', fontSize: '1.2rem' }} />
+                      <Typography variant="h6" sx={{ color: 'var(--neon-green)', fontWeight: 600 }}>
+                        Core Competencies
+                      </Typography>
+                    </Box>
+                    <Box component="ul" sx={{ m: 0, pl: 3, mb: 2 }}>
+                      <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
+                        Full-stack development: from crafting user-friendly interfaces to designing robust backend systems
+                      </Typography>
+                      <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
+                        Proficient in RESTful API design and secure authentication mechanisms
+                      </Typography>
+                      <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
+                        Experience with cloud deployment and basic server configuration
+                      </Typography>
+                      <Typography component="li" variant="body1" sx={{ color: 'var(--text-primary)', mb: 1, lineHeight: 1.6 }}>
+                        Collaborative team player in Agile environments (Sprint Planning, Product Reviews)
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {/* Professional Highlights */}
+                  <Box sx={{ mb: 4 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                      <School sx={{ color: 'var(--neon-purple)', fontSize: '1.2rem' }} />
+                      <Typography variant="h6" sx={{ color: 'var(--neon-purple)', fontWeight: 600 }}>
+                        Professional Highlights
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: '1rem', sm: '1.125rem' },
+                        lineHeight: 1.8,
+                        color: 'var(--text-primary)',
+                        mb: 2,
+                      }}
+                    >
+                      Strong problem-solving mindset backed by a Pure Mathematics degree and a Computer Science minor — 
+                      giving me a structured, analytical approach to complex challenges.
+                    </Typography>
+                  </Box>
+
+                  {/* Growth & Learning */}
+                  <Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                      <SelfImprovement sx={{ color: 'var(--neon-orange)', fontSize: '1.2rem' }} />
+                      <Typography variant="h6" sx={{ color: 'var(--neon-orange)', fontWeight: 600 }}>
+                        Always Growing
+                      </Typography>
+                    </Box>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: '1rem', sm: '1.125rem' },
+                        lineHeight: 1.8,
+                        color: 'var(--text-primary)',
+                        mb: 2,
+                      }}
+                    >
+                      I&apos;m always excited to connect, collaborate, and contribute to innovative projects that 
+                      challenge me to grow as a developer and as a teammate. Currently expanding my knowledge 
+                      in cloud-native development, AI & Computer Vision, and modern software engineering practices.
+                    </Typography>
+                  </Box>
                 </motion.div>
                 
                 {/* Core Values */}
@@ -400,7 +490,7 @@ export function About() {
                     gap: 2,
                   }}
                 >
-                  <FaStar style={{ color: 'var(--neon-cyan)' }} />
+                  <Star sx={{ color: 'var(--neon-cyan)' }} />
                   Quick Facts
                 </Typography>
                 

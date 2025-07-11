@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/Card'
 import { useState, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { HiAcademicCap } from 'react-icons/hi'
+import { School, SchoolOutlined } from '@mui/icons-material'
 
 export function Education() {
   const [, setMousePosition] = useState({ x: 0, y: 0 })
@@ -37,15 +38,6 @@ export function Education() {
       year: 'numeric', 
       month: 'short'
     })
-  }
-
-  const getEducationIcon = (degree: string) => {
-    if (degree.toLowerCase().includes('bachelor')) return '🎓'
-    if (degree.toLowerCase().includes('master')) return '🏆'
-    if (degree.toLowerCase().includes('phd') || degree.toLowerCase().includes('doctorate')) return '👨‍🎓'
-    if (degree.toLowerCase().includes('certificate')) return '📜'
-    if (degree.toLowerCase().includes('matriculation')) return '📚'
-    return '🎓'
   }
 
   return (
@@ -148,10 +140,9 @@ export function Education() {
                   mb: 3,
                   fontSize: '2.5rem',
                   boxShadow: 'var(--shadow-glow-purple)',
-                  animation: 'pulse 2s ease-in-out infinite',
                 }}
               >
-                🎓
+                <SchoolOutlined sx={{ fontSize: '3rem', color: 'white' }}/>
               </Box>
             </motion.div>
             
@@ -262,7 +253,7 @@ export function Education() {
                         color: 'primary.main'
                       }}
                     >
-                      {getEducationIcon(edu.degree)}
+                      <School sx={{ fontSize: '2rem', color: 'white' }}/>
                     </Box>
                     <Box>
                       <Typography variant="h6" component="h3" sx={{ fontWeight: 600, color: 'var(--text-primary)' }}>

@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/Card'
 import { useState, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { HiGlobeAlt } from 'react-icons/hi'
+import { LanguageOutlined } from '@mui/icons-material'
 
 export function Languages() {
   const [, setMousePosition] = useState({ x: 0, y: 0 })
@@ -165,10 +166,9 @@ export function Languages() {
                   mb: 3,
                   fontSize: '2.5rem',
                   boxShadow: 'var(--shadow-glow-green)',
-                  animation: 'pulse 2s ease-in-out infinite',
                 }}
               >
-                🌍
+                <LanguageOutlined sx={{ fontSize: '3rem', color: 'white' }} />
               </Box>
             </motion.div>
             

@@ -2,7 +2,7 @@
 
 import { Box, Chip, Typography, Link, Container } from '@mui/material'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
-import { OpenInNew, Article, Code, School, Star } from '@mui/icons-material'
+import { OpenInNew, Article, Code, School, Star, StarOutline } from '@mui/icons-material'
 import { highlights } from '@/content/data'
 import { Card } from '@/components/ui/Card'
 import { useState, useRef } from 'react'
@@ -162,10 +162,9 @@ export function Highlights() {
                   mb: 3,
                   fontSize: '2.5rem',
                   boxShadow: 'var(--shadow-glow-orange)',
-                  animation: 'pulse 2s ease-in-out infinite',
                 }}
               >
-                ⭐
+                <StarOutline sx={{ fontSize: '3rem', color: 'white' }} />
               </Box>
             </motion.div>
             
@@ -271,7 +270,7 @@ export function Highlights() {
                 >
                   <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                     <Box sx={{ mr: 2 }}>
-                      {getTypeIcon(highlight.type)}
+                      <Star sx={{ fontSize: '2rem', color: 'white' }}/>
                     </Box>
                     <Box sx={{ flexGrow: 1 }}>
                       <Typography variant="h5" component="h3" sx={{ fontWeight: 600, color: 'var(--text-primary)' }}>

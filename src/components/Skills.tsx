@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Container, lighten, Typography } from '@mui/material'
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
 import { useState, useRef, useMemo } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -8,6 +8,7 @@ import { skills } from '@/content/data/skills'
 import { FaReact, FaNodeJs, FaPython, FaDatabase, FaServer, FaTools, FaCloud, FaCode, FaAws } from 'react-icons/fa'
 import { SiTypescript, SiJavascript, SiMongodb, SiPostgresql, SiDocker, SiKubernetes, SiNextdotjs, SiTailwindcss, SiLaravel, SiPhp, SiMysql, SiRedux } from 'react-icons/si'
 import { HiSparkles } from 'react-icons/hi'
+import { LightbulbOutline } from '@mui/icons-material'
 
 // Icon mapping for skills
 const getSkillIcon = (skillId: string) => {
@@ -294,10 +295,9 @@ export function Skills() {
                   mb: 3,
                   fontSize: '3rem',
                   boxShadow: 'var(--shadow-glow-cyan)',
-                  animation: 'pulse 3s ease-in-out infinite',
                 }}
               >
-                ⚡
+                <LightbulbOutline sx={{ fontSize: '3rem', color: 'white' }} />
               </Box>
             </motion.div>
             
@@ -446,8 +446,8 @@ export function Skills() {
               <svg
                 style={{
                   position: 'absolute',
-                  top: 0,
-                  left: 0,
+                  top: '4.5%',
+                  left: '3.3%',
                   width: '100%',
                   height: '100%',
                   zIndex: 1,
@@ -544,12 +544,13 @@ export function Skills() {
                           alignItems: 'center',
                           justifyContent: 'center',
                           backdropFilter: 'blur(10px)',
+                          backgroundColor: isSelected || isRelated ? `${skill.color}50` : 'transparent',
                         }}
                       >
                         <IconComponent 
                           style={{ 
                             fontSize: '2rem', 
-                            color: skill.color,
+                            color: isSelected || isRelated ? lighten(skill.color || '', 0.7) : skill.color,
                             filter: 'drop-shadow(0 0 10px currentColor)'
                           }} 
                         />
@@ -565,7 +566,8 @@ export function Skills() {
                             transition={{ duration: 0.3 }}
                             style={{
                               position: 'absolute',
-                              left: '50%',
+                              left: '125%',
+                              top: '125%',
                               transform: 'translateX(-50%)',
                               background: 'var(--bg-surface)',
                               border: `2px solid ${skill.color}`,

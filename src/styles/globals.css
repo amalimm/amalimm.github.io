@@ -27,6 +27,7 @@
   --text-tertiary: #64748b;
   --text-accent: var(--neon-cyan);
   --text-muted: #475569;
+  --text-dark: #1a1a2e;
   
   /* Glass Effect Colors */
   --glass-light: rgba(255, 255, 255, 0.1);
@@ -38,7 +39,8 @@
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
   --gradient-secondary: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
-  --gradient-accent: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+  --gradient-tertiary: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+  --gradient-accent: linear-gradient(135deg, var(--neon-green), var(--neon-green));
   --gradient-warm: linear-gradient(135deg, var(--neon-orange), var(--neon-yellow));
   --gradient-background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 30%, var(--bg-accent) 70%, var(--bg-primary) 100%);
   --gradient-surface: linear-gradient(135deg, var(--bg-surface), var(--bg-card));

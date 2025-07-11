@@ -43,7 +43,7 @@ export const projects: Project[] = [
       {
         type: "github",
         url: "https://github.com/amalimm/anime-search",
-        label: "Source Code"
+        label: "Code"
       }
     ],
     
@@ -90,12 +90,12 @@ export const projects: Project[] = [
       {
         type: "website",
         url: "https://amadeuslim.dev",
-        label: "Live Website"
+        label: "Website"
       },
       {
         type: "github",
         url: "https://github.com/amalimm/portfolio",
-        label: "Source Code"
+        label: "Code"
       }
     ],
     
@@ -130,7 +130,7 @@ export const projects: Project[] = [
       {
         type: "github",
         url: "https://github.com/amalimm/task-management",
-        label: "Source Code"
+        label: "Code"
       },
       {
         type: "demo",
@@ -174,7 +174,7 @@ export const projects: Project[] = [
       {
         type: "github",
         url: "https://github.com/amalimm/weather-dashboard",
-        label: "Source Code"
+        label: "Code"
       }
     ],
     
@@ -207,7 +207,7 @@ export const projects: Project[] = [
       {
         type: "github",
         url: "https://github.com/amalimm/ecommerce-platform",
-        label: "Source Code"
+        label: "Code"
       }
     ],
     

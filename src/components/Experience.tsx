@@ -5,9 +5,16 @@ import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { experiences } from '@/content/data'
 import { useState, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { FaBriefcase, FaRocket, FaClock, FaBuilding, FaMapMarkerAlt, FaCalendarAlt } from 'react-icons/fa'
-import { HiLightningBolt } from 'react-icons/hi'
-import { BiRocket } from 'react-icons/bi'
+import { 
+  Schedule, 
+  Business, 
+  LocationOn, 
+  CalendarMonth,
+  Bolt,
+  TrendingUp,
+  Person,
+  WorkOutline
+} from '@mui/icons-material'
 
 export function Experience() {
   const [selectedExperience, setSelectedExperience] = useState<string | null>(null)
@@ -43,14 +50,12 @@ export function Experience() {
 
   const getExperienceIcon = (type: string) => {
     switch (type) {
-      case 'full-time':
-        return FaBriefcase
       case 'freelance':
-        return FaRocket
+        return Person
       case 'part-time':
-        return FaClock
+        return Schedule
       default:
-        return FaBuilding
+        return Business
     }
   }
 
@@ -151,7 +156,7 @@ export function Experience() {
           animate={inView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 1 }}
         >
-          {/* Revolutionary Header */}
+          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -176,10 +181,9 @@ export function Experience() {
                   mb: 3,
                   fontSize: '2.5rem',
                   boxShadow: 'var(--shadow-glow-purple)',
-                  animation: 'pulse 2.5s ease-in-out infinite',
                 }}
               >
-                💼
+                <WorkOutline sx={{ fontSize: '3rem', color: 'white' }} />
               </Box>
             </motion.div>
             
@@ -212,7 +216,7 @@ export function Experience() {
                   color: 'var(--neon-orange)',
                 }}
               >
-                <HiLightningBolt />
+                <Bolt />
               </motion.div>
             </Typography>
             
@@ -236,7 +240,7 @@ export function Experience() {
             <motion.div
               initial={{ scaleY: 0 }}
               animate={inView ? { scaleY: 1 } : {}}
-              transition={{ duration: 1.5, delay: 0.5 }}
+              transition={{ duration: 3, delay: 2 }}
               style={{
                 position: 'absolute',
                 left: '50%',
@@ -284,14 +288,13 @@ export function Experience() {
                   >
                     {/* Timeline Node */}
                     <motion.div
-                      whileHover={{ scale: 1.15, rotate: 180 }}
+                      whileHover={{ scale: 1.1 }}
                       onHoverStart={() => setSelectedExperience(experience.id)}
                       onHoverEnd={() => setSelectedExperience(null)}
                       style={{
                         position: 'absolute',
-                        left: '50%',
+                        left: '46%',
                         top: '50%',
-                        transform: 'translate(-50%, -50%)',
                         zIndex: 10,
                         cursor: 'pointer',
                       }}
@@ -308,11 +311,6 @@ export function Experience() {
                           justifyContent: 'center',
                           backdropFilter: 'blur(15px)',
                           boxShadow: `0 0 25px ${experienceColor}30`,
-                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                          '&:hover': {
-                            boxShadow: `0 0 40px ${experienceColor}50`,
-                            transform: 'scale(1.05)',
-                          }
                         }}
                       >
                         <IconComponent 
@@ -374,7 +372,7 @@ export function Experience() {
                           </Typography>
                           
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                            <FaBuilding style={{ color: experienceColor, fontSize: '1rem' }} />
+                            <Business sx={{ color: experienceColor, fontSize: '1rem' }} />
                             <Typography
                               variant="h6"
                               sx={{
@@ -389,7 +387,7 @@ export function Experience() {
                           
                           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 2 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                              <FaMapMarkerAlt style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }} />
+                              <LocationOn sx={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }} />
                               <Typography
                                 variant="body2"
                                 sx={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}
@@ -399,7 +397,7 @@ export function Experience() {
                             </Box>
                             
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                              <FaCalendarAlt style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }} />
+                              <CalendarMonth sx={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }} />
                               <Typography
                                 variant="body2"
                                 sx={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}
@@ -438,7 +436,7 @@ export function Experience() {
                                 gap: 1,
                               }}
                             >
-                              <BiRocket style={{ color: experienceColor }} />
+                              <TrendingUp sx={{ color: experienceColor }} />
                               Key Achievements
                             </Typography>
                             <Box component="ul" sx={{ m: 0, pl: 3 }}>

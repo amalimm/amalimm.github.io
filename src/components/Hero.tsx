@@ -125,7 +125,7 @@ export function Hero() {
         
         {/* Content Layer */}
         <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 10 }}>
-        <Stack spacing={6} alignItems="center" textAlign="center">
+        <Stack spacing={6} alignItems="center" textAlign="center" marginTop={'100px'} marginBottom={'100px'}>
           {/* Animated Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
