@@ -81,35 +81,46 @@ export function Hero() {
             y: backgroundY,
           }}
         >
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0 }}
-              animate={{ 
-                opacity: [0.1, 0.4, 0.1],
-                scale: [0.8, 1.5, 0.8],
-                x: [0, Math.random() * 200 - 100, 0],
-                y: [0, Math.random() * 200 - 100, 0],
-              }}
-              transition={{
-                duration: 15 + Math.random() * 10,
-                repeat: Infinity,
-                delay: i * 0.3,
-                ease: "easeInOut"
-              }}
-              style={{
-                position: 'absolute',
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                width: 3,
-                height: 3,
-                borderRadius: '50%',
-                background: i % 4 === 0 ? 'var(--neon-cyan)' : i % 4 === 1 ? 'var(--neon-purple)' : i % 4 === 2 ? 'var(--neon-green)' : 'var(--neon-orange)',
-                filter: 'blur(0.5px)',
-                boxShadow: `0 0 30px ${i % 4 === 0 ? 'var(--neon-cyan)' : i % 4 === 1 ? 'var(--neon-purple)' : i % 4 === 2 ? 'var(--neon-green)' : 'var(--neon-orange)'}`,
-              }}
-            />
-          ))}
+          {[...Array(12)].map((_, i) => {
+            const colors = ['#0ea5e9', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4'];
+            const positions = [
+              { x: 10, y: 20 }, { x: 90, y: 30 }, { x: 20, y: 80 },
+              { x: 80, y: 70 }, { x: 30, y: 40 }, { x: 70, y: 60 },
+              { x: 15, y: 60 }, { x: 85, y: 50 }, { x: 40, y: 20 },
+              { x: 60, y: 85 }, { x: 25, y: 15 }, { x: 75, y: 25 }
+            ];
+            
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={{ 
+                  opacity: [0.1, 0.3, 0.1],
+                  scale: [0.8, 1.2, 0.8],
+                  x: [0, 50, -50, 0],
+                  y: [0, 30, -30, 0],
+                }}
+                transition={{
+                  duration: 18 + i * 2,
+                  repeat: Infinity,
+                  delay: i * 0.8,
+                  ease: "easeInOut",
+                  repeatType: "loop"
+                }}
+                style={{
+                  position: 'absolute',
+                  left: `${positions[i].x}%`,
+                  top: `${positions[i].y}%`,
+                  width: 3,
+                  height: 3,
+                  borderRadius: '50%',
+                  background: colors[i % colors.length],
+                  filter: 'blur(0.5px)',
+                  boxShadow: `0 0 20px ${colors[i % colors.length]}`,
+                }}
+              />
+            );
+          })}
         </motion.div>
         
         {/* Content Layer */}

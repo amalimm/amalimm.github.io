@@ -2,51 +2,159 @@
 
 import { Box, Container, Typography } from '@mui/material'
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { FaReact, FaNodeJs, FaPython, FaDatabase, FaServer, FaTools, FaCloud, FaCode } from 'react-icons/fa'
-import { SiTypescript, SiJavascript, SiMongodb, SiPostgresql, SiDocker, SiKubernetes, SiNextdotjs, SiTailwindcss } from 'react-icons/si'
+import { skills } from '@/content/data/skills'
+import { FaReact, FaNodeJs, FaPython, FaDatabase, FaServer, FaTools, FaCloud, FaCode, FaAws } from 'react-icons/fa'
+import { SiTypescript, SiJavascript, SiMongodb, SiPostgresql, SiDocker, SiKubernetes, SiNextdotjs, SiTailwindcss, SiLaravel, SiPhp, SiMysql, SiRedux } from 'react-icons/si'
 import { HiSparkles } from 'react-icons/hi'
 
-// Revolutionary skill constellation data
-const skillNodes = [
-  { id: 'react', name: 'React', icon: FaReact, level: 95, x: 0.3, y: 0.2, category: 'frontend', color: 'var(--neon-cyan)' },
-  { id: 'typescript', name: 'TypeScript', icon: SiTypescript, level: 90, x: 0.6, y: 0.15, category: 'language', color: 'var(--neon-blue)' },
-  { id: 'nextjs', name: 'Next.js', icon: SiNextdotjs, level: 88, x: 0.2, y: 0.4, category: 'frontend', color: 'var(--neon-purple)' },
-  { id: 'javascript', name: 'JavaScript', icon: SiJavascript, level: 95, x: 0.7, y: 0.3, category: 'language', color: 'var(--neon-yellow)' },
-  { id: 'nodejs', name: 'Node.js', icon: FaNodeJs, level: 85, x: 0.1, y: 0.6, category: 'backend', color: 'var(--neon-green)' },
-  { id: 'python', name: 'Python', icon: FaPython, level: 80, x: 0.8, y: 0.5, category: 'language', color: 'var(--neon-orange)' },
-  { id: 'mongodb', name: 'MongoDB', icon: SiMongodb, level: 75, x: 0.4, y: 0.7, category: 'database', color: 'var(--neon-green)' },
-  { id: 'postgresql', name: 'PostgreSQL', icon: SiPostgresql, level: 80, x: 0.6, y: 0.8, category: 'database', color: 'var(--neon-blue)' },
-  { id: 'docker', name: 'Docker', icon: SiDocker, level: 70, x: 0.9, y: 0.7, category: 'devops', color: 'var(--neon-cyan)' },
-  { id: 'kubernetes', name: 'Kubernetes', icon: SiKubernetes, level: 65, x: 0.15, y: 0.85, category: 'devops', color: 'var(--neon-purple)' },
-  { id: 'tailwind', name: 'Tailwind CSS', icon: SiTailwindcss, level: 92, x: 0.5, y: 0.45, category: 'frontend', color: 'var(--neon-cyan)' },
-  { id: 'aws', name: 'AWS', icon: FaCloud, level: 75, x: 0.35, y: 0.9, category: 'cloud', color: 'var(--neon-orange)' },
-]
+// Icon mapping for skills
+const getSkillIcon = (skillId: string) => {
+  const iconMap: { [key: string]: React.ComponentType<{ style?: React.CSSProperties }> } = {
+    'react': FaReact,
+    'typescript': SiTypescript,
+    'javascript': SiJavascript,
+    'laravel': SiLaravel,
+    'php': SiPhp,
+    'mysql': SiMysql,
+    'redux': SiRedux,
+    'nodejs': FaNodeJs,
+    'python': FaPython,
+    'aws': FaAws,
+    'docker': SiDocker,
+    'kubernetes': SiKubernetes,
+    'nextjs': SiNextdotjs,
+    'tailwindcss': SiTailwindcss,
+    'mongodb': SiMongodb,
+    'postgresql': SiPostgresql,
+    'frontend-development': FaCode,
+    'uix': FaCode,
+    'full-stack-development': FaServer,
+    'web-development': FaCloud,
+    'software-development': FaTools,
+    'devops': FaTools,
+    'postman-api': FaTools,
+    'asana': FaTools,
+    'programming': FaCode,
+    'cpp': FaCode,
+    'mathematica': FaCode,
+    'matlab': FaCode,
+    'oracle-database': FaDatabase,
+    'database-design': FaDatabase,
+    'javascript-frameworks': FaReact,
+    'rest-apis': FaServer,
+    'agile-methodologies': FaTools,
+    'sdlc': FaTools,
+    'project-leadership': FaTools,
+    'leadership': FaTools,
+    'problem-solving': FaTools,
+    'project-management': FaTools,
+    'communication': FaTools,
+    'teaching': FaTools,
+  }
+  return iconMap[skillId] || FaCode
+}
 
-// Constellation connections based on technology relationships
-const connections = [
-  { from: 'react', to: 'typescript', strength: 0.9 },
-  { from: 'react', to: 'nextjs', strength: 0.95 },
-  { from: 'nextjs', to: 'typescript', strength: 0.8 },
-  { from: 'javascript', to: 'typescript', strength: 0.7 },
-  { from: 'react', to: 'tailwind', strength: 0.8 },
-  { from: 'nodejs', to: 'javascript', strength: 0.9 },
-  { from: 'nodejs', to: 'typescript', strength: 0.8 },
-  { from: 'mongodb', to: 'nodejs', strength: 0.7 },
-  { from: 'postgresql', to: 'nodejs', strength: 0.7 },
-  { from: 'docker', to: 'kubernetes', strength: 0.8 },
-  { from: 'nodejs', to: 'docker', strength: 0.6 },
-  { from: 'python', to: 'aws', strength: 0.6 },
-]
+// Generate constellation positions based on skill categories and proficiency
+const generateSkillNodes = () => {
+  const featuredSkills = skills.filter(skill => skill.featured).sort((a, b) => (b.endorsements || 0) - (a.endorsements || 0)).slice(0, 12)
+  
+  const categoryPositions = {
+    'frontend': { base: { x: 0.2, y: 0.3 }, spread: 0.15 },
+    'backend': { base: { x: 0.8, y: 0.4 }, spread: 0.15 },
+    'database': { base: { x: 0.5, y: 0.7 }, spread: 0.1 },
+    'devops': { base: { x: 0.7, y: 0.8 }, spread: 0.1 },
+    'tools': { base: { x: 0.3, y: 0.8 }, spread: 0.1 },
+    'languages': { base: { x: 0.5, y: 0.2 }, spread: 0.15 },
+    'frameworks': { base: { x: 0.2, y: 0.6 }, spread: 0.1 },
+    'design': { base: { x: 0.1, y: 0.4 }, spread: 0.1 },
+    'methodology': { base: { x: 0.6, y: 0.6 }, spread: 0.1 },
+    'soft-skills': { base: { x: 0.4, y: 0.9 }, spread: 0.1 },
+    'other': { base: { x: 0.8, y: 0.2 }, spread: 0.1 },
+  }
+  
+  return featuredSkills.map((skill, index) => {
+    const categoryPos = categoryPositions[skill.category as keyof typeof categoryPositions] || categoryPositions.other
+    const angle = (index * Math.PI * 2) / featuredSkills.length
+    
+    return {
+      id: skill.id,
+      name: skill.name,
+      icon: getSkillIcon(skill.id),
+      level: Math.round(((skill.yearsOfExperience || 1) / 3) * 100), // Convert years to percentage
+      x: Math.max(0.1, Math.min(0.9, categoryPos.base.x + Math.cos(angle) * categoryPos.spread)),
+      y: Math.max(0.1, Math.min(0.9, categoryPos.base.y + Math.sin(angle) * categoryPos.spread)),
+      category: skill.category,
+      color: skill.color,
+      endorsements: skill.endorsements,
+      yearsOfExperience: skill.yearsOfExperience || 1,
+    }
+  })
+}
+
+// Generate connections based on skill relationships
+const generateConnections = (skillNodes: Array<{ id: string; endorsements: number | undefined; category?: string; name?: string; color?: string; yearsOfExperience?: number }>) => {
+  const connections: Array<{ from: string; to: string; strength: number }> = []
+  
+  // Define relationship mappings
+  const relationshipMap = {
+    'react': ['typescript', 'javascript', 'redux', 'frontend-development'],
+    'typescript': ['javascript', 'react', 'frontend-development'],
+    'javascript': ['react', 'typescript', 'frontend-development', 'nodejs'],
+    'laravel': ['php', 'mysql', 'backend', 'rest-apis'],
+    'php': ['laravel', 'mysql', 'backend'],
+    'mysql': ['laravel', 'php', 'database-design'],
+    'redux': ['react', 'javascript', 'frontend-development'],
+    'frontend-development': ['react', 'javascript', 'typescript', 'uix'],
+    'uix': ['frontend-development', 'web-development'],
+    'full-stack-development': ['frontend-development', 'laravel', 'web-development'],
+    'web-development': ['frontend-development', 'full-stack-development', 'uix'],
+    'aws': ['devops', 'full-stack-development'],
+    'devops': ['aws', 'agile-methodologies'],
+    'postman-api': ['rest-apis', 'laravel'],
+    'asana': ['project-management', 'agile-methodologies'],
+    'agile-methodologies': ['sdlc', 'project-leadership', 'asana'],
+    'sdlc': ['agile-methodologies', 'project-leadership'],
+    'project-leadership': ['leadership', 'project-management'],
+    'leadership': ['project-management', 'communication', 'teaching'],
+    'project-management': ['leadership', 'problem-solving'],
+    'problem-solving': ['programming', 'project-management'],
+    'communication': ['leadership', 'teaching'],
+    'teaching': ['communication', 'leadership'],
+    'programming': ['javascript', 'typescript', 'problem-solving'],
+    'rest-apis': ['laravel', 'postman-api'],
+  }
+  
+  skillNodes.forEach(fromSkill => {
+    const relatedSkills = relationshipMap[fromSkill.id as keyof typeof relationshipMap] || []
+    relatedSkills.forEach(toSkillId => {
+      const toSkill = skillNodes.find(s => s.id === toSkillId)
+      if (toSkill) {
+        connections.push({
+          from: fromSkill.id,
+          to: toSkill.id,
+          strength: Math.min(0.9, ((fromSkill.endorsements || 0) + (toSkill.endorsements || 0)) / 50)
+        })
+      }
+    })
+  })
+  
+  return connections
+}
 
 const categories = [
   { id: 'frontend', name: 'Frontend', color: 'var(--neon-cyan)', icon: FaCode },
   { id: 'backend', name: 'Backend', color: 'var(--neon-green)', icon: FaServer },
-  { id: 'language', name: 'Languages', color: 'var(--neon-yellow)', icon: FaCode },
+  { id: 'languages', name: 'Languages', color: 'var(--neon-yellow)', icon: FaCode },
   { id: 'database', name: 'Database', color: 'var(--neon-blue)', icon: FaDatabase },
   { id: 'devops', name: 'DevOps', color: 'var(--neon-purple)', icon: FaTools },
-  { id: 'cloud', name: 'Cloud', color: 'var(--neon-orange)', icon: FaCloud },
+  { id: 'tools', name: 'Tools', color: 'var(--neon-orange)', icon: FaTools },
+  { id: 'frameworks', name: 'Frameworks', color: 'var(--neon-pink)', icon: FaReact },
+  { id: 'design', name: 'Design', color: 'var(--neon-teal)', icon: FaCode },
+  { id: 'methodology', name: 'Methodology', color: 'var(--neon-indigo)', icon: FaTools },
+  { id: 'soft-skills', name: 'Soft Skills', color: 'var(--neon-rose)', icon: FaTools },
+  { id: 'other', name: 'Other', color: 'var(--neon-gray)', icon: FaCode },
 ]
 
 export function Skills() {
@@ -71,6 +179,10 @@ export function Skills() {
     mouseY.set(y)
     setMousePosition({ x: e.clientX - rect.left, y: e.clientY - rect.top })
   }
+  
+  // Generate skill nodes and connections dynamically
+  const skillNodes = useMemo(() => generateSkillNodes(), [])
+  const connections = useMemo(() => generateConnections(skillNodes), [skillNodes])
   
   const filteredNodes = selectedCategory 
     ? skillNodes.filter(node => node.category === selectedCategory)
@@ -113,41 +225,42 @@ export function Skills() {
         }}
       />
       
-      {/* Floating Cosmic Dust */}
-      {[...Array(50)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: [0.1, 0.6, 0.1],
-            scale: [0.5, 1.2, 0.5],
-            x: [0, Math.random() * 100 - 50, 0],
-            y: [0, Math.random() * 100 - 50, 0],
-          }}
-          transition={{
-            duration: 8 + Math.random() * 12,
-            repeat: Infinity,
-            delay: i * 0.1,
-            ease: "easeInOut"
-          }}
-          style={{
-            position: 'absolute',
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            width: 2,
-            height: 2,
-            borderRadius: '50%',
-            background: i % 6 === 0 ? 'var(--neon-cyan)' : 
-                       i % 6 === 1 ? 'var(--neon-purple)' : 
-                       i % 6 === 2 ? 'var(--neon-green)' : 
-                       i % 6 === 3 ? 'var(--neon-orange)' :
-                       i % 6 === 4 ? 'var(--neon-yellow)' : 'var(--neon-pink)',
-            filter: 'blur(0.5px)',
-            boxShadow: `0 0 20px currentColor`,
-            zIndex: 1,
-          }}
-        />
-      ))}
+      {/* Optimized Floating Cosmic Dust */}
+      {[...Array(12)].map((_, i) => {
+        const colors = ['var(--neon-cyan)', 'var(--neon-purple)', 'var(--neon-green)', 'var(--neon-orange)', 'var(--neon-yellow)', 'var(--neon-pink)'];
+        
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0.1, 0.4, 0.1],
+              scale: [0.5, 1.1, 0.5],
+              x: [0, 60, -60, 0],
+              y: [0, 40, -40, 0],
+            }}
+            transition={{
+              duration: 12 + i * 2,
+              repeat: Infinity,
+              delay: i * 0.8,
+              ease: "easeInOut",
+              repeatType: "loop"
+            }}
+            style={{
+              position: 'absolute',
+              left: `${10 + (i * 8)}%`,
+              top: `${15 + (i * 7)}%`,
+              width: 3,
+              height: 3,
+              borderRadius: '50%',
+              background: colors[i % colors.length],
+              filter: 'blur(0.5px)',
+              boxShadow: `0 0 15px currentColor`,
+              zIndex: 1,
+            }}
+          />
+        );
+      })}
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
         <motion.div

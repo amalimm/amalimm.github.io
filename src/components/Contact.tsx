@@ -132,42 +132,53 @@ export function Contact() {
         }}
       />
       
-      {/* Floating Contact Elements */}
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: [0.1, 0.5, 0.1],
-            rotate: [0, 360],
-            scale: [0.7, 1.4, 0.7],
-            x: [0, Math.random() * 120 - 60, 0],
-            y: [0, Math.random() * 120 - 60, 0],
-          }}
-          transition={{
-            duration: 15 + Math.random() * 20,
-            repeat: Infinity,
-            delay: i * 0.8,
-            ease: "easeInOut"
-          }}
-          style={{
-            position: 'absolute',
-            left: `${10 + Math.random() * 80}%`,
-            top: `${5 + Math.random() * 90}%`,
-            width: 30 + Math.random() * 25,
-            height: 30 + Math.random() * 25,
-            background: i % 6 === 0 ? 'var(--neon-cyan)' : 
-                       i % 6 === 1 ? 'var(--neon-purple)' : 
-                       i % 6 === 2 ? 'var(--neon-green)' : 
-                       i % 6 === 3 ? 'var(--neon-orange)' :
-                       i % 6 === 4 ? 'var(--neon-pink)' : 'var(--neon-yellow)',
-            opacity: 0.1,
-            borderRadius: i % 4 === 0 ? '50%' : '30%',
-            filter: 'blur(1px)',
-            zIndex: 1,
-          }}
-        />
-      ))}
+      {/* Optimized Floating Contact Elements */}
+      {[...Array(8)].map((_, i) => {
+        const colors = ['var(--neon-cyan)', 'var(--neon-purple)', 'var(--neon-green)', 'var(--neon-orange)', 'var(--neon-pink)', 'var(--neon-yellow)', 'var(--neon-blue)', 'var(--neon-teal)'];
+        const positions = [
+          { x: 20, y: 15 },
+          { x: 80, y: 25 },
+          { x: 15, y: 60 },
+          { x: 85, y: 70 },
+          { x: 40, y: 20 },
+          { x: 60, y: 80 },
+          { x: 30, y: 85 },
+          { x: 70, y: 40 }
+        ];
+        
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0.05, 0.2, 0.05],
+              rotate: [0, 180, 360],
+              scale: [0.8, 1.3, 0.8],
+              x: [0, 40, -40, 0],
+              y: [0, 30, -30, 0],
+            }}
+            transition={{
+              duration: 20 + i * 2,
+              repeat: Infinity,
+              delay: i * 1.5,
+              ease: "easeInOut",
+              repeatType: "loop"
+            }}
+            style={{
+              position: 'absolute',
+              left: `${positions[i].x}%`,
+              top: `${positions[i].y}%`,
+              width: 25,
+              height: 25,
+              background: colors[i],
+              opacity: 0.05,
+              borderRadius: i % 2 === 0 ? '50%' : '30%',
+              filter: 'blur(1px)',
+              zIndex: 1,
+            }}
+          />
+        );
+      })}
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
         <motion.div

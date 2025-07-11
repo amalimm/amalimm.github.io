@@ -98,41 +98,51 @@ export function Experience() {
         }}
       />
       
-      {/* Floating Timeline Elements */}
-      {[...Array(12)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: [0.1, 0.4, 0.1],
-            rotate: [0, 360],
-            scale: [0.8, 1.3, 0.8],
-            x: [0, Math.random() * 150 - 75, 0],
-            y: [0, Math.random() * 150 - 75, 0],
-          }}
-          transition={{
-            duration: 20 + Math.random() * 15,
-            repeat: Infinity,
-            delay: i * 1.5,
-            ease: "easeInOut"
-          }}
-          style={{
-            position: 'absolute',
-            left: `${15 + Math.random() * 70}%`,
-            top: `${10 + Math.random() * 80}%`,
-            width: 40 + Math.random() * 20,
-            height: 40 + Math.random() * 20,
-            background: i % 5 === 0 ? 'var(--neon-cyan)' : 
-                       i % 5 === 1 ? 'var(--neon-purple)' : 
-                       i % 5 === 2 ? 'var(--neon-green)' : 
-                       i % 5 === 3 ? 'var(--neon-orange)' : 'var(--neon-pink)',
-            opacity: 0.1,
-            borderRadius: i % 3 === 0 ? '50%' : '25%',
-            filter: 'blur(1px)',
-            zIndex: 1,
-          }}
-        />
-      ))}
+      {/* Optimized Floating Timeline Elements */}
+      {[...Array(6)].map((_, i) => {
+        const colors = ['var(--neon-cyan)', 'var(--neon-purple)', 'var(--neon-green)', 'var(--neon-orange)', 'var(--neon-pink)', 'var(--neon-yellow)'];
+        const positions = [
+          { x: 15, y: 20 },
+          { x: 85, y: 30 },
+          { x: 25, y: 70 },
+          { x: 75, y: 80 },
+          { x: 45, y: 15 },
+          { x: 65, y: 60 }
+        ];
+        
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0.05, 0.15, 0.05],
+              rotate: [0, 180, 360],
+              scale: [0.9, 1.2, 0.9],
+              x: [0, 30, -30, 0],
+              y: [0, 20, -20, 0],
+            }}
+            transition={{
+              duration: 25 + i * 3,
+              repeat: Infinity,
+              delay: i * 2,
+              ease: "easeInOut",
+              repeatType: "loop"
+            }}
+            style={{
+              position: 'absolute',
+              left: `${positions[i].x}%`,
+              top: `${positions[i].y}%`,
+              width: 35,
+              height: 35,
+              background: colors[i],
+              opacity: 0.05,
+              borderRadius: '50%',
+              filter: 'blur(1px)',
+              zIndex: 1,
+            }}
+          />
+        );
+      })}
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
         <motion.div
@@ -274,13 +284,14 @@ export function Experience() {
                   >
                     {/* Timeline Node */}
                     <motion.div
-                      whileHover={{ scale: 1.2, rotate: 360 }}
+                      whileHover={{ scale: 1.15, rotate: 180 }}
                       onHoverStart={() => setSelectedExperience(experience.id)}
                       onHoverEnd={() => setSelectedExperience(null)}
                       style={{
                         position: 'absolute',
                         left: '50%',
-                        transform: 'translateX(-50%)',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
                         zIndex: 10,
                         cursor: 'pointer',
                       }}
@@ -289,22 +300,26 @@ export function Experience() {
                         sx={{
                           width: 80,
                           height: 80,
-                          background: `linear-gradient(135deg, ${experienceColor}20, ${experienceColor}10)`,
+                          background: `linear-gradient(135deg, ${experienceColor}15, ${experienceColor}05)`,
                           border: `3px solid ${experienceColor}`,
                           borderRadius: '50%',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          backdropFilter: 'blur(10px)',
-                          boxShadow: `0 0 30px ${experienceColor}40`,
-                          transition: 'all 0.3s ease',
+                          backdropFilter: 'blur(15px)',
+                          boxShadow: `0 0 25px ${experienceColor}30`,
+                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          '&:hover': {
+                            boxShadow: `0 0 40px ${experienceColor}50`,
+                            transform: 'scale(1.05)',
+                          }
                         }}
                       >
                         <IconComponent 
                           style={{ 
                             fontSize: '2rem', 
                             color: experienceColor,
-                            filter: 'drop-shadow(0 0 10px currentColor)'
+                            filter: 'drop-shadow(0 0 8px currentColor)'
                           }} 
                         />
                       </Box>
@@ -534,11 +549,14 @@ export function Experience() {
                       transition={{ duration: 0.8, delay: 0.9 + index * 0.2 }}
                       style={{
                         position: 'absolute',
-                        left: isLeft ? '50%' : 'calc(50% - 40px)',
+                        left: isLeft ? 'calc(50% - 2px)' : 'calc(50% - 38px)',
+                        top: '50%',
                         width: 40,
-                        height: 2,
-                        background: experienceColor,
+                        height: 3,
+                        background: `linear-gradient(90deg, ${experienceColor}, ${experienceColor}50)`,
                         transformOrigin: isLeft ? 'right' : 'left',
+                        transform: 'translateY(-50%)',
+                        borderRadius: '2px',
                         zIndex: 3,
                       }}
                     />

@@ -458,8 +458,8 @@ export function About() {
                             <Box sx={{ flex: 1 }}>
                               <Typography
                                 variant="body2"
-                                color="text.secondary"
                                 sx={{
+                                  color: 'rgba(255, 255, 255, 0.7)',
                                   fontSize: '0.85rem',
                                   fontWeight: 500,
                                   textTransform: 'uppercase',
@@ -488,8 +488,8 @@ export function About() {
                                   >
                                     <Typography
                                       variant="caption"
-                                      color="text.secondary"
                                       sx={{
+                                        color: 'rgba(255, 255, 255, 0.7)',
                                         fontSize: '0.8rem',
                                         fontStyle: 'italic',
                                         mt: 0.5,
@@ -540,7 +540,7 @@ export function About() {
                           sx={{
                             p: 2,
                             textAlign: 'center',
-                            background: 'rgba(255, 255, 255, 0.7)',
+                            background: 'rgba(255, 255, 255, 0.05)',
                             border: '1px solid rgba(14, 165, 233, 0.2)',
                             cursor: 'pointer',
                             transition: 'all 0.3s ease',
@@ -567,8 +567,8 @@ export function About() {
                           </Typography>
                           <Typography
                             variant="caption"
-                            color="text.secondary"
                             sx={{
+                              color: 'rgba(255, 255, 255, 0.7)',
                               fontSize: '0.75rem',
                               fontWeight: 600,
                               textTransform: 'uppercase',

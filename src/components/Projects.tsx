@@ -96,40 +96,51 @@ export function Projects() {
         }}
       />
       
-      {/* Floating Geometric Shapes */}
-      {[...Array(8)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: [0.1, 0.3, 0.1],
-            rotate: [0, 360],
-            scale: [1, 1.2, 1],
-            x: [0, Math.random() * 200 - 100, 0],
-            y: [0, Math.random() * 200 - 100, 0],
-          }}
-          transition={{
-            duration: 20 + Math.random() * 10,
-            repeat: Infinity,
-            delay: i * 2,
-            ease: "easeInOut"
-          }}
-          style={{
-            position: 'absolute',
-            left: `${10 + Math.random() * 80}%`,
-            top: `${10 + Math.random() * 80}%`,
-            width: 60 + Math.random() * 40,
-            height: 60 + Math.random() * 40,
-            background: i % 4 === 0 ? 'var(--neon-cyan)' : 
-                       i % 4 === 1 ? 'var(--neon-purple)' : 
-                       i % 4 === 2 ? 'var(--neon-green)' : 'var(--neon-orange)',
-            opacity: 0.1,
-            borderRadius: i % 2 === 0 ? '50%' : '20%',
-            filter: 'blur(2px)',
-            zIndex: 1,
-          }}
-        />
-      ))}
+      {/* Optimized Floating Geometric Shapes */}
+      {[...Array(6)].map((_, i) => {
+        const colors = ['var(--neon-cyan)', 'var(--neon-purple)', 'var(--neon-green)', 'var(--neon-orange)', 'var(--neon-pink)', 'var(--neon-yellow)'];
+        const positions = [
+          { x: 15, y: 20 },
+          { x: 85, y: 30 },
+          { x: 20, y: 75 },
+          { x: 80, y: 80 },
+          { x: 50, y: 15 },
+          { x: 60, y: 65 }
+        ];
+        
+        return (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0 }}
+            animate={{ 
+              opacity: [0.05, 0.15, 0.05],
+              rotate: [0, 180, 360],
+              scale: [1, 1.15, 1],
+              x: [0, 50, -50, 0],
+              y: [0, 30, -30, 0],
+            }}
+            transition={{
+              duration: 25 + i * 3,
+              repeat: Infinity,
+              delay: i * 2,
+              ease: "easeInOut",
+              repeatType: "loop"
+            }}
+            style={{
+              position: 'absolute',
+              left: `${positions[i].x}%`,
+              top: `${positions[i].y}%`,
+              width: 50,
+              height: 50,
+              background: colors[i],
+              opacity: 0.05,
+              borderRadius: i % 2 === 0 ? '50%' : '25%',
+              filter: 'blur(2px)',
+              zIndex: 1,
+            }}
+          />
+        );
+      })}
       
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 10 }}>
         <motion.div
@@ -265,9 +276,12 @@ export function Projects() {
                         position: 'relative',
                         transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
                         transform: isHovered ? 'translateY(-12px)' : 'translateY(0)',
+                        background: 'rgba(255, 255, 255, 0.02)',
+                        backdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
                         boxShadow: isHovered 
-                          ? `var(--shadow-glow-${index % 2 === 0 ? 'cyan' : 'purple'})` 
-                          : 'var(--shadow-soft)',
+                          ? `0 20px 60px rgba(14, 165, 233, 0.3)` 
+                          : '0 8px 32px rgba(0, 0, 0, 0.1)',
                         '&::before': {
                           content: '""',
                           position: 'absolute',
@@ -276,8 +290,8 @@ export function Projects() {
                           right: 0,
                           height: 4,
                           background: isHovered 
-                            ? 'var(--gradient-primary)' 
-                            : 'var(--gradient-accent)',
+                            ? 'linear-gradient(90deg, #0ea5e9, #8b5cf6)' 
+                            : 'linear-gradient(90deg, #f59e0b, #ef4444)',
                           opacity: isHovered ? 1 : 0.6,
                           transition: 'all 0.3s ease',
                         }
@@ -328,7 +342,7 @@ export function Projects() {
                               sx={{
                                 fontSize: { xs: '1.5rem', sm: '1.75rem' },
                                 fontWeight: 700,
-                                color: 'var(--text-primary)',
+                                color: 'rgba(255, 255, 255, 0.95)',
                                 lineHeight: 1.3,
                                 mb: 2,
                               }}
@@ -342,7 +356,7 @@ export function Projects() {
                             sx={{
                               fontSize: '1rem',
                               lineHeight: 1.7,
-                              color: 'var(--text-secondary)',
+                              color: 'rgba(255, 255, 255, 0.75)',
                               display: '-webkit-box',
                               WebkitLineClamp: isSelected ? 'none' : 3,
                               WebkitBoxOrient: 'vertical',
@@ -371,17 +385,17 @@ export function Projects() {
                                     size="small"
                                     sx={{
                                       background: isHovered 
-                                        ? 'var(--gradient-primary)' 
-                                        : 'var(--glass-medium)',
+                                        ? 'linear-gradient(90deg, #0ea5e9, #8b5cf6)' 
+                                        : 'rgba(255, 255, 255, 0.08)',
                                       color: isHovered 
                                         ? 'white' 
-                                        : 'var(--text-secondary)',
+                                        : 'rgba(255, 255, 255, 0.8)',
                                       fontSize: '0.75rem',
                                       fontWeight: 600,
-                                      border: `1px solid ${isHovered ? 'transparent' : 'var(--glass-border)'}`,
+                                      border: `1px solid ${isHovered ? 'transparent' : 'rgba(255, 255, 255, 0.1)'}`,
                                       transition: 'all 0.3s ease',
                                       '&:hover': {
-                                        background: 'var(--gradient-secondary)',
+                                        background: 'linear-gradient(90deg, #8b5cf6, #ec4899)',
                                         color: 'white',
                                         transform: 'translateY(-2px)',
                                       },
